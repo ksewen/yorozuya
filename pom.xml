@@ -61,6 +61,7 @@
 
     <modules>
         <module>yorozuya-common</module>
+        <module>yorozuya-spring-boot-starter</module>
     </modules>
 
 </project>

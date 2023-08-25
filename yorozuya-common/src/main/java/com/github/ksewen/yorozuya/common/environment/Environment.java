@@ -8,14 +8,13 @@ import java.util.Map;
  */
 public interface Environment {
 
-    String getHostName();
+  String getHostName();
 
-    String getHostIp();
+  String getHostIp();
 
-    String getEnvironment();
+  String getEnvironment();
 
-    String getApplicationName();
+  String getApplicationName();
 
-    Map<String, String> getMetadata();
-
+  Map<String, String> getMetadata();
 }

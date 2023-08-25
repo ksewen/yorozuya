@@ -6,5 +6,5 @@ package com.github.ksewen.yorozuya.common.constant;
  */
 public class SystemConstants {
 
-    public static final String PROPERTIES_NOT_SET_VALUE = "UNSET";
+  public static final String PROPERTIES_NOT_SET_VALUE = "UNSET";
 }
