@@ -7,7 +7,6 @@
         <artifactId>yorozuya</artifactId>
         <version>${revision}</version>
     </parent>
-    <groupId>com.github.ksewen</groupId>
     <artifactId>yorozuya-spring-boot-starter</artifactId>
     <version>${revision}</version>
     <name>yorozuya-spring-boot-starter</name>
@@ -18,12 +17,48 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- springdoc -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+
+        <!-- yorozuya-common -->
         <dependency>
             <groupId>com.github.ksewen</groupId>
             <artifactId>yorozuya-common</artifactId>
             <version>${revision}</version>
         </dependency>
 
+        <!-- HttpClient -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+
+        <!-- Unit test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.github.ksewen.yorozuya.starter.configuration.EnvironmentAutoConfiguration
+  com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration \
+  com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration

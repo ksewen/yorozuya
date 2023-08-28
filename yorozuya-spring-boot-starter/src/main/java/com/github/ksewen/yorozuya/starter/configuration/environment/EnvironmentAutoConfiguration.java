@@ -1,4 +1,4 @@
-package com.github.ksewen.yorozuya.starter.configuration;
+package com.github.ksewen.yorozuya.starter.configuration.environment;
 
 import com.github.ksewen.yorozuya.common.environment.Environment;
 import com.github.ksewen.yorozuya.common.environment.impl.BasicEnvironment;
