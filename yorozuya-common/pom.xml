@@ -25,6 +25,12 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+        <!-- guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
         <!-- Unit test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

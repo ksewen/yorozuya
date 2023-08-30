@@ -1,23 +1,24 @@
 package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.apache.hc.client5.http.classic.HttpClient;
+import okhttp3.OkHttpClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * @author ksewen
- * @date 28.08.2023 17:37
+ * @date 30.08.2023 16:57
  */
-@SpringBootTest(classes = {HttpClientAutoConfiguration.class})
-class HttpClientAutoConfigurationTest {
+@SpringBootTest(classes = {OkHttp3ClientAutoConfiguration.class})
+class OkHttp3ClientAutoConfigurationTest {
 
-  @Autowired private HttpClient httpClient;
+  @Autowired private OkHttpClient okHttpClient;
 
   @Test
   void httpClient() {
-    assertThat(this.httpClient).isNotNull();
+    assertThat(this.okHttpClient).isNotNull();
   }
 }

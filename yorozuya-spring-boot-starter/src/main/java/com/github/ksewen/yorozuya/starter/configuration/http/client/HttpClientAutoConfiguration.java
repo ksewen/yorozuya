@@ -20,21 +20,25 @@ import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 
 /**
+ * If you need to specifically use @see <a
+ * href="https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5">httpclient5</a>,
+ * you should explicitly import the required dependencies and exclude the {@link
+ * com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration}.
+ *
  * @author ksewen
  * @date 28.08.2023 16:16
  */
 @Configuration
+@ConditionalOnClass(HttpClient.class)
+@ConditionalOnMissingBean(OkHttp3ClientAutoConfiguration.class)
 @EnableConfigurationProperties({HttpClientProperties.class})
-@ConditionalOnMissingBean(OkHttp3ClientHttpRequestFactory.class)
-@ConditionalOnProperty(prefix = "common.http.client", name = "enable")
 @RequiredArgsConstructor
 public class HttpClientAutoConfiguration {
 
@@ -49,7 +53,8 @@ public class HttpClientAutoConfiguration {
     HttpClientBuilder builder =
         HttpClients.custom()
             .setConnectionManager(connectionManager)
-            .evictIdleConnections(TimeValue.ofSeconds(this.httpClientProperties.getMaxIdleTime()))
+            .evictIdleConnections(
+                TimeValue.ofMicroseconds(this.httpClientProperties.getMaxIdleTime().toMillis()))
             .evictExpiredConnections()
             .setRetryStrategy(
                 retryStrategy != null ? retryStrategy : new DefaultHttpRequestRetryStrategy());
@@ -76,11 +81,15 @@ public class HttpClientAutoConfiguration {
 
     connectionManager.setDefaultConnectionConfig(
         ConnectionConfig.custom()
-            .setConnectTimeout(Timeout.ofSeconds(this.httpClientProperties.getConnectTimeout()))
-            .setSocketTimeout(Timeout.ofSeconds(this.httpClientProperties.getSocketTimeout()))
+            .setConnectTimeout(
+                Timeout.ofMicroseconds(this.httpClientProperties.getConnectTimeout().toMillis()))
+            .setSocketTimeout(
+                Timeout.ofMicroseconds(this.httpClientProperties.getSocketTimeout().toMillis()))
             .setValidateAfterInactivity(
-                TimeValue.ofSeconds(this.httpClientProperties.getValidateAfterInactivity()))
-            .setTimeToLive(TimeValue.ofSeconds(this.httpClientProperties.getTimeToLive()))
+                TimeValue.ofMicroseconds(
+                    this.httpClientProperties.getValidateAfterInactivity().toMillis()))
+            .setTimeToLive(
+                TimeValue.ofMicroseconds(this.httpClientProperties.getTimeToLive().toMillis()))
             .build());
 
     connectionManager.setMaxTotal(this.httpClientProperties.getConnectionMaxTotal());
@@ -100,6 +109,6 @@ public class HttpClientAutoConfiguration {
   public HttpRequestRetryStrategy retryStrategy() {
     return new DefaultHttpRequestRetryStrategy(
         this.httpClientProperties.getMaxRetries(),
-        TimeValue.ofSeconds(this.httpClientProperties.getDefaultRetryInterval()));
+        TimeValue.ofMicroseconds(this.httpClientProperties.getDefaultRetryInterval().toMillis()));
   }
 }

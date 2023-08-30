@@ -18,7 +18,7 @@
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <springdoc.version>2.1.0</springdoc.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.1.2-jre</guava.version>
         <jacoco.maven.plugin.version>0.8.10</jacoco.maven.plugin.version>
         <ok.http.3.version>4.11.0</ok.http.3.version>
         <http.client.version>5.2.1</http.client.version>

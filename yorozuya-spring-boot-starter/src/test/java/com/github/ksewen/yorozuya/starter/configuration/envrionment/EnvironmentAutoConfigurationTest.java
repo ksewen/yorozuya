@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest(
     classes = {EnvironmentAutoConfiguration.class},
-    webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     properties = {"spring.profiles.active=test", "spring.application.name=yorozuya"})
 class EnvironmentAutoConfigurationTest {
 
