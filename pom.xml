@@ -5,23 +5,38 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.2</version>
+        <version>3.1.3</version>
         <relativePath/>
     </parent>
     <groupId>com.github.ksewen</groupId>
     <artifactId>yorozuya</artifactId>
-    <version>${yorozuya.version}</version>
+    <version>${revision}</version>
     <name>yorozuya</name>
     <description>Enterprise-level Spring Cloud integration project.</description>
     <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <springdoc.version>2.1.0</springdoc.version>
-        <yorozuya.version>1.0.0.SNAPSHOT</yorozuya.version>
-        <guava.version>31.1-jre</guava.version>
+        <springdoc.version>2.2.0</springdoc.version>
+        <yorozuya.version>${revision}</yorozuya.version>
+        <guava.version>32.1.2-jre</guava.version>
+        <jacoco.maven.plugin.version>0.8.10</jacoco.maven.plugin.version>
+        <ok.http.3.version>4.11.0</ok.http.3.version>
+        <http.client.version>5.2.1</http.client.version>
+
+        <maven.flatten.plugin.version>1.5.0</maven.flatten.plugin.version>
+        <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
     </properties>
 
     <packaging>pom</packaging>
+
+    <developers>
+        <developer>
+            <id>ksewen</id>
+            <name>ksewen</name>
+            <email>ksewen77@gmail.com</email>
+        </developer>
+    </developers>
 
     <dependencyManagement>
         <dependencies>
@@ -32,6 +47,13 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- yorozuya -->
+            <dependency>
+                <groupId>com.github.ksewen</groupId>
+                <artifactId>yorozuya-spring-boot-starter</artifactId>
+                <version>${yorozuya.version}</version>
             </dependency>
 
             <!-- Guava -->
@@ -47,7 +69,84 @@
                 <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
+
+            <!-- HttpClient -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${ok.http.3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${http.client.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>yorozuya-common</module>
+                <module>yorozuya-spring-boot-starter</module>
+                <module>yoruzaya-samples</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sdk</id>
+            <modules>
+                <module>yorozuya-common</module>
+                <module>yorozuya-spring-boot-starter</module>
+            </modules>
+        </profile>
+
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${maven.flatten.plugin.version}</version>
+                <configuration>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.source.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

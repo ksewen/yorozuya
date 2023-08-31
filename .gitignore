@@ -124,3 +124,5 @@ gradle-app.setting
 hs_err_pid*
 
 application-test.yaml
+
+.flattened-pom.xml
