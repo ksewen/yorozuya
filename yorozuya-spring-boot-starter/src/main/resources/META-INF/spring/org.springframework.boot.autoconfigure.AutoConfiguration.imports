@@ -1,7 +1,6 @@
 com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration
-org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientRestTemplateCustomizerAutoConfiguration
