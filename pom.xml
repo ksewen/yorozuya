@@ -17,7 +17,7 @@
         <revision>1.0.0-SNAPSHOT</revision>
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <springdoc.version>2.1.0</springdoc.version>
+        <springdoc.version>2.2.0</springdoc.version>
         <yorozuya.version>${revision}</yorozuya.version>
         <guava.version>32.1.2-jre</guava.version>
         <jacoco.maven.plugin.version>0.8.10</jacoco.maven.plugin.version>

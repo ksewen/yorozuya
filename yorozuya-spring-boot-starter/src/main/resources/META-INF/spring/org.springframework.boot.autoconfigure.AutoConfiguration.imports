@@ -1,4 +1,10 @@
+# environment
 com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration
+
+# documentation
+com.github.ksewen.yorozuya.starter.configuration.documentation.SpringDocAutoConfiguration
+
+# rest client
 com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration
