@@ -19,7 +19,8 @@ class HttpClientRestTemplateCustomizerAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                HttpClientRestTemplateCustomizerAutoConfiguration.class))
+                RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
+                    .class))
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(RestTemplateCustomizer.class);

@@ -21,6 +21,12 @@
         <dependency>
             <groupId>com.github.ksewen</groupId>
             <artifactId>yorozuya-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.squareup.okhttp3</groupId>
+                    <artifactId>okhttp</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

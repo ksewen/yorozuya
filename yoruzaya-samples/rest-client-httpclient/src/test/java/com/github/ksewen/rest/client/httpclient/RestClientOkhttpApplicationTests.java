@@ -1,4 +1,4 @@
-package com.github.ksewen.rest.client.okhttp;
+package com.github.ksewen.rest.client.httpclient;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

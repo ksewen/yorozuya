@@ -20,8 +20,10 @@ class OkHttp3ClientRestTemplateCustomizerAutoConfigurationTest {
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
                 OkHttp3ClientAutoConfiguration.class,
-                HttpClientRestTemplateCustomizerAutoConfiguration.class,
-                OkHttp3ClientRestTemplateCustomizerAutoConfiguration.class))
+                RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
+                    .class,
+                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
+                    .class))
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(RestTemplateCustomizer.class);

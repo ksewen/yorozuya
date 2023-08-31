@@ -2,5 +2,5 @@ com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConf
 com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration
-com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
-com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientRestTemplateCustomizerAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
