@@ -20,6 +20,7 @@ import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -39,6 +40,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(HttpClient.class)
 @ConditionalOnMissingBean(OkHttp3ClientAutoConfiguration.class)
 @EnableConfigurationProperties({HttpClientProperties.class})
+@AutoConfigureAfter(OkHttp3ClientAutoConfiguration.class)
 @RequiredArgsConstructor
 public class HttpClientAutoConfiguration {
 
