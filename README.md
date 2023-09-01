@@ -1,6 +1,7 @@
 # YOROZUYA
 
 ![yorozuya](https://github.com/ksewen/yorozuya/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/ksewen/yorozuya/graph/badge.svg?token=2XFYUXFB3X)](https://codecov.io/gh/ksewen/yorozuya)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Java](https://img.shields.io/badge/Java-17-blue.svg)
 
