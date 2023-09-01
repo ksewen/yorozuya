@@ -39,7 +39,6 @@
         <dependency>
             <groupId>com.github.ksewen</groupId>
             <artifactId>yorozuya-common</artifactId>
-            <version>${revision}</version>
         </dependency>
 
         <!-- HttpClient -->
@@ -71,7 +70,6 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.maven.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
