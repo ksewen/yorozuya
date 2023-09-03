@@ -7,10 +7,10 @@
         <artifactId>yorozuya</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>yorozuya-common</artifactId>
+    <artifactId>yorozuya-facade</artifactId>
     <version>${revision}</version>
-    <name>yorozuya-common</name>
-    <description>yorozuya-common</description>
+    <name>yorozuya-facade</name>
+    <description>yorozuya-facade</description>
 
     <dependencies>
         <!-- lombok -->
@@ -19,16 +19,16 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- slf4j -->
+        <!-- validator -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
 
-        <!-- guava -->
+        <!-- swagger annotations -->
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
         </dependency>
 
         <!-- Unit test -->
@@ -78,25 +78,6 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -41,11 +41,19 @@
             <artifactId>yorozuya-common</artifactId>
         </dependency>
 
-        <!-- HttpClient -->
+        <dependency>
+            <groupId>com.github.ksewen</groupId>
+            <artifactId>yorozuya-facade</artifactId>
+        </dependency>
+
+        <!-- openfeign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
+
+        <!-- HttpClient -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
