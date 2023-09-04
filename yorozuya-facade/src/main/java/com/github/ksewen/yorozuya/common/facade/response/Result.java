@@ -1,6 +1,7 @@
 package com.github.ksewen.yorozuya.common.facade.response;
 
 import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,14 +11,20 @@ import lombok.Data;
  */
 @Data
 @Builder
+@Schema(description = "Service response default result with no data returned in case of failure.")
 public class Result<T> {
 
+  @Schema(description = "the result code of the processing")
   private int code;
 
+  @Schema(description = "the message of the processing result")
   private String message;
 
-  @Builder.Default private boolean success = Boolean.FALSE;
+  @Schema(description = "successful flag for processing")
+  @Builder.Default
+  private boolean success = Boolean.FALSE;
 
+  @Schema(description = "response data")
   private T data;
 
   public static Result success() {

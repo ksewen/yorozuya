@@ -2,6 +2,7 @@ package com.github.ksewen.yorozuya.common.facade.response;
 
 import com.github.ksewen.yorozuya.common.constant.DefaultPageConstants;
 import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Collection;
 import lombok.Builder;
 import lombok.Data;
@@ -12,20 +13,34 @@ import lombok.Data;
  */
 @Data
 @Builder
+@Schema(
+    description =
+        "Service response default paginated result with no data returned in case of failure.")
 public class PageResult<T> {
 
+  @Schema(description = "the result code of the processing")
   private int code;
 
+  @Schema(description = "the message of the processing result")
   private String message;
 
-  @Builder.Default private Integer page = DefaultPageConstants.DEFAULT_PAGE;
+  @Schema(description = "page number")
+  @Builder.Default
+  private Integer page = DefaultPageConstants.DEFAULT_PAGE;
 
-  @Builder.Default private Integer pageSize = DefaultPageConstants.DEFAULT_PAGE_SIZE;
+  @Schema(description = "page size")
+  @Builder.Default
+  private Integer pageSize = DefaultPageConstants.DEFAULT_PAGE_SIZE;
 
-  @Builder.Default private Long total = DefaultPageConstants.DEFAULT_TOTAL;
+  @Schema(description = "total data count")
+  @Builder.Default
+  private Long total = DefaultPageConstants.DEFAULT_TOTAL;
 
-  @Builder.Default private boolean success = Boolean.FALSE;
+  @Schema(description = "successful flag for processing")
+  @Builder.Default
+  private boolean success = Boolean.FALSE;
 
+  @Schema(description = "current page response result")
   private Collection<T> data;
 
   public static PageResult success() {

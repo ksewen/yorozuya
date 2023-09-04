@@ -7,5 +7,5 @@ public interface ResultCode {
 
   int getCode();
 
-  String message();
+  String getMessage();
 }
