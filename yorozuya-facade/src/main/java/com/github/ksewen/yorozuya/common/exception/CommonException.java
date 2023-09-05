@@ -3,12 +3,14 @@ package com.github.ksewen.yorozuya.common.exception;
 import com.github.ksewen.yorozuya.common.enums.ResultCode;
 import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author ksewen
  * @date 04.09.2023 10:26
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class CommonException extends RuntimeException {
 
   private ResultCode code;

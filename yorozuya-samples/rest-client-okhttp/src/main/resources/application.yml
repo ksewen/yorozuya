@@ -1,3 +1,29 @@
 spring:
   application:
     name: rest-client-okhttp
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: ${common.ok.http.client.connect-timeout}
+            read-timeout: ${common.ok.http.client.read-timeout}
+          #            logger-level: FULL
+          restClient:
+            url: http://127.0.0.1:8080/rest
+      okhttp:
+        enabled: true
+
+common:
+  ok:
+    http:
+      client:
+        connect-timeout: 3000
+        read-timeout: 5000
+        write-timeout: 5000
+
+#logging:
+#  level:
+#    okhttp3: debug
+#    feign: debug
+#debug: true
