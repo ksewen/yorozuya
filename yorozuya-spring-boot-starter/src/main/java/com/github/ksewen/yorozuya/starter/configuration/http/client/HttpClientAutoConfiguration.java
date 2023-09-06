@@ -2,6 +2,7 @@ package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.binder.httpcomponents.hc5.PoolingHttpClientConnectionManagerMetricsBinder;
+import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import org.apache.hc.client5.http.ConnectionKeepAliveStrategy;
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;
@@ -15,6 +16,7 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.io.HttpClientConnectionManager;
 import org.apache.hc.core5.http.io.SocketConfig;
+import org.apache.hc.core5.io.CloseMode;
 import org.apache.hc.core5.pool.PoolConcurrencyPolicy;
 import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.util.TimeValue;
@@ -46,6 +48,8 @@ public class HttpClientAutoConfiguration {
 
   private final HttpClientProperties httpClientProperties;
 
+  private CloseableHttpClient httpClient;
+
   @Bean
   @ConditionalOnMissingBean(HttpClient.class)
   public CloseableHttpClient httpClient(
@@ -55,8 +59,7 @@ public class HttpClientAutoConfiguration {
     HttpClientBuilder builder =
         HttpClients.custom()
             .setConnectionManager(connectionManager)
-            .evictIdleConnections(
-                TimeValue.ofMicroseconds(this.httpClientProperties.getMaxIdleTime().toMillis()))
+            .evictIdleConnections(TimeValue.of(this.httpClientProperties.getMaxIdleTime()))
             .evictExpiredConnections()
             .setRetryStrategy(
                 retryStrategy != null ? retryStrategy : new DefaultHttpRequestRetryStrategy());
@@ -65,7 +68,9 @@ public class HttpClientAutoConfiguration {
       builder.setKeepAliveStrategy(keepAliveStrategy);
     }
 
-    return builder.build();
+    this.httpClient = builder.build();
+
+    return this.httpClient;
   }
 
   @Bean
@@ -83,15 +88,11 @@ public class HttpClientAutoConfiguration {
 
     connectionManager.setDefaultConnectionConfig(
         ConnectionConfig.custom()
-            .setConnectTimeout(
-                Timeout.ofMicroseconds(this.httpClientProperties.getConnectTimeout().toMillis()))
-            .setSocketTimeout(
-                Timeout.ofMicroseconds(this.httpClientProperties.getSocketTimeout().toMillis()))
+            .setConnectTimeout(Timeout.of(this.httpClientProperties.getConnectTimeout()))
+            .setSocketTimeout(Timeout.of(this.httpClientProperties.getSocketTimeout()))
             .setValidateAfterInactivity(
-                TimeValue.ofMicroseconds(
-                    this.httpClientProperties.getValidateAfterInactivity().toMillis()))
-            .setTimeToLive(
-                TimeValue.ofMicroseconds(this.httpClientProperties.getTimeToLive().toMillis()))
+                TimeValue.of(this.httpClientProperties.getValidateAfterInactivity()))
+            .setTimeToLive(TimeValue.of(this.httpClientProperties.getTimeToLive()))
             .build());
 
     connectionManager.setMaxTotal(this.httpClientProperties.getConnectionMaxTotal());
@@ -111,6 +112,13 @@ public class HttpClientAutoConfiguration {
   public HttpRequestRetryStrategy retryStrategy() {
     return new DefaultHttpRequestRetryStrategy(
         this.httpClientProperties.getMaxRetries(),
-        TimeValue.ofMicroseconds(this.httpClientProperties.getDefaultRetryInterval().toMillis()));
+        TimeValue.of(this.httpClientProperties.getDefaultRetryInterval()));
+  }
+
+  @PreDestroy
+  public void destroy() {
+    if (httpClient != null) {
+      httpClient.close(CloseMode.GRACEFUL);
+    }
   }
 }
