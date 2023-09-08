@@ -44,6 +44,28 @@ class OkHttp3FeignAutoConfigurationTest {
   }
 
   @Test
+  void feignClient1() {
+    new ApplicationContextRunner()
+        .withConfiguration(
+            AutoConfigurations.of(
+                HttpClientAutoConfiguration.class,
+                OkHttp3ClientAutoConfiguration.class,
+                HttpClient5FeignAutoConfiguration.class,
+                OkHttp3FeignAutoConfiguration.class))
+        .withPropertyValues(
+            "spring.cloud.openfeign.okhttp.enabled=true", "spring.cloud.loadbalancer.enabled=false")
+        .run(
+            (context) -> {
+              assertThat(context).hasSingleBean(OkHttpClient.class);
+              assertThat(context)
+                  .getBean("feignClient")
+                  .isSameAs(context.getBean(OkHttpClient.class));
+
+              assertThat(context).doesNotHaveBean(ApacheHttp5Client.class);
+            });
+  }
+
+  @Test
   void nonFeignClient() {
     new ApplicationContextRunner()
         .withConfiguration(

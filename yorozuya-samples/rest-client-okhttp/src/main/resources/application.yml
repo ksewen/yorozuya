@@ -25,4 +25,4 @@ common:
 #logging:
 #  level:
 #    okhttp3: debug
-#debug: true
+debug: true

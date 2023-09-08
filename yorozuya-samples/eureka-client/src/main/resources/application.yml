@@ -13,6 +13,8 @@ spring:
             url: http://127.0.0.1:8080/rest
       okhttp:
         enabled: true
+    loadbalancer:
+      enabled: true
 
 eureka:
   client:
@@ -38,4 +40,4 @@ management:
 #logging:
 #  level:
 #    okhttp3: debug
-#debug: true
+debug: true

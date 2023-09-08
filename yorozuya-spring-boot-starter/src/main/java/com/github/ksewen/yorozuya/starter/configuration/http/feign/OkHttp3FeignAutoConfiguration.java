@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -16,11 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass(value = {Client.class, OkHttpClient.class, okhttp3.OkHttpClient.class})
 @ConditionalOnProperty("spring.cloud.openfeign.okhttp.enabled")
-@ConditionalOnMissingClass(
-    value = {
-      "org.springframework.cloud.client.loadbalancer.LoadBalancerClient",
-      "org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory"
-    })
+@Conditional(OnNoLoadBalancerOrDisable.class)
 @AutoConfigureAfter(OkHttp3ClientAutoConfiguration.class)
 public class OkHttp3FeignAutoConfiguration {
 
