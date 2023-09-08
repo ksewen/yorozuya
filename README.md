@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/ksewen/yorozuya/graph/badge.svg?token=2XFYUXFB3X)](https://codecov.io/gh/ksewen/yorozuya)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Java](https://img.shields.io/badge/Java-17-blue.svg)
-[![slack](https://img.shields.io/badge/slack-yorozuya-brightgreen.svg?logo=slack)](https://join.slack.com/t/yorozuya-z8y6384/shared_invite/zt-22y8fv2hd-0veY3zZjpgjeEFFqwWkTiw
+[![slack](https://img.shields.io/badge/slack-yorozuya-brightgreen.svg?logo=slack)](https://join.slack.com/t/yorozuya-z8y6384/shared_invite/zt-22y8fv2hd-0veY3zZjpgjeEFFqwWkTiw)
 
 Dedicated to developing a ready-to-use enterprise-level microservice framework based on Spring Cloud.
 
