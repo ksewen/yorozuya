@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(value = {Client.class, ApacheHttp5Client.class, HttpClient.class})
-@ConditionalOnProperty("spring.cloud.openfeign.httpclient.enabled")
+@ConditionalOnProperty("spring.cloud.openfeign.httpclient.hc5.enabled")
 @Conditional(OnNoLoadBalancerOrDisable.class)
 @AutoConfigureAfter(HttpClientAutoConfiguration.class)
 public class HttpClient5FeignAutoConfiguration {

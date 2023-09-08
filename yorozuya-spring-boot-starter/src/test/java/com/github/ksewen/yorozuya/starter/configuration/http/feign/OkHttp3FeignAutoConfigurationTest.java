@@ -91,7 +91,7 @@ class OkHttp3FeignAutoConfigurationTest {
                 OkHttp3ClientAutoConfiguration.class,
                 HttpClient5FeignAutoConfiguration.class,
                 OkHttp3FeignAutoConfiguration.class))
-        .withPropertyValues("spring.cloud.openfeign.httpclient.enabled=true")
+        .withPropertyValues("spring.cloud.openfeign.httpclient.hc5.enabled=true")
         .run(
             (context) -> {
               assertThat(context).doesNotHaveBean(OkHttpClient.class);
