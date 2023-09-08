@@ -127,6 +127,7 @@
             <id>test</id>
             <modules>
                 <module>yorozuya-common</module>
+                <module>yorozuya-facade</module>
                 <module>yorozuya-spring-boot-starter</module>
                 <module>yorozuya-test</module>
             </modules>
