@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
  * @author ksewen
  * @date 08.09.2023 13:01
  */
+// FIXME: exclude in jacoco report
 public class OnNoLoadBalancerOrDisable extends AnyNestedCondition {
 
   public OnNoLoadBalancerOrDisable() {

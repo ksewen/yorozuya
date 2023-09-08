@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "eureka-client")
 public interface ServerFacade {
 
-  @GetMapping("/eureka/server")
+  @GetMapping("/rest/server")
   Result<InstanceResponse> server();
 }

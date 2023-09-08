@@ -1,6 +1,7 @@
 package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import jakarta.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -28,6 +29,8 @@ public class OkHttp3ClientAutoConfiguration {
 
   private final OkHttp3ClientProperties okHttp3ClientProperties;
 
+  private OkHttpClient okHttpClient;
+
   @Bean
   @ConditionalOnMissingBean(OkHttpClient.class)
   public OkHttpClient okHttpClient(
@@ -45,7 +48,8 @@ public class OkHttp3ClientAutoConfiguration {
 
     builder.connectionPool(connectionPool);
     builder.dispatcher(dispatcher);
-    return builder.build();
+    this.okHttpClient = builder.build();
+    return this.okHttpClient;
   }
 
   @Bean
@@ -79,5 +83,13 @@ public class OkHttp3ClientAutoConfiguration {
     dispatcher.setMaxRequestsPerHost(
         this.okHttp3ClientProperties.getDispatcher().getMaxRequestsPerHost());
     return dispatcher;
+  }
+
+  @PreDestroy
+  public void destroy() {
+    if (this.okHttpClient != null) {
+      this.okHttpClient.dispatcher().executorService().shutdown();
+      this.okHttpClient.connectionPool().evictAll();
+    }
   }
 }
