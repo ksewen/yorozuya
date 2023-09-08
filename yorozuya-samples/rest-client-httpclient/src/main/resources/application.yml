@@ -18,9 +18,10 @@ spring:
 common:
   http:
     client:
-      connect-timeout: 3000
-      socket-timeout: 5000
-
+      hc5:
+        enabled: true
+        connect-timeout: 3000
+        socket-timeout: 5000
 logging:
   level:
     feign: debug

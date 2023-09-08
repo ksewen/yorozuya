@@ -126,7 +126,7 @@ To activate this, you can make use of following properties:
 
 ```shell
 # the default value is true, if the value not set, it's true
-common.http.client.enabled=true
+common.http.client.hc5.enabled=true
 ```
 
 **Attention:** HttpClient 5 will definitely not register when OkHttpClient 3 is used, please exclude the

@@ -14,16 +14,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(
     classes = HttpClientAutoConfiguration.class,
     properties = {
-      "common.http.client.connect-timeout=PT10S",
-      "common.http.client.socket-timeout=50S",
-      "common.http.client.max-idle-time=PT100S",
-      "common.http.client.connection-max-total=10",
-      "common.http.client.connection-default-max-per-route=5",
-      "common.http.client.validate-after-inactivity=PT20S",
-      "common.http.client.time-to-live=PT1H",
-      "common.http.client.tcp-no-delay=false",
-      "common.http.client.max-retries=5",
-      "common.http.client.default-retry-interval=PT5S"
+      "common.http.client.hc5.enabled=true",
+      "common.http.client.hc5.connect-timeout=PT10S",
+      "common.http.client.hc5.socket-timeout=50S",
+      "common.http.client.hc5.max-idle-time=PT100S",
+      "common.http.client.hc5.connection-max-total=10",
+      "common.http.client.hc5.connection-default-max-per-route=5",
+      "common.http.client.hc5.validate-after-inactivity=PT20S",
+      "common.http.client.hc5.time-to-live=PT1H",
+      "common.http.client.hc5.tcp-no-delay=false",
+      "common.http.client.hc5.max-retries=5",
+      "common.http.client.hc5.default-retry-interval=PT5S"
     })
 class HttpClientPropertiesTest {
 

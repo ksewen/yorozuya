@@ -43,7 +43,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(HttpClient.class)
 @ConditionalOnMissingBean(OkHttp3ClientAutoConfiguration.class)
 @EnableConfigurationProperties({HttpClientProperties.class})
-@ConditionalOnProperty(value = "common.http.client.enabled")
+@ConditionalOnProperty(value = "common.http.client.hc5.enabled")
 @AutoConfigureAfter(OkHttp3ClientAutoConfiguration.class)
 @RequiredArgsConstructor
 public class HttpClientAutoConfiguration {
