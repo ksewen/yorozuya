@@ -7,7 +7,10 @@ import feign.hc5.ApacheHttp5Client;
 import feign.okhttp.OkHttpClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.test.context.FilteredClassLoader;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 
 /**
  * @author ksewen
@@ -21,6 +24,9 @@ class HttpClient5FeignAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class, HttpClient5FeignAutoConfiguration.class))
+        .withPropertyValues("spring.cloud.openfeign.httpclient.enabled=true")
+        .withClassLoader(
+            new FilteredClassLoader(LoadBalancerClient.class, LoadBalancerClientFactory.class))
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(ApacheHttp5Client.class);
@@ -29,6 +35,33 @@ class HttpClient5FeignAutoConfigurationTest {
                   .isSameAs(context.getBean(ApacheHttp5Client.class));
 
               assertThat(context).doesNotHaveBean(OkHttpClient.class);
+            });
+  }
+
+  @Test
+  void nonFeignClient() {
+    new ApplicationContextRunner()
+        .withConfiguration(
+            AutoConfigurations.of(
+                HttpClientAutoConfiguration.class, HttpClient5FeignAutoConfiguration.class))
+        .withClassLoader(
+            new FilteredClassLoader(LoadBalancerClient.class, LoadBalancerClientFactory.class))
+        .run(
+            (context) -> {
+              assertThat(context).doesNotHaveBean(ApacheHttp5Client.class);
+            });
+  }
+
+  @Test
+  void nonFeignClient1() {
+    new ApplicationContextRunner()
+        .withConfiguration(
+            AutoConfigurations.of(
+                HttpClientAutoConfiguration.class, HttpClient5FeignAutoConfiguration.class))
+        .withPropertyValues("spring.cloud.openfeign.httpclient.enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context).doesNotHaveBean(ApacheHttp5Client.class);
             });
   }
 }
