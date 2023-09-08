@@ -7,10 +7,10 @@
         <artifactId>yorozuya-samples</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>rest-client-okhttp</artifactId>
+    <artifactId>eureka-client</artifactId>
     <version>${revision}</version>
-    <name>rest-client-okhttp</name>
-    <description>rest-client-okhttp</description>
+    <name>eureka-client</name>
+    <description>eureka-client</description>
 
     <dependencies>
         <dependency>
@@ -21,16 +21,6 @@
         <dependency>
             <groupId>com.github.ksewen</groupId>
             <artifactId>yorozuya-spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

@@ -7,10 +7,9 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -19,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(value = {Client.class, ApacheHttp5Client.class, HttpClient.class})
+@ConditionalOnProperty("spring.cloud.openfeign.httpclient.hc5.enabled")
+@Conditional(OnNoLoadBalancerOrDisable.class)
 @AutoConfigureAfter(HttpClientAutoConfiguration.class)
 public class HttpClient5FeignAutoConfiguration {
 

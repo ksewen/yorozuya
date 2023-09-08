@@ -1,6 +1,7 @@
 package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import jakarta.annotation.PreDestroy;
 import java.time.Duration;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -12,6 +13,7 @@ import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +25,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnClass(OkHttpClient.class)
 @EnableConfigurationProperties({OkHttp3ClientProperties.class})
+@ConditionalOnProperty(
+    value = "common.ok.http.client.enabled",
+    havingValue = "true",
+    matchIfMissing = true)
 @RequiredArgsConstructor
 public class OkHttp3ClientAutoConfiguration {
 
   private final OkHttp3ClientProperties okHttp3ClientProperties;
+
+  private OkHttpClient okHttpClient;
 
   @Bean
   @ConditionalOnMissingBean(OkHttpClient.class)
@@ -45,7 +53,8 @@ public class OkHttp3ClientAutoConfiguration {
 
     builder.connectionPool(connectionPool);
     builder.dispatcher(dispatcher);
-    return builder.build();
+    this.okHttpClient = builder.build();
+    return this.okHttpClient;
   }
 
   @Bean
@@ -79,5 +88,13 @@ public class OkHttp3ClientAutoConfiguration {
     dispatcher.setMaxRequestsPerHost(
         this.okHttp3ClientProperties.getDispatcher().getMaxRequestsPerHost());
     return dispatcher;
+  }
+
+  @PreDestroy
+  public void destroy() {
+    if (this.okHttpClient != null) {
+      this.okHttpClient.dispatcher().executorService().shutdown();
+      this.okHttpClient.connectionPool().evictAll();
+    }
   }
 }

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: rest-client-okhttp
+    name: eureka-client
   cloud:
     openfeign:
       client:
@@ -13,6 +13,13 @@ spring:
             url: http://127.0.0.1:8080/rest
       okhttp:
         enabled: true
+    loadbalancer:
+      enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka
 
 common:
   ok:
@@ -21,6 +28,14 @@ common:
         connect-timeout: 3000
         read-timeout: 5000
         write-timeout: 5000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
 
 #logging:
 #  level:

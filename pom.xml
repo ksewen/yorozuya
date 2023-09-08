@@ -108,6 +108,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+                <module>yorozuya-eureka</module>
                 <module>yorozuya-common</module>
                 <module>yorozuya-facade</module>
                 <module>yorozuya-spring-boot-starter</module>
@@ -126,6 +127,7 @@
             <id>test</id>
             <modules>
                 <module>yorozuya-common</module>
+                <module>yorozuya-facade</module>
                 <module>yorozuya-spring-boot-starter</module>
                 <module>yorozuya-test</module>
             </modules>

@@ -9,31 +9,78 @@ import org.apache.hc.client5.http.HttpRequestRetryStrategy;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.io.HttpClientConnectionManager;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.FilteredClassLoader;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
  * @author ksewen
  * @date 28.08.2023 17:37
  */
-@SpringBootTest(classes = {HttpClientAutoConfiguration.class})
 class HttpClientAutoConfigurationTest {
-
-  @Autowired private HttpClient httpClient;
 
   @Test
   void httpClient() {
-    assertThat(this.httpClient).isNotNull();
+    new ApplicationContextRunner()
+        .withConfiguration(AutoConfigurations.of(HttpClientAutoConfiguration.class))
+        .withPropertyValues("common.http.client.enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context).hasSingleBean(HttpClient.class);
+              assertThat(context).getBean("httpClient").isSameAs(context.getBean(HttpClient.class));
+
+              assertThat(context).hasSingleBean(HttpClientConnectionManager.class);
+              assertThat(context)
+                  .getBean("connectionManager")
+                  .isSameAs(context.getBean(HttpClientConnectionManager.class));
+
+              assertThat(context).hasSingleBean(HttpRequestRetryStrategy.class);
+              assertThat(context)
+                  .getBean("retryStrategy")
+                  .isSameAs(context.getBean(HttpRequestRetryStrategy.class));
+
+              assertThat(context).doesNotHaveBean(OkHttpClient.class);
+              assertThat(context).doesNotHaveBean(ConnectionPool.class);
+              assertThat(context).doesNotHaveBean(Dispatcher.class);
+            });
   }
 
   @Test
-  void context() {
+  void httpClient1() {
     new ApplicationContextRunner()
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class, OkHttp3ClientAutoConfiguration.class))
+        .withPropertyValues(
+            "common.ok.http.client.enabled=false", "common.http.client.enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context).doesNotHaveBean(OkHttpClient.class);
+              assertThat(context).doesNotHaveBean(ConnectionPool.class);
+              assertThat(context).doesNotHaveBean(Dispatcher.class);
+
+              assertThat(context).hasSingleBean(HttpClient.class);
+              assertThat(context).getBean("httpClient").isSameAs(context.getBean(HttpClient.class));
+
+              assertThat(context).hasSingleBean(HttpClientConnectionManager.class);
+              assertThat(context)
+                  .getBean("connectionManager")
+                  .isSameAs(context.getBean(HttpClientConnectionManager.class));
+
+              assertThat(context).hasSingleBean(HttpRequestRetryStrategy.class);
+              assertThat(context)
+                  .getBean("retryStrategy")
+                  .isSameAs(context.getBean(HttpRequestRetryStrategy.class));
+            });
+  }
+
+  @Test
+  void nonHttpClient() {
+    new ApplicationContextRunner()
+        .withConfiguration(
+            AutoConfigurations.of(
+                HttpClientAutoConfiguration.class, OkHttp3ClientAutoConfiguration.class))
+        .withPropertyValues("common.http.client.enabled=true")
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(OkHttpClient.class);
@@ -49,6 +96,32 @@ class HttpClientAutoConfigurationTest {
               assertThat(context).hasSingleBean(Dispatcher.class);
               assertThat(context).getBean("dispatcher").isSameAs(context.getBean(Dispatcher.class));
 
+              assertThat(context).doesNotHaveBean(HttpClient.class);
+              assertThat(context).doesNotHaveBean(HttpClientConnectionManager.class);
+              assertThat(context).doesNotHaveBean(HttpRequestRetryStrategy.class);
+            });
+  }
+
+  @Test
+  void nonHttpClient1() {
+    new ApplicationContextRunner()
+        .withConfiguration(AutoConfigurations.of(HttpClientAutoConfiguration.class))
+        .run(
+            (context) -> {
+              assertThat(context).doesNotHaveBean(HttpClient.class);
+              assertThat(context).doesNotHaveBean(HttpClientConnectionManager.class);
+              assertThat(context).doesNotHaveBean(HttpRequestRetryStrategy.class);
+            });
+  }
+
+  @Test
+  void nonHttpClient2() {
+    new ApplicationContextRunner()
+        .withConfiguration(AutoConfigurations.of(HttpClientAutoConfiguration.class))
+        .withPropertyValues("common.http.client.enabled=true")
+        .withClassLoader(new FilteredClassLoader(HttpClient.class))
+        .run(
+            (context) -> {
               assertThat(context).doesNotHaveBean(HttpClient.class);
               assertThat(context).doesNotHaveBean(HttpClientConnectionManager.class);
               assertThat(context).doesNotHaveBean(HttpRequestRetryStrategy.class);

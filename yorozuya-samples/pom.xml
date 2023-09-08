@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>eureka-client</module>
         <module>rest-client-okhttp</module>
         <module>rest-client-httpclient</module>
     </modules>
