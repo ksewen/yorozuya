@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 28.08.2023 16:23
  */
 @Data
-@ConfigurationProperties(prefix = "common.http.client")
+@ConfigurationProperties(prefix = "common.http.client.hc5")
 public class HttpClientProperties {
 
   /**

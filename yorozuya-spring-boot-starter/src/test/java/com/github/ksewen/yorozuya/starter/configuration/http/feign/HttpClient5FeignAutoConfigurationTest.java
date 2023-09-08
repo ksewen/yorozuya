@@ -24,7 +24,9 @@ class HttpClient5FeignAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class, HttpClient5FeignAutoConfiguration.class))
-        .withPropertyValues("spring.cloud.openfeign.httpclient.hc5.enabled=true")
+        .withPropertyValues(
+            "common.http.client.hc5.enabled=true",
+            "spring.cloud.openfeign.httpclient.hc5.enabled=true")
         .withClassLoader(
             new FilteredClassLoader(LoadBalancerClient.class, LoadBalancerClientFactory.class))
         .run(
@@ -46,6 +48,7 @@ class HttpClient5FeignAutoConfigurationTest {
                 HttpClientAutoConfiguration.class, HttpClient5FeignAutoConfiguration.class))
         .withPropertyValues(
             "spring.cloud.openfeign.httpclient.hc5.enabled=true",
+            "common.http.client.hc5.enabled=true",
             "spring.cloud.loadbalancer.enabled=false")
         .run(
             (context) -> {

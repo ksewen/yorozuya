@@ -23,7 +23,7 @@ class HttpClientAutoConfigurationTest {
   void httpClient() {
     new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(HttpClientAutoConfiguration.class))
-        .withPropertyValues("common.http.client.enabled=true")
+        .withPropertyValues("common.http.client.hc5.enabled=true")
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(HttpClient.class);
@@ -52,7 +52,7 @@ class HttpClientAutoConfigurationTest {
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class, OkHttp3ClientAutoConfiguration.class))
         .withPropertyValues(
-            "common.ok.http.client.enabled=false", "common.http.client.enabled=true")
+            "common.ok.http.client.enabled=false", "common.http.client.hc5.enabled=true")
         .run(
             (context) -> {
               assertThat(context).doesNotHaveBean(OkHttpClient.class);
@@ -80,7 +80,7 @@ class HttpClientAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class, OkHttp3ClientAutoConfiguration.class))
-        .withPropertyValues("common.http.client.enabled=true")
+        .withPropertyValues("common.http.client.hc5.enabled=true")
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(OkHttpClient.class);
@@ -118,7 +118,7 @@ class HttpClientAutoConfigurationTest {
   void nonHttpClient2() {
     new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(HttpClientAutoConfiguration.class))
-        .withPropertyValues("common.http.client.enabled=true")
+        .withPropertyValues("common.http.client.hc5.enabled=true")
         .withClassLoader(new FilteredClassLoader(HttpClient.class))
         .run(
             (context) -> {

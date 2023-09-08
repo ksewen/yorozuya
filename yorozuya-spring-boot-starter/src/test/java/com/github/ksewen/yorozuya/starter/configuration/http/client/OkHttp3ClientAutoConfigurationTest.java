@@ -74,7 +74,7 @@ class OkHttp3ClientAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class, OkHttp3ClientAutoConfiguration.class))
-        .withPropertyValues("common.http.client.enabled=true")
+        .withPropertyValues("common.http.client.hc5.enabled=true")
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(OkHttpClient.class);

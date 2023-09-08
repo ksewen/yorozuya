@@ -21,6 +21,7 @@ class HttpClientRestTemplateCustomizerAutoConfigurationTest {
                 HttpClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
                     .class))
+        .withPropertyValues("common.http.client.hc5.enabled=true")
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(RestTemplateCustomizer.class);
