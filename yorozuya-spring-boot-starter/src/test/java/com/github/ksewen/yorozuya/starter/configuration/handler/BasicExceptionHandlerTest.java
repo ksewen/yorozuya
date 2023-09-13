@@ -8,10 +8,16 @@ import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
 import com.github.ksewen.yorozuya.common.exception.CommonException;
 import com.github.ksewen.yorozuya.common.exception.InvalidParamException;
 import com.github.ksewen.yorozuya.common.facade.response.Result;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import jakarta.validation.ConstraintViolationException;
 import java.beans.PropertyEditor;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -89,6 +95,23 @@ class BasicExceptionHandlerTest {
   }
 
   @Test
+  void handleCallNotPermittedException() throws Exception {
+    this.mockMvc
+        .perform(
+            get("/mock/call-not-permitted-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.NO_FALLBACK_METHOD.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(
+            jsonPath("$.message")
+                .value(
+                    "CircuitBreaker 'mock circuit breaker' is OPEN and does not permit further calls"))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
   void handleCommonException() throws Exception {
     this.mockMvc
         .perform(
@@ -128,6 +151,11 @@ class BasicExceptionHandlerTest {
     @GetMapping("/constraint-violation-exception")
     public Result<Boolean> constraintViolationException() {
       throw new ConstraintViolationException(MESSAGE, null);
+    }
+
+    @GetMapping("/call-not-permitted-exception")
+    public Result<Boolean> callNotPermittedException() {
+      throw CallNotPermittedException.createCallNotPermittedException(new MockCircuitBreaker());
     }
 
     @GetMapping("/invalid-param-exception")
@@ -311,5 +339,95 @@ class BasicExceptionHandlerTest {
 
     @Override
     public void addError(ObjectError error) {}
+  }
+
+  class MockCircuitBreaker implements CircuitBreaker {
+
+    @Override
+    public boolean tryAcquirePermission() {
+      return false;
+    }
+
+    @Override
+    public void releasePermission() {}
+
+    @Override
+    public void acquirePermission() {}
+
+    @Override
+    public void onError(long duration, TimeUnit durationUnit, Throwable throwable) {}
+
+    @Override
+    public void onSuccess(long duration, TimeUnit durationUnit) {}
+
+    @Override
+    public void onResult(long duration, TimeUnit durationUnit, Object result) {}
+
+    @Override
+    public void reset() {}
+
+    @Override
+    public void transitionToClosedState() {}
+
+    @Override
+    public void transitionToOpenState() {}
+
+    @Override
+    public void transitionToOpenStateFor(Duration waitDuration) {}
+
+    @Override
+    public void transitionToOpenStateUntil(Instant waitUntil) {}
+
+    @Override
+    public void transitionToHalfOpenState() {}
+
+    @Override
+    public void transitionToDisabledState() {}
+
+    @Override
+    public void transitionToMetricsOnlyState() {}
+
+    @Override
+    public void transitionToForcedOpenState() {}
+
+    @Override
+    public String getName() {
+      return "mock circuit breaker";
+    }
+
+    @Override
+    public State getState() {
+      return State.OPEN;
+    }
+
+    @Override
+    public CircuitBreakerConfig getCircuitBreakerConfig() {
+      return new CircuitBreakerConfig.Builder().writableStackTraceEnabled(false).build();
+    }
+
+    @Override
+    public Metrics getMetrics() {
+      return null;
+    }
+
+    @Override
+    public Map<String, String> getTags() {
+      return null;
+    }
+
+    @Override
+    public EventPublisher getEventPublisher() {
+      return null;
+    }
+
+    @Override
+    public long getCurrentTimestamp() {
+      return 0;
+    }
+
+    @Override
+    public TimeUnit getTimestampUnit() {
+      return null;
+    }
   }
 }

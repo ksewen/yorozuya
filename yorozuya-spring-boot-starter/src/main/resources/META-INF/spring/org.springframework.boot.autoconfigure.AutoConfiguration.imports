@@ -1,6 +1,9 @@
 # environment
 com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration
 
+# exception handler
+com.github.ksewen.yorozuya.starter.configuration.handler.BasicExceptionHandler
+
 # documentation
 com.github.ksewen.yorozuya.starter.configuration.documentation.SpringDocAutoConfiguration
 

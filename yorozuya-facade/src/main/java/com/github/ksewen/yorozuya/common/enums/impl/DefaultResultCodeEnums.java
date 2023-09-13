@@ -26,6 +26,7 @@ public enum DefaultResultCodeEnums implements ResultCode {
 
   SYSTEM_ERROR(50000, "system error"),
   OPERATION_FAILED(50001, "operation failed"),
+  NO_FALLBACK_METHOD(50002, "circuit breaker is opened but not fallback method available"),
   SERIALIZATION_OR_DESERIALIZATION_ERROR(51001, "serialization or deserialization failed"),
   COPY_PROPERTIES_ERROR(51002, "copy properties failed");
 

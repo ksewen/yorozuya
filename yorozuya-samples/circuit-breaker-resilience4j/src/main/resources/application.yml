@@ -9,15 +9,15 @@ spring:
             connectTimeout: ${common.ok.http.client.connect-timeout}
             read-timeout: ${common.ok.http.client.read-timeout}
           #            logger-level: FULL
+          restClient:
+            url: http://127.0.0.1:38080/rest
       okhttp:
         enabled: true
-    loadbalancer:
-      enabled: true
-
+        
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8001/eureka
+    registerWithEureka: false
+    fetchRegistry: false
 
 common:
   ok:
@@ -27,13 +27,31 @@ common:
         read-timeout: 5000
         write-timeout: 5000
 
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+    instances:
+      restTemplateClient:
+        minimumNumberOfCalls: 10
+        failureRateThreshold: 50
+
 management:
   endpoints:
     web:
       exposure:
         include:
-          - health
           - info
+          - health
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
 
 #logging:
 #  level:
