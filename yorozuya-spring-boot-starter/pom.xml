@@ -85,7 +85,16 @@
             <optional>true</optional>
         </dependency>
 
-
+        <!-- circuit breaker resilience4j -->
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-all</artifactId>
+        </dependency>
+        
         <!-- Unit test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

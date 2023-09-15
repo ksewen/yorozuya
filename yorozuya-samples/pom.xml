@@ -18,6 +18,7 @@
         <module>eureka-client</module>
         <module>rest-client-okhttp</module>
         <module>rest-client-httpclient</module>
+        <module>circuit-breaker-resilience4j</module>
     </modules>
 
 </project>

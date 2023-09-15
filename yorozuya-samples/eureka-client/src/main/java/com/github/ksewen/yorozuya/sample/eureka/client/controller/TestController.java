@@ -3,7 +3,7 @@ package com.github.ksewen.yorozuya.sample.eureka.client.controller;
 import com.github.ksewen.yorozuya.common.facade.response.Result;
 import com.github.ksewen.yorozuya.sample.eureka.client.dto.InstanceResponse;
 import com.github.ksewen.yorozuya.sample.eureka.client.remote.ServerFacade;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,13 +17,13 @@ import org.springframework.web.client.RestTemplate;
  */
 @RestController
 @RequestMapping("/rest")
+@RequiredArgsConstructor
 public class TestController {
 
-  @Autowired private ServerFacade serverFacade;
+  private final ServerFacade serverFacade;
 
-  @Autowired
   @Qualifier("loadBalancerRestTemplate")
-  private RestTemplate restTemplate;
+  private final RestTemplate restTemplate;
 
   @Value("${instance.id:1}")
   private String instance;

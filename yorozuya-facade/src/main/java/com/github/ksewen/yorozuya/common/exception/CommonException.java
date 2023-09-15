@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * @date 04.09.2023 10:26
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class CommonException extends RuntimeException {
 
   private ResultCode code;

@@ -1,12 +1,16 @@
 package com.github.ksewen.yorozuya.starter.configuration.handler;
 
 import com.github.ksewen.yorozuya.common.enums.ResultCode;
+import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
 import com.github.ksewen.yorozuya.common.exception.CommonException;
 import com.github.ksewen.yorozuya.common.exception.InvalidParamException;
 import com.github.ksewen.yorozuya.common.facade.response.Result;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,6 +42,32 @@ public class BasicExceptionHandler {
   @ResponseBody
   public Result handleConstraintViolationException(ConstraintViolationException exception) {
     return Result.paramInvalid(exception.getMessage());
+  }
+
+  @ExceptionHandler(value = {CallNotPermittedException.class})
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public Result handleCallNotPermittedException(CallNotPermittedException exception) {
+    return Result.builder()
+        .code(DefaultResultCodeEnums.CIRCUIT_BREAKER_NO_FALLBACK_METHOD.getCode())
+        .message(
+            StringUtils.hasLength(exception.getMessage())
+                ? exception.getMessage()
+                : DefaultResultCodeEnums.CIRCUIT_BREAKER_NO_FALLBACK_METHOD.getMessage())
+        .build();
+  }
+
+  @ExceptionHandler(value = {RequestNotPermitted.class})
+  @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public Result handleRequestNotPermitted(RequestNotPermitted exception) {
+    return Result.builder()
+        .code(DefaultResultCodeEnums.RATE_LIMITED_NO_FALLBACK_METHOD.getCode())
+        .message(
+            StringUtils.hasLength(exception.getMessage())
+                ? exception.getMessage()
+                : DefaultResultCodeEnums.RATE_LIMITED_NO_FALLBACK_METHOD.getMessage())
+        .build();
   }
 
   @ExceptionHandler(value = InvalidParamException.class)
