@@ -30,6 +30,8 @@ public enum DefaultResultCodeEnums implements ResultCode {
       50002, "circuit breaker is opened but not fallback method available"),
   RATE_LIMITED_NO_FALLBACK_METHOD(
       50003, "rate limiter does not permit further calls but not fallback method available"),
+  REMOTE_CALL_FAILURE(50004, "exception occurred during remote service call"),
+
   SERIALIZATION_OR_DESERIALIZATION_ERROR(51001, "serialization or deserialization failed"),
   COPY_PROPERTIES_ERROR(51002, "copy properties failed");
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @author ksewen
@@ -24,19 +25,28 @@ public class TestController {
   private String url;
 
   @GetMapping("/client")
-  public Result<Boolean> client() {
-    Result<Boolean> result = this.restTemplate.getForObject(this.url, Result.class);
+  public Result<Boolean> client(@RequestParam(name = "second", required = false) Integer second) {
+    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.url);
+    if (second != null) {
+      builder.queryParam("second", second);
+    }
+    Result<Boolean> result = this.restTemplate.getForObject(builder.toUriString(), Result.class);
     return Result.success(result.getData());
   }
 
   @GetMapping("/feign-client")
-  public Result<Boolean> feignClient() {
-    Result<Boolean> result = this.serverFacade.server();
+  public Result<Boolean> feignClient(
+      @RequestParam(name = "second", required = false) Integer second) {
+    Result<Boolean> result = this.serverFacade.server(second);
     return Result.success(result.getData());
   }
 
   @GetMapping("/server")
-  public Result<Boolean> server() {
+  public Result<Boolean> server(@RequestParam(name = "second", required = false) Integer second)
+      throws InterruptedException {
+    if (second != null) {
+      Thread.sleep(second * 1000);
+    }
     return Result.success(Boolean.TRUE);
   }
 }

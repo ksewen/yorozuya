@@ -8,6 +8,7 @@ import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
 import com.github.ksewen.yorozuya.common.exception.CommonException;
 import com.github.ksewen.yorozuya.common.exception.InvalidParamException;
 import com.github.ksewen.yorozuya.common.facade.response.Result;
+import feign.FeignException;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
@@ -16,6 +17,8 @@ import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import jakarta.validation.ConstraintViolationException;
 import java.beans.PropertyEditor;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -33,7 +36,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * @author ksewen
@@ -57,6 +63,22 @@ class BasicExceptionHandlerTest {
 
   @Test
   void handleBindException() throws Exception {
+    this.mockMvc
+        .perform(
+            get(UriComponentsBuilder.fromUriString("/mock/bind-exception")
+                    .queryParam("fieldError", false)
+                    .toUriString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is4xxClientError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.PARAM_INVALID.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(jsonPath("$.message").value(DefaultResultCodeEnums.PARAM_INVALID.getMessage()))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleBindExceptionWithFieldError() throws Exception {
     this.mockMvc
         .perform(
             get("/mock/bind-exception")
@@ -92,6 +114,130 @@ class BasicExceptionHandlerTest {
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().is4xxClientError())
         .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.PARAM_INVALID.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(jsonPath("$.message").value(this.MESSAGE))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleConnectException() throws Exception {
+    this.mockMvc
+        .perform(
+            get(UriComponentsBuilder.fromUriString("/mock/connect-exception")
+                    .queryParam("message", false)
+                    .toUriString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(
+            jsonPath("$.message").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getMessage()))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleConnectExceptionWithCustomMessage() throws Exception {
+    this.mockMvc
+        .perform(
+            get("/mock/connect-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(jsonPath("$.message").value(this.MESSAGE))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleSocketTimeoutException() throws Exception {
+    this.mockMvc
+        .perform(
+            get(UriComponentsBuilder.fromUriString("/mock/socket-timeout-exception")
+                    .queryParam("message", false)
+                    .toUriString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(
+            jsonPath("$.message").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getMessage()))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleSocketTimeoutExceptionWithCustomMessage() throws Exception {
+    this.mockMvc
+        .perform(
+            get("/mock/socket-timeout-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(jsonPath("$.message").value(this.MESSAGE))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleResourceAccessException() throws Exception {
+    this.mockMvc
+        .perform(
+            get(UriComponentsBuilder.fromUriString("/mock/resource-access-exception")
+                    .queryParam("message", false)
+                    .toUriString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(
+            jsonPath("$.message").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getMessage()))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleResourceAccessExceptionWithCustomMessage() throws Exception {
+    this.mockMvc
+        .perform(
+            get("/mock/resource-access-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(jsonPath("$.message").value(this.MESSAGE))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleFeignException() throws Exception {
+    this.mockMvc
+        .perform(
+            get(UriComponentsBuilder.fromUriString("/mock/feign-exception")
+                    .queryParam("message", false)
+                    .toUriString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(
+            jsonPath("$.message").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getMessage()))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleFeignExceptionWithCustomMessage() throws Exception {
+    this.mockMvc
+        .perform(
+            get("/mock/feign-exception")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode()))
         .andExpect(jsonPath("$.success").value("false"))
         .andExpect(jsonPath("$.message").value(this.MESSAGE))
         .andExpect(jsonPath("$.data").isEmpty());
@@ -167,13 +313,51 @@ class BasicExceptionHandlerTest {
   class MockController {
 
     @GetMapping("/bind-exception")
-    public Result<Boolean> bindException() throws BindException {
-      throw new BindException(new MockBindingResult());
+    public Result<Boolean> bindException(
+        @RequestParam(name = "fieldError", defaultValue = "true") boolean fieldError)
+        throws BindException {
+      throw new BindException(new MockBindingResult(fieldError));
     }
 
     @GetMapping("/constraint-violation-exception")
     public Result<Boolean> constraintViolationException() {
       throw new ConstraintViolationException(MESSAGE, null);
+    }
+
+    @GetMapping("/connect-exception")
+    public Result<Boolean> connectException(
+        @RequestParam(name = "message", defaultValue = "true") boolean message) throws Exception {
+      if (message) {
+        throw new ConnectException(MESSAGE);
+      }
+      throw new ConnectException();
+    }
+
+    @GetMapping("/socket-timeout-exception")
+    public Result<Boolean> socketTimeoutException(
+        @RequestParam(name = "message", defaultValue = "true") boolean message) throws Exception {
+      if (message) {
+        throw new SocketTimeoutException(MESSAGE);
+      }
+      throw new SocketTimeoutException();
+    }
+
+    @GetMapping("/resource-access-exception")
+    public Result<Boolean> resourceAccessException(
+        @RequestParam(name = "message", defaultValue = "true") boolean message) {
+      if (message) {
+        throw new ResourceAccessException(MESSAGE);
+      }
+      throw new ResourceAccessException(null);
+    }
+
+    @GetMapping("/feign-exception")
+    public Result<Boolean> feignException(
+        @RequestParam(name = "message", defaultValue = "true") boolean message) {
+      if (message) {
+        throw new MockFeignException(500, MESSAGE);
+      }
+      throw new MockFeignException(500, null);
     }
 
     @GetMapping("/call-not-permitted-exception")
@@ -203,6 +387,14 @@ class BasicExceptionHandlerTest {
   }
 
   class MockBindingResult implements BindingResult {
+
+    private FieldError fieldError;
+
+    public MockBindingResult(boolean hasFieldError) {
+      if (hasFieldError) {
+        this.fieldError = new FieldError("test", "test field", MESSAGE);
+      }
+    }
 
     @Override
     public String getObjectName() {
@@ -297,7 +489,7 @@ class BasicExceptionHandlerTest {
 
     @Override
     public FieldError getFieldError() {
-      return new FieldError("test", "test field", MESSAGE);
+      return this.fieldError;
     }
 
     @Override
@@ -502,6 +694,13 @@ class BasicExceptionHandlerTest {
     @Override
     public EventPublisher getEventPublisher() {
       return null;
+    }
+  }
+
+  class MockFeignException extends FeignException {
+
+    public MockFeignException(int status, String message) {
+      super(status, message);
     }
   }
 }
