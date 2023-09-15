@@ -6,18 +6,20 @@ spring:
       client:
         config:
           default:
-            connectTimeout: ${common.ok.http.client.connect-timeout}
+            connect-timeout: ${common.ok.http.client.connect-timeout}
             read-timeout: ${common.ok.http.client.read-timeout}
           #            logger-level: FULL
           restClient:
-            url: http://127.0.0.1:38080/rest
+            url: http://127.0.0.1:8080/
+          invalidRestClient:
+            url: http://127.0.0.1:38080/
       okhttp:
         enabled: true
-        
+
 eureka:
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    register-with-eureka: false
+    fetch-registry: false
 
 common:
   ok:
@@ -31,11 +33,33 @@ resilience4j:
   circuitbreaker:
     configs:
       default:
+        register-health-indicator: true
+        waitDurationInOpenState: 10s
+        ignoreExceptions:
+          - com.github.ksewen.yorozuya.common.exception.InvalidParamException
+    instances:
+      clientService:
+        minimum-number-of-calls: 10
+        failure-rate-threshold: 50
+      clientServiceWithLoadBalancer:
+        minimum-number-of-calls: 15
+        failure-rate-threshold: 20
+      feignClientServer:
+        minimum-number-of-calls: 10
+        failure-rate-threshold: 50
+  ratelimiter:
+    configs:
+      default:
         registerHealthIndicator: true
     instances:
-      restTemplateClient:
-        minimumNumberOfCalls: 10
-        failureRateThreshold: 50
+      clientService:
+        limitForPeriod: 20
+        limitRefreshPeriod: 30s
+        timeoutDuration: 5s
+      feignClientServer:
+        limitForPeriod: 20
+        limitRefreshPeriod: 30s
+        timeoutDuration: 5s
 
 management:
   endpoints:

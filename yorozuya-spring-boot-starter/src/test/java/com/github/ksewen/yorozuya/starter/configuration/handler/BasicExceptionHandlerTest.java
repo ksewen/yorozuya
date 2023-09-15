@@ -11,6 +11,9 @@ import com.github.ksewen.yorozuya.common.facade.response.Result;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import jakarta.validation.ConstraintViolationException;
 import java.beans.PropertyEditor;
 import java.time.Duration;
@@ -102,12 +105,32 @@ class BasicExceptionHandlerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().is5xxServerError())
-        .andExpect(jsonPath("$.code").value(DefaultResultCodeEnums.NO_FALLBACK_METHOD.getCode()))
+        .andExpect(
+            jsonPath("$.code")
+                .value(DefaultResultCodeEnums.CIRCUIT_BREAKER_NO_FALLBACK_METHOD.getCode()))
         .andExpect(jsonPath("$.success").value("false"))
         .andExpect(
             jsonPath("$.message")
                 .value(
                     "CircuitBreaker 'mock circuit breaker' is OPEN and does not permit further calls"))
+        .andExpect(jsonPath("$.data").isEmpty());
+  }
+
+  @Test
+  void handleRequestNotPermitted() throws Exception {
+    this.mockMvc
+        .perform(
+            get("/mock/request-not-permitted")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().is5xxServerError())
+        .andExpect(
+            jsonPath("$.code")
+                .value(DefaultResultCodeEnums.RATE_LIMITED_NO_FALLBACK_METHOD.getCode()))
+        .andExpect(jsonPath("$.success").value("false"))
+        .andExpect(
+            jsonPath("$.message")
+                .value("RateLimiter 'mock rate limiter' does not permit further calls"))
         .andExpect(jsonPath("$.data").isEmpty());
   }
 
@@ -156,6 +179,11 @@ class BasicExceptionHandlerTest {
     @GetMapping("/call-not-permitted-exception")
     public Result<Boolean> callNotPermittedException() {
       throw CallNotPermittedException.createCallNotPermittedException(new MockCircuitBreaker());
+    }
+
+    @GetMapping("/request-not-permitted")
+    public Result<Boolean> requestNotPermitted() {
+      throw RequestNotPermitted.createRequestNotPermitted(new MockRateLimiter());
     }
 
     @GetMapping("/invalid-param-exception")
@@ -427,6 +455,52 @@ class BasicExceptionHandlerTest {
 
     @Override
     public TimeUnit getTimestampUnit() {
+      return null;
+    }
+  }
+
+  class MockRateLimiter implements RateLimiter {
+    @Override
+    public void changeTimeoutDuration(Duration timeoutDuration) {}
+
+    @Override
+    public void changeLimitForPeriod(int limitForPeriod) {}
+
+    @Override
+    public boolean acquirePermission(int permits) {
+      return false;
+    }
+
+    @Override
+    public long reservePermission(int permits) {
+      return 0;
+    }
+
+    @Override
+    public void drainPermissions() {}
+
+    @Override
+    public String getName() {
+      return "mock rate limiter";
+    }
+
+    @Override
+    public RateLimiterConfig getRateLimiterConfig() {
+      return new RateLimiterConfig.Builder().writableStackTraceEnabled(false).build();
+    }
+
+    @Override
+    public Map<String, String> getTags() {
+      return null;
+    }
+
+    @Override
+    public Metrics getMetrics() {
+      return null;
+    }
+
+    @Override
+    public EventPublisher getEventPublisher() {
       return null;
     }
   }

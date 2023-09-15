@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * @date 04.09.2023 10:28
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class InvalidParamException extends CommonException {
 
   public InvalidParamException() {

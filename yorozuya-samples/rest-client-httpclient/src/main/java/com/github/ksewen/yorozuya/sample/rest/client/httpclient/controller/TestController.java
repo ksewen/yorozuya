@@ -2,7 +2,7 @@ package com.github.ksewen.yorozuya.sample.rest.client.httpclient.controller;
 
 import com.github.ksewen.yorozuya.common.facade.response.Result;
 import com.github.ksewen.yorozuya.sample.rest.client.httpclient.remote.ServerFacade;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -13,11 +13,12 @@ import org.springframework.web.client.RestTemplate;
  */
 @RestController
 @RequestMapping("/rest")
+@RequiredArgsConstructor
 public class TestController {
 
-  @Autowired private RestTemplate restTemplate;
+  private final RestTemplate restTemplate;
 
-  @Autowired private ServerFacade serverFacade;
+  private final ServerFacade serverFacade;
 
   @Value("${server.url:http://127.0.0.1:8080/rest/server}")
   private String url;

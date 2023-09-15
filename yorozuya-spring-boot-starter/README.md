@@ -150,3 +150,23 @@ okhttp dependency from pom.xml or [use the property](####apache-httpClient-5) to
 
 See [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java)
 to learn more about the properties.
+
+## Circuit Breaker
+
+In a microservices architecture, service-to-service calls are ubiquitous. Simultaneously, service unreliability can
+occur at any moment. Using a circuit breaker allows microservices to continue running when the associated service fails,
+preventing cascading failures and giving the failing service time to recover.
+
+Resilience4j has been chosen for this project as Hystrix is currently in maintenance mode.
+
+### Resilience4j
+
+This starter enables you to leverage all the capabilities of Resilience4j. As per
+the [user guides](https://resilience4j.readme.io/docs/getting-started), you can utilize this framework not only through
+annotations but also programmatically.
+
+In the [example project](../yorozuya-samples/circuit-breaker-resilience4j), you can find the recommended usage with
+Spring Boot.
+
+You can also refer to the [demo](https://github.com/resilience4j/resilience4j-spring-boot3-demo) provided by
+the [official documentation](https://resilience4j.readme.io/docs/getting-started-3).
