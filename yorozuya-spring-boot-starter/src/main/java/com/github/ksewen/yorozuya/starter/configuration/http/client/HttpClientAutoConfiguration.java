@@ -86,7 +86,10 @@ public class HttpClientAutoConfiguration {
             .build();
 
     connectionManager.setDefaultSocketConfig(
-        SocketConfig.custom().setTcpNoDelay(this.httpClientProperties.isTcpNoDelay()).build());
+        SocketConfig.custom()
+            .setTcpNoDelay(this.httpClientProperties.isTcpNoDelay())
+            .setSoTimeout(Timeout.of(this.httpClientProperties.getSocketTimeout()))
+            .build());
 
     connectionManager.setDefaultConnectionConfig(
         ConnectionConfig.custom()
