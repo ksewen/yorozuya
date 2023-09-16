@@ -14,6 +14,48 @@ and requests from others.
 > their freelancing business and the three become known as "Yorozuya" (万事屋, "We do everything" or literally "The
 > Anything Store").
 
+## Modules
+
+### Gateway
+
+Planning...
+
+### Service Management
+
+#### Register Center
+
+Work in progress...
+
+#### Configuration Service
+
+Planning...
+
+#### Dashboard
+
+Planning...
+
+### Monitor and Protection
+
+Planning...
+
+### Security Center
+
+Planning...
+
+### SDK
+
+#### yorozuya-common
+
+Work in progress...
+
+See [yorozuya-common](./yorozuya-common/README.md) and [yorozuya-facade](./yorozuya-facade)
+
+#### yorozuya-spring-boot-starter
+
+Work in progress...
+
+See [yorozuya-spring-boot-starter](./yorozuya-spring-boot-starter/README.md)
+
 ## Trademarks and licenses
 
 The source code is licensed under [MIT license](https://opensource.org/license/mit/)

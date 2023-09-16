@@ -3,6 +3,42 @@
 This starter offers automated configurations for seamless integration of a microservice into the
 group.
 
+## Environment
+
+With the [
+Environment](../yorozuya-common/src/main/java/com/github/ksewen/yorozuya/common/environment/Environment.java)
+interface, you can retrieve runtime environment information such as hostName, hostIp, environment (for example:
+production, test, develop...) and applicationName. You can also include your custom metadata.  
+This starter uses and injects a bean of the default implementation [
+BasicEnvironment](../yorozuya-common/src/main/java/com/github/ksewen/yorozuya/common/environment/impl/BasicEnvironment.java)
+. To replace it with your own implementation, just use @Autoconfiguration class and inject the bean!
+
+usage:
+
+```java 
+@Component
+@RequiredArgsConstructor
+public class Sample {
+    
+    private final Environment environment;
+    
+    // get hostname
+    String hostName = this.environment.getHostName();
+
+    // get host ip
+    String hostIp = this.environment.getHostIp();
+
+    // get enviroment
+    String activEnvironment = this.environment.getEnvironment();
+
+    // get application name
+    String applicationName = this.environment.getApplicationName();
+
+    // get metadata map
+    Map<String, String> metadata = this.environment.getMetadata();
+}
+```
+
 ## Rest Clients
 
 Frequently, people utilize OpenFeign to make calls to other servers within a group. Certainly, there are exceptional
