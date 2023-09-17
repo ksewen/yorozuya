@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.3</version>
+        <relativePath/>
+    </parent>
+    <groupId>com.github.ksewen</groupId>
+    <artifactId>yorozuya</artifactId>
+    <version>${revision}</version>
+    <name>yorozuya</name>
+    <description>Enterprise-level Spring Cloud integration project.</description>
+    <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
+        <java.version>17</java.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <springdoc.version>2.2.0</springdoc.version>
+        <yorozuya.version>${revision}</yorozuya.version>
+        <guava.version>32.1.2-jre</guava.version>
+        <ok.http.3.version>4.11.0</ok.http.3.version>
+        <http.client.version>5.2.1</http.client.version>
+        <swagger.annotations.jakarta.version>2.2.15</swagger.annotations.jakarta.version>
+
+        <maven.jacoco.plugin.version>0.8.10</maven.jacoco.plugin.version>
+        <maven.flatten.plugin.version>1.5.0</maven.flatten.plugin.version>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
+    </properties>
+
+    <packaging>pom</packaging>
+
+    <developers>
+        <developer>
+            <id>ksewen</id>
+            <name>ksewen</name>
+            <email>ksewen77@gmail.com</email>
+        </developer>
+    </developers>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring Cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- yorozuya -->
+            <dependency>
+                <groupId>com.github.ksewen</groupId>
+                <artifactId>yorozuya-common</artifactId>
+                <version>${yorozuya.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ksewen</groupId>
+                <artifactId>yorozuya-spring-boot-starter</artifactId>
+                <version>${yorozuya.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ksewen</groupId>
+                <artifactId>yorozuya-facade</artifactId>
+                <version>${yorozuya.version}</version>
+            </dependency>
+
+            <!-- Guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- Springdoc -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
+                <version>${swagger.annotations.jakarta.version}</version>
+            </dependency>
+
+            <!-- HttpClient -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${ok.http.3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.client5</groupId>
+                <artifactId>httpclient5</artifactId>
+                <version>${http.client.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>all</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>yorozuya-eureka</module>
+                <module>yorozuya-common</module>
+                <module>yorozuya-facade</module>
+                <module>yorozuya-spring-boot-starter</module>
+                <module>yorozuya-samples</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sdk</id>
+            <modules>
+                <module>yorozuya-common</module>
+                <module>yorozuya-facade</module>
+                <module>yorozuya-spring-boot-starter</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>test</id>
+            <modules>
+                <module>yorozuya-common</module>
+                <module>yorozuya-facade</module>
+                <module>yorozuya-spring-boot-starter</module>
+                <module>yorozuya-test</module>
+            </modules>
+        </profile>
+
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${maven.jacoco.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${maven.flatten.plugin.version}</version>
+                <configuration>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven.source.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

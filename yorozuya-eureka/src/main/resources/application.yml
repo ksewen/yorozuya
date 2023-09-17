@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: yorozuya-eureka
+
+server:
+  port: 8001
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
