@@ -45,7 +45,11 @@ Frequently, people utilize OpenFeign to make calls to other servers within a gro
 situations where you need to invoke an interface outside the group. With this project you can easily solve both of these
 issues. Because the two common packages have already been integrated, you can easily access resources via HTTP.
 
+<span id="higher_level_clients">
+
 ### Higher level Clients
+
+</span>
 
 #### Openfeign
 
@@ -129,7 +133,7 @@ Apach HttpClient 5.
 </dependencies>
 ```
 
-The default clients are configured to set parameters, please see [Lower level Clients](###lower-level-Clients).
+The default clients are configured to set parameters, please see [Lower level Clients](#lower_level_clients).
 To replace with your own client, inject your custom bean please.
 
 For detailed information, please see the projects.  
@@ -142,14 +146,18 @@ With Loadbalancer:
 
 - [eureka-client](../yorozuya-samples/eureka-client)
 
+<span id="lower_level_clients">
+
 ### Lower level Clients
+
+</span>
 
 #### OkHttp 3
 
 OkHttpClient 3 is enabled by default, to deactivate this, you can make use of following properties:
 
 ```shell
-# the default value is true, if the value not set, it's true
+# the default value is true
 common.ok.http.client.enabled=false
 ```
 
@@ -161,7 +169,7 @@ to learn more about the properties.
 To activate this, you can make use of following properties:
 
 ```shell
-# the default value is true, if the value not set, it's true
+# the default value is true
 common.http.client.hc5.enabled=true
 ```
 
@@ -186,6 +194,105 @@ okhttp dependency from pom.xml or [use the property](####apache-httpClient-5) to
 
 See [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java)
 to learn more about the properties.
+
+### Load Balancer
+
+Regarding the usage of Load Balancer in HTTP calls, please refer to the relevant content
+in [Higher level Clients](#higher_level_clients)
+
+### The relationships of timeout configuration between higher-level client and lower-level client
+
+Firstly, Spring Cloud Load Balancer does not provide configuration for timeouts, which sets it apart
+from [ribbon](https://github.com/Netflix/ribbon), which used to be a popular choice. so there is an even simpler
+relationship between them in this project.
+
+#### Openfeign with OkHttp 3 / Apache HttpClient 5
+
+Because Openfeign overrides configurations from the low-level client, it's preferable to use properties for Openfeign
+to specifying connection timeout properties.
+
+The better way is to use variables in the properties file, for example:
+
+```yaml
+common:
+  ok:
+    http:
+      client:
+        connect-timeout: 3000
+        read-timeout: 5000
+        write-timeout: 5000
+
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: ${common.ok.http.client.connect-timeout}
+            read-timeout: ${common.ok.http.client.read-timeout}
+```
+
+See [OkHttpClient](https://github.com/OpenFeign/feign/blob/master/okhttp/src/main/java/feign/okhttp/OkHttpClient.java)
+and [ApacheHttp5Client](https://github.com/OpenFeign/feign/blob/master/hc5/src/main/java/feign/hc5/ApacheHttp5Client.java)
+
+#### RestTemplate with Okhttp 3
+
+You can configure such settings through the
+[OkHttp3ClientHttpRequestFactory#setConnectTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
+,
+[OkHttp3ClientHttpRequestFactory#setReadTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
+and
+[OkHttp3ClientHttpRequestFactory#setWriteTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
+of RestTemplate. But from the code, it can be seen that a new client instance is created.
+
+So it's the better way to directly use the configurations of OkHttpClient:
+
+```yaml
+common:
+  ok:
+    http:
+      client:
+        connect-timeout: 3000
+        read-timeout: 5000
+        write-timeout: 5000
+```
+
+To understand all properties, please
+see [OkHttp3ClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/OkHttp3ClientProperties.java)
+
+#### RestTemplate with Apache HttpClient 5
+
+By reading the comments
+in [HttpComponentsClientHttpRequestFactory#setConnectTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/HttpComponentsClientHttpRequestFactory.java)
+and
+[HttpComponentsClientHttpRequestFactory#setReadTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/HttpComponentsClientHttpRequestFactory.java)
+, it can be understood that these configurations will not take effect.
+
+Just use the following properties:
+
+To understand all properties, please
+see [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java)
+
+```yaml
+common:
+  http:
+    client:
+      hc5:
+        enabled: true
+        connect-timeout: 3000
+        socket-timeout: 5000
+```
+
+**PS** In this project, you can specify the SocketTimeout configuration when declaring the
+[PoolingHttpClientConnectionManager](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManager.java)
+.
+The [PoolingHttpClientConnectionManager](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManager.java)
+allows you to set the SocketTimeout
+separately
+by [SocketConfig](https://github.com/apache/httpcomponents-core/blob/master/httpcore5/src/main/java/org/apache/hc/core5/http/io/SocketConfig.java)
+and [ConnectionConfig](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/config/ConnectionConfig.java)
+. However, if you only configure ConnectionConfig#setSocketTimeout(Timeout), it won't take effect. Please achieve this
+by configuring SocketConfig#setSoTimeout(Timeout).
 
 ## Circuit Breaker
 
