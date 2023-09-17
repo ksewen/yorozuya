@@ -1,0 +1,19 @@
+# environment
+com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration
+
+# exception handler
+com.github.ksewen.yorozuya.starter.configuration.handler.BasicExceptionHandler
+
+# documentation
+com.github.ksewen.yorozuya.starter.configuration.documentation.SpringDocAutoConfiguration
+
+# rest client
+com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
+
+# feign
+com.github.ksewen.yorozuya.starter.configuration.http.feign.OkHttp3FeignAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.feign.HttpClient5FeignAutoConfiguration

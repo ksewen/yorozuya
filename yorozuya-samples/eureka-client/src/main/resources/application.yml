@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: eureka-client
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: ${common.ok.http.client.connect-timeout}
+            read-timeout: ${common.ok.http.client.read-timeout}
+          #            logger-level: FULL
+      okhttp:
+        enabled: true
+    loadbalancer:
+      enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka
+
+common:
+  ok:
+    http:
+      client:
+        connect-timeout: 3000
+        read-timeout: 5000
+        write-timeout: 5000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+
+#logging:
+#  level:
+#    okhttp3: debug
+debug: true

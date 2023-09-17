@@ -1,0 +1,25 @@
+server:
+  port: 38080
+spring:
+  application:
+    name: rest-client-httpclient
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: ${common.http.client.hc5.connect-timeout}
+            read-timeout: ${common.http.client.hc5.socket-timeout}
+          restClient:
+            url: http://127.0.0.1:38080/rest
+      httpclient:
+        hc5:
+          enabled: true
+
+common:
+  http:
+    client:
+      hc5:
+        enabled: true
+        connect-timeout: 3000
+        socket-timeout: 5000
