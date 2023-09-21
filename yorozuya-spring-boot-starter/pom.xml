@@ -35,6 +35,11 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!-- spring data -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
 
         <!-- springdoc -->
         <dependency>
@@ -47,7 +52,6 @@
             <groupId>com.github.ksewen</groupId>
             <artifactId>yorozuya-common</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.github.ksewen</groupId>
             <artifactId>yorozuya-facade</artifactId>
@@ -94,7 +98,7 @@
             <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-all</artifactId>
         </dependency>
-        
+
         <!-- Unit test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
