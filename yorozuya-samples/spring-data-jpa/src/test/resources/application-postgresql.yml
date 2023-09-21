@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring-data-jpa
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
