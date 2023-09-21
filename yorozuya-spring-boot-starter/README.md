@@ -39,6 +39,37 @@ public class Sample {
 }
 ```
 
+## Data Source
+
+### Spring Data JPA
+
+"spring-boot-data-jpa-starter" is already a user-friendly component. To connect to a database, please add dependency of
+a driver, for example:
+
+```xml
+
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+</dependency>
+```
+
+and config flowing properties:
+
+```yaml
+spring:
+  datasource:
+    url: # JDBC URL of the database
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: # username of the database.
+    password: # password of the database
+```
+
+See [JPA documentation](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/) and learn more about it.
+
+In the [sample project](../yorozuya-samples/spring-data-jpa), you can find a simple use case of integrating
+testcontainers for integration testing. **Docker is required**.
+
 ## Rest Clients
 
 Frequently, people utilize OpenFeign to make calls to other servers within a group. Certainly, there are exceptional
@@ -308,7 +339,7 @@ This starter enables you to leverage all the capabilities of Resilience4j. As pe
 the [user guides](https://resilience4j.readme.io/docs/getting-started), you can utilize this framework not only through
 annotations but also programmatically.
 
-In the [example project](../yorozuya-samples/circuit-breaker-resilience4j), you can find the recommended usage with
+In the [sample project](../yorozuya-samples/circuit-breaker-resilience4j), you can find the recommended usage with
 Spring Boot.
 
 You can also refer to the [demo](https://github.com/resilience4j/resilience4j-spring-boot3-demo) provided by
