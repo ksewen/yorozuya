@@ -1,6 +1,5 @@
 package com.github.ksewen.yorozuya.sample.rest.client.httpclient.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -8,8 +7,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
 import org.hamcrest.core.IsNull;
 import org.hamcrest.core.StringContains;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -23,11 +28,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
     properties = {"server.url=http://127.0.0.1:38080/rest/server"})
+@EnableAutoConfiguration(
+    exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @AutoConfigureMockMvc(addFilters = false)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
+  @Order(1)
   @Test
   void client() throws Exception {
     this.mockMvc
@@ -41,6 +50,7 @@ class TestControllerTest {
         .andExpect(jsonPath("$.data").value(Boolean.TRUE));
   }
 
+  @Order(2)
   @Test
   void clientTimeout() throws Exception {
     this.mockMvc
