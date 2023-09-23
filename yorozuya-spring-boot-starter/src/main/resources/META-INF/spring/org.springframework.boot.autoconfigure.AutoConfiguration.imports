@@ -7,6 +7,10 @@ com.github.ksewen.yorozuya.starter.configuration.handler.BasicExceptionHandler
 # documentation
 com.github.ksewen.yorozuya.starter.configuration.documentation.SpringDocAutoConfiguration
 
+# redis
+com.github.ksewen.yorozuya.starter.configuration.redis.Jackson2JsonRedisTemplateAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.redis.GzipStringRedisTemplateAutoConfiguration
+
 # rest client
 com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration

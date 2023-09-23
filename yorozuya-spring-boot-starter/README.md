@@ -325,6 +325,9 @@ and [ConnectionConfig](https://github.com/apache/httpcomponents-client/blob/mast
 . However, if you only configure ConnectionConfig#setSocketTimeout(Timeout), it won't take effect. Please achieve this
 by configuring SocketConfig#setSoTimeout(Timeout).
 
+This issue is fixed in version 5.2.2 and 5.3-alpha2.
+See [Issue in Apache's Jira](https://issues.apache.org/jira/browse/HTTPCLIENT-2299?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel)
+
 ## Circuit Breaker
 
 In a microservices architecture, service-to-service calls are ubiquitous. Simultaneously, service unreliability can
