@@ -30,7 +30,7 @@ public class UserRepositoryPostgresqlTest {
   @Autowired private UserRepository userRepository;
 
   @DynamicPropertySource
-  static void mysqlProperties(DynamicPropertyRegistry registry) {
+  static void postgresqlProperties(DynamicPropertyRegistry registry) {
     postgres.start();
     registry.add("spring.datasource.url", postgres::getJdbcUrl);
     registry.add("spring.datasource.username", postgres::getUsername);
