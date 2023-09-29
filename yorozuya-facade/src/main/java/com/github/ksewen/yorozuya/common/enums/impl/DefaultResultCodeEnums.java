@@ -33,7 +33,9 @@ public enum DefaultResultCodeEnums implements ResultCode {
   REMOTE_CALL_FAILURE(50004, "exception occurred during remote service call"),
 
   SERIALIZATION_OR_DESERIALIZATION_ERROR(51001, "serialization or deserialization failed"),
-  COPY_PROPERTIES_ERROR(51002, "copy properties failed");
+  COPY_PROPERTIES_ERROR(51002, "copy properties failed"),
+
+  INVALID_OPERATION(52001, "invalid operation");
 
   private int code;
 

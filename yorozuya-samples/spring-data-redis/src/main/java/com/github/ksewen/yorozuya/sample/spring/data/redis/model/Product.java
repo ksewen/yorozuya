@@ -23,5 +23,5 @@ public class Product implements Serializable {
 
   private String name;
 
-  private double price;
+  private Double price;
 }

@@ -1,7 +1,6 @@
 package com.github.ksewen.yorozuya.sample.spring.data.redis.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.github.ksewen.yorozuya.sample.spring.data.redis.SpringDataRedisApplication;
 import com.github.ksewen.yorozuya.sample.spring.data.redis.model.Product;
@@ -13,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author ksewen
@@ -21,9 +24,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = SpringDataRedisApplication.class)
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ProductRepositoryTest extends RedisContainerTest {
+class ProductRepositoryTest {
 
   @Autowired private ProductRepository productRepository;
+
+  static GenericContainer<?> redis =
+      new GenericContainer<>(DockerImageName.parse("redis:7.2.1")).withExposedPorts(6379);
+
+  @DynamicPropertySource
+  static void redisProperties(DynamicPropertyRegistry registry) {
+    redis.start();
+    registry.add("spring.data.redis.host", redis::getHost);
+    registry.add("spring.data.redis.port", redis::getFirstMappedPort);
+  }
 
   @Order(1)
   @Test

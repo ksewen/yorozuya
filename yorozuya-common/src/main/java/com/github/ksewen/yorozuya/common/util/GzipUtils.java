@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GzipUtils {
 
   public static byte[] compress(String source) throws IOException {
-    if (source == null || source.isEmpty()) {
+    if (source == null) {
       log.debug("the string to be compressed is null.");
       return null;
     }
@@ -35,12 +35,13 @@ public class GzipUtils {
     }
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ByteArrayInputStream in = new ByteArrayInputStream(bytes);
-    GZIPInputStream ungzip = new GZIPInputStream(in);
+    GZIPInputStream deGzip = new GZIPInputStream(in);
     byte[] buffer = new byte[256];
     int n;
-    while ((n = ungzip.read(buffer)) >= 0) {
+    while ((n = deGzip.read(buffer)) >= 0) {
       out.write(buffer, 0, n);
     }
+    deGzip.close();
     return out.toByteArray();
   }
 }

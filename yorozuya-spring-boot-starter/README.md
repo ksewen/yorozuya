@@ -70,6 +70,56 @@ See [JPA documentation](https://docs.spring.io/spring-data/jpa/docs/current/refe
 In the [sample project](../yorozuya-samples/spring-data-jpa), you can find a simple use case of integrating
 testcontainers for integration testing. **Docker is required**.
 
+### Spring Data Redis
+
+In a typical scenario, use the following configuration to connect to Redis:
+
+```yaml
+spring:
+  data:
+    redis:
+      host: # host of redis
+      port: # port of redis
+      password: # password of redis
+      database: # index of database
+```
+
+If you want to use a connection pool, first add the "org.apache.commons:commons-pool2" dependency in your pom.xml:
+
+```xml
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-pool2</artifactId>
+</dependency>
+
+```
+
+and configure with the following properties:
+
+```yaml
+spring:
+  data:
+    redis:
+      lettuce:
+        pool:
+          max-idle: 16
+          max-active: 32
+          min-idle: 8
+```
+
+See [Spring Data Redis documentation](https://docs.spring.io/spring-data/redis/docs/current/reference/html/) and learn
+more about it.
+
+#### RedisHelper
+
+To simplify the operation of common commands, in this starter provides a
+default [RedisCommonHelper](./src/main/java/com/github/ksewen/yorozuya/starter/helper/redis/impl/RedisCommonHelpers.java)
+based on "StringRedisTemplate" and automatically registers it in the Spring context by default.
+
+See the interface [RedisHelpers](./src/main/java/com/github/ksewen/yorozuya/starter/helper/redis/RedisHelpers.java) to
+learn more.
+
 ## Rest Clients
 
 Frequently, people utilize OpenFeign to make calls to other servers within a group. Certainly, there are exceptional

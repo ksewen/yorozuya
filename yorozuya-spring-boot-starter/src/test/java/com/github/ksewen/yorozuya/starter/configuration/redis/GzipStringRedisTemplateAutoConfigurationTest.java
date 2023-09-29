@@ -21,9 +21,9 @@ class GzipStringRedisTemplateAutoConfigurationTest {
     new ApplicationContextRunner()
         .withConfiguration(
             AutoConfigurations.of(
-                GzipStringRedisTemplateAutoConfiguration.class,
                 RedisAutoConfiguration.class,
-                JacksonAutoConfiguration.class))
+                JacksonAutoConfiguration.class,
+                GzipStringRedisTemplateAutoConfiguration.class))
         .withPropertyValues("spring.data.redis.template.gzip.enable=true")
         .run(
             (context) -> {
@@ -40,9 +40,9 @@ class GzipStringRedisTemplateAutoConfigurationTest {
     new ApplicationContextRunner()
         .withConfiguration(
             AutoConfigurations.of(
-                GzipStringRedisTemplateAutoConfiguration.class,
                 RedisAutoConfiguration.class,
-                JacksonAutoConfiguration.class))
+                JacksonAutoConfiguration.class,
+                GzipStringRedisTemplateAutoConfiguration.class))
         .run(
             (context) -> {
               assertThat(context).hasBean("stringRedisTemplate");

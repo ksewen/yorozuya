@@ -10,6 +10,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class GzipStringRedisTemplate extends StringRedisTemplate {
 
   public GzipStringRedisTemplate() {
-    setValueSerializer(new GzipStringRedisSerializer());
+    GzipStringRedisSerializer gzipStringRedisSerializer = new GzipStringRedisSerializer();
+    setValueSerializer(gzipStringRedisSerializer);
+    setHashValueSerializer(gzipStringRedisSerializer);
   }
 }
