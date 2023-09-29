@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnClass(OkHttpClient.class)
-@EnableConfigurationProperties({OkHttp3ClientProperties.class})
+@EnableConfigurationProperties(OkHttp3ClientProperties.class)
 @ConditionalOnProperty(
     value = "common.ok.http.client.enabled",
     havingValue = "true",
