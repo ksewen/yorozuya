@@ -42,9 +42,9 @@ public class JacksonJsonHelpers implements JsonHelpers {
   }
 
   @Override
-  public Map toMap(String string) {
+  public Map<Object, Object> toMap(String string) {
     try {
-      return this.DEFAULT_OBJECT_MAPPER.readValue(string, Map.class);
+      return this.DEFAULT_OBJECT_MAPPER.readValue(string, new TypeReference<>() {});
     } catch (JsonProcessingException e) {
       log.error("deserialization to object failed, text: {}", string);
       throw new SerializationOrDeserializationException();
@@ -112,9 +112,9 @@ public class JacksonJsonHelpers implements JsonHelpers {
   }
 
   @Override
-  public Map toMap(String string, ObjectMapper objectMapper) {
+  public Map<Object, Object> toMap(String string, ObjectMapper objectMapper) {
     try {
-      return objectMapper.readValue(string, Map.class);
+      return objectMapper.readValue(string, new TypeReference<>() {});
     } catch (JsonProcessingException e) {
       log.error("deserialization to object failed, text: {}", string);
       throw new SerializationOrDeserializationException();
