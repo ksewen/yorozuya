@@ -108,6 +108,17 @@ spring:
           min-idle: 8
 ```
 
+If you need Gzip compression support, please use the following configuration to enable it:
+
+```yaml
+spring:
+  data:
+    redis:
+      template:
+        gzip:
+          enable: true
+```
+
 See [Spring Data Redis documentation](https://docs.spring.io/spring-data/redis/docs/current/reference/html/) and learn
 more about it.
 
