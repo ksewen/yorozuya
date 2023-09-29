@@ -29,21 +29,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 class JacksonJsonHelpersTest {
   @Autowired private JsonHelpers jsonHelpers;
 
-  private String SOURCE_STRING = "{\"name\":\"test\",\"time\":\"2023-01-01 17:00:00\"}";
-  private String SOURCE_STRING_2 = "{\"name\":\"test\",\"time\":\"01.01.2023 17:00:00\"}";
+  private final String SOURCE_STRING = "{\"name\":\"test\",\"time\":\"2023-01-01 17:00:00\"}";
+  private final String SOURCE_STRING_2 = "{\"name\":\"test\",\"time\":\"01.01.2023 17:00:00\"}";
 
-  private String NAME_STRING = "test";
+  private final String NAME_STRING = "test";
 
-  private String TIME_STRING = "2023-01-01 17:00:00";
+  private final String TIME_STRING = "2023-01-01 17:00:00";
 
-  private String TIME_STRING_2 = "01.01.2023 17:00:00";
+  private final String TIME_STRING_2 = "01.01.2023 17:00:00";
 
-  private ObjectMapper CUSTOMER_OBJECT_MAPPER =
+  private final ObjectMapper CUSTOMER_OBJECT_MAPPER =
       new ObjectMapper()
           .setDateFormat(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss"))
           .setTimeZone(TimeZone.getTimeZone("GMT+2"));
 
-  private Date DATE;
+  private final Date DATE;
 
   {
     try {
@@ -74,7 +74,7 @@ class JacksonJsonHelpersTest {
 
   @Test
   void toMap() {
-    Map result = this.jsonHelpers.toMap(SOURCE_STRING);
+    Map<Object, Object> result = this.jsonHelpers.toMap(SOURCE_STRING);
     assertThat(result)
         .isNotEmpty()
         .contains(entry("name", this.NAME_STRING))
@@ -140,7 +140,7 @@ class JacksonJsonHelpersTest {
 
   @Test
   void testToMap() {
-    Map result = this.jsonHelpers.toMap(SOURCE_STRING, this.CUSTOMER_OBJECT_MAPPER);
+    Map<Object, Object> result = this.jsonHelpers.toMap(SOURCE_STRING, this.CUSTOMER_OBJECT_MAPPER);
     assertThat(result)
         .isNotEmpty()
         .contains(entry("name", this.NAME_STRING))
@@ -195,7 +195,7 @@ class JacksonJsonHelpersTest {
   @Builder
   @NoArgsConstructor
   @AllArgsConstructor
-  static class TestObject {
+  public static class TestObject {
     private String name;
     private Date time;
   }

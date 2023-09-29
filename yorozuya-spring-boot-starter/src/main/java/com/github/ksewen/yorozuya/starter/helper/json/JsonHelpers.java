@@ -16,7 +16,7 @@ public interface JsonHelpers {
 
   <T> T toObject(String string, TypeReference<T> valueTypeRef);
 
-  Map toMap(String string);
+  Map<Object, Object> toMap(String string);
 
   String toJsonString(Object object);
 
@@ -30,7 +30,7 @@ public interface JsonHelpers {
 
   <T> T toObject(String string, TypeReference<T> valueTypeRef, ObjectMapper objectMapper);
 
-  Map toMap(String string, ObjectMapper objectMapper);
+  Map<Object, Object> toMap(String string, ObjectMapper objectMapper);
 
   String toJsonString(Object object, ObjectMapper objectMapper);
 
