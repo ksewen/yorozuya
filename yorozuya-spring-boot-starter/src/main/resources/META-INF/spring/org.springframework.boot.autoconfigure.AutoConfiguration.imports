@@ -10,6 +10,12 @@ com.github.ksewen.yorozuya.starter.configuration.documentation.SpringDocAutoConf
 # jackson
 com.github.ksewen.yorozuya.starter.configuration.jackson.JacksonJsonHelpersAutoConfiguration
 
+# observation
+com.github.ksewen.yorozuya.starter.configuration.observation.ObservedAspectConfiguration
+
+# aop
+com.github.ksewen.yorozuya.starter.configuration.aspect.AroundLoggerAutoConfiguration
+
 # redis
 com.github.ksewen.yorozuya.starter.configuration.redis.GzipStringRedisTemplateAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.redis.RedisHelpersAutoConfiguration
