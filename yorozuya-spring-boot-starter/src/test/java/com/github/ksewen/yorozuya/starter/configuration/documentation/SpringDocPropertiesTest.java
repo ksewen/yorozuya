@@ -2,10 +2,11 @@ package com.github.ksewen.yorozuya.starter.configuration.documentation;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration;
+import com.github.ksewen.yorozuya.common.environment.Environment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.util.StringUtils;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.util.StringUtils;
  * @date 31.08.2023 22:32
  */
 @SpringBootTest(
-    classes = {SpringDocAutoConfiguration.class, EnvironmentAutoConfiguration.class},
+    classes = SpringDocAutoConfiguration.class,
     properties = {
       "springdoc.version=2.0.0",
       "springdoc.description=api description",
@@ -22,6 +23,10 @@ import org.springframework.util.StringUtils;
 class SpringDocPropertiesTest {
 
   @Autowired private SpringDocProperties springDocProperties;
+
+  @SuppressWarnings("unused")
+  @MockBean
+  private Environment environment;
 
   @Test
   void getVersion() {

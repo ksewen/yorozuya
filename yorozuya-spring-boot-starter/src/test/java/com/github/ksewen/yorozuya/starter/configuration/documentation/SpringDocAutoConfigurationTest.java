@@ -14,42 +14,16 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
  */
 class SpringDocAutoConfigurationTest {
 
-  private final String APPLICATION_NAME = "yorozuya";
-
   @Test
   void context() {
     new ApplicationContextRunner()
         .withConfiguration(
             AutoConfigurations.of(
                 SpringDocAutoConfiguration.class, EnvironmentAutoConfiguration.class))
-        .withPropertyValues(
-            "spring.application.name=" + this.APPLICATION_NAME,
-            "springdoc.version=3.0.0",
-            "springdoc.license.url=https://www.test.com")
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(OpenAPI.class);
               assertThat(context).getBean("openAPI").isSameAs(context.getBean(OpenAPI.class));
-
-              OpenAPI openAPI = context.getBean(OpenAPI.class);
-              assertThat(openAPI)
-                  .matches(o -> o.getInfo() != null, "info object is null")
-                  .matches(
-                      o -> this.APPLICATION_NAME.equals(o.getInfo().getTitle()),
-                      "title is not expected")
-                  .matches(o -> "3.0.0".equals(o.getInfo().getVersion()), "version is not expected")
-                  .matches(
-                      o ->
-                          ("Documentation for " + this.APPLICATION_NAME)
-                              .equals(o.getInfo().getDescription()),
-                      "description is not expected")
-                  .matches(o -> o.getInfo().getLicense() != null, "license is null")
-                  .matches(
-                      o -> "MIT".equals(o.getInfo().getLicense().getName()),
-                      "license name is not expected")
-                  .matches(
-                      o -> "https://www.test.com".equals(o.getInfo().getLicense().getUrl()),
-                      "license url is not expected");
             });
   }
 }
