@@ -428,3 +428,35 @@ learn more about it.
 The implementation of RedisHelpers, based on StringRedisTemplate and JacksonJsonHelpers, is by default registered in the
 Spring Boot context. You can easily replace it with your own implementation, if you need.
 See [RedisHelpersAutoConfiguration](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/redis/RedisHelpersAutoConfiguration.java)
+
+## Observation and monitor
+
+### Micrometer Observation
+
+Micrometer-observation is integrated in the starter. And this feature will be integrated in the planned module
+yorozuya-dashboard in the future.
+
+See [official documentation](https://micrometer.io/docs/observation) to learn more about this component.
+
+### AOP Logging
+
+The AOP implementation for logging request and response information (Debug) as well as error logs (Error) is by default
+provided.
+
+To disable this feature by default, use the following property.
+
+```yaml
+# set this value as false to disable the AOP logger, com.github.ksewen.yorozuya.starter.aspect.logger.impl.NotRecordByDefaultAroundLogger will be registered
+# the default value is true if this property is not set, com.github.ksewen.yorozuya.starter.aspect.logger.impl.RecordByDefaultAroundLogger will be registered
+common:
+  aspect:
+    logger:
+      by:
+        default:
+          enable: false
+```
+
+It can also use
+annotations [LoggerTrace](./src/main/java/com/github/ksewen/yorozuya/starter/annotation/logger/LoggerTrace.java)
+and [LoggerTrace](./src/main/java/com/github/ksewen/yorozuya/starter/annotation/logger/LoggerNotTrace.java) to set up
+specific behavior for the AOP Logger.
