@@ -2,7 +2,7 @@ package com.github.ksewen.yorozuya.starter.configuration.documentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.ksewen.yorozuya.common.constant.SystemConstants;
+import com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
@@ -14,11 +14,18 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
  */
 class SpringDocAutoConfigurationTest {
 
+  private final String APPLICATION_NAME = "yorozuya";
+
   @Test
   void context() {
     new ApplicationContextRunner()
-        .withConfiguration(AutoConfigurations.of(SpringDocAutoConfiguration.class))
-        .withPropertyValues("springdoc.version=3.0.0", "springdoc.license.url=https://www.test.com")
+        .withConfiguration(
+            AutoConfigurations.of(
+                SpringDocAutoConfiguration.class, EnvironmentAutoConfiguration.class))
+        .withPropertyValues(
+            "spring.application.name=" + this.APPLICATION_NAME,
+            "springdoc.version=3.0.0",
+            "springdoc.license.url=https://www.test.com")
         .run(
             (context) -> {
               assertThat(context).hasSingleBean(OpenAPI.class);
@@ -28,11 +35,13 @@ class SpringDocAutoConfigurationTest {
               assertThat(openAPI)
                   .matches(o -> o.getInfo() != null, "info object is null")
                   .matches(
-                      o -> SystemConstants.PROPERTIES_NOT_SET_VALUE.equals(o.getInfo().getTitle()),
+                      o -> this.APPLICATION_NAME.equals(o.getInfo().getTitle()),
                       "title is not expected")
                   .matches(o -> "3.0.0".equals(o.getInfo().getVersion()), "version is not expected")
                   .matches(
-                      o -> "Documentation for UNSET".equals(o.getInfo().getDescription()),
+                      o ->
+                          ("Documentation for " + this.APPLICATION_NAME)
+                              .equals(o.getInfo().getDescription()),
                       "description is not expected")
                   .matches(o -> o.getInfo().getLicense() != null, "license is null")
                   .matches(

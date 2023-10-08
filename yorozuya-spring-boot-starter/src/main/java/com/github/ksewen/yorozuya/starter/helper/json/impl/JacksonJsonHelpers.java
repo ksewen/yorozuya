@@ -26,7 +26,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return this.DEFAULT_OBJECT_MAPPER.readValue(string, tClass);
     } catch (JsonProcessingException e) {
-      log.error("deserialization to object failed, text: {}", string);
+      log.error("deserialization to object failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -36,7 +36,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return this.DEFAULT_OBJECT_MAPPER.readValue(string, valueTypeRef);
     } catch (JsonProcessingException e) {
-      log.error("deserialization to object failed, text: {}", string);
+      log.error("deserialization to object failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -46,7 +46,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return this.DEFAULT_OBJECT_MAPPER.readValue(string, new TypeReference<>() {});
     } catch (JsonProcessingException e) {
-      log.error("deserialization to object failed, text: {}", string);
+      log.error("deserialization to object failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -56,7 +56,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return this.DEFAULT_OBJECT_MAPPER.writeValueAsString(object);
     } catch (JsonProcessingException e) {
-      log.error("serialization to json string failed, object type: {}", object.getClass());
+      log.error("serialization to json string failed, object type: {}", object.getClass(), e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -66,7 +66,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return this.DEFAULT_OBJECT_MAPPER.readValue(string, typeReference);
     } catch (Exception e) {
-      log.error("deserialization to object list failed, text: {}", string);
+      log.error("deserialization to object list failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -76,7 +76,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return this.DEFAULT_OBJECT_MAPPER.readTree(string);
     } catch (JsonProcessingException e) {
-      log.error("deserialization to json node failed, text: {}", string);
+      log.error("deserialization to json node failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -86,7 +86,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return this.DEFAULT_OBJECT_MAPPER.valueToTree(object);
     } catch (IllegalArgumentException e) {
-      log.error("parse to json node failed, object type: {}", object.getClass());
+      log.error("parse to json node failed, object type: {}", object.getClass(), e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -96,7 +96,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return objectMapper.readValue(string, tClass);
     } catch (JsonProcessingException e) {
-      log.error("deserialization to object failed, text: {}", string);
+      log.error("deserialization to object failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -106,7 +106,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return objectMapper.readValue(string, valueTypeRef);
     } catch (JsonProcessingException e) {
-      log.error("deserialization to object failed, text: {}", string);
+      log.error("deserialization to object failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -116,7 +116,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return objectMapper.readValue(string, new TypeReference<>() {});
     } catch (JsonProcessingException e) {
-      log.error("deserialization to object failed, text: {}", string);
+      log.error("deserialization to object failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -126,7 +126,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return objectMapper.writeValueAsString(object);
     } catch (JsonProcessingException e) {
-      log.error("serialization to json string failed, object type: {}", object.getClass());
+      log.error("serialization to json string failed, object type: {}", object.getClass(), e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -137,7 +137,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return objectMapper.readValue(string, typeReference);
     } catch (Exception e) {
-      log.error("deserialization to object list failed, text: {}", string);
+      log.error("deserialization to object list failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -147,7 +147,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return objectMapper.readTree(string);
     } catch (JsonProcessingException e) {
-      log.error("deserialization to json node failed, text: {}", string);
+      log.error("deserialization to json node failed, text: {}", string, e);
       throw new SerializationOrDeserializationException();
     }
   }
@@ -157,7 +157,7 @@ public class JacksonJsonHelpers implements JsonHelpers {
     try {
       return objectMapper.valueToTree(object);
     } catch (IllegalArgumentException e) {
-      log.error("parse to json node failed, object type: {}", object.getClass());
+      log.error("parse to json node failed, object type: {}", object.getClass(), e);
       throw new SerializationOrDeserializationException();
     }
   }

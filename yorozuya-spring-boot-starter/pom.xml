@@ -75,6 +75,10 @@
             <artifactId>feign-hc5</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-micrometer</artifactId>
+        </dependency>
 
         <!-- LoadBalancer -->
         <dependency>
@@ -103,6 +107,16 @@
             <artifactId>resilience4j-all</artifactId>
         </dependency>
 
+        <!-- micrometer tracing -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
+        </dependency>
+
         <!-- Unit test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -112,6 +126,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-test</artifactId>
             <scope>test</scope>
         </dependency>
 

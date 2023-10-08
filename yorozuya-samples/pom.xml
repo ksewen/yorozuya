@@ -21,6 +21,7 @@
         <module>rest-client-okhttp</module>
         <module>rest-client-httpclient</module>
         <module>circuit-breaker-resilience4j</module>
+        <module>micrometer-observation</module>
     </modules>
 
 </project>
