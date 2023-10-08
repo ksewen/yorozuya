@@ -1,10 +1,10 @@
 package com.github.ksewen.yorozuya.starter.configuration.documentation;
 
+import com.github.ksewen.yorozuya.common.environment.Environment;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,8 +24,7 @@ public class SpringDocAutoConfiguration {
 
   private final SpringDocProperties springDocProperties;
 
-  @Value("${spring.application.name:UNSET}")
-  private String applicationName;
+  private final Environment environment;
 
   private final String DESCRIPTION_DEFAULT_PREFIX = "Documentation for ";
 
@@ -35,7 +34,7 @@ public class SpringDocAutoConfiguration {
     String title =
         StringUtils.hasLength(this.springDocProperties.getTitle())
             ? this.springDocProperties.getTitle()
-            : applicationName;
+            : this.environment.getApplicationName();
     String description =
         StringUtils.hasLength(this.springDocProperties.getDescription())
             ? this.springDocProperties.getDescription()

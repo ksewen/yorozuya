@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: micrometer-observation
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: ${common.ok.http.client.connect-timeout}
+            read-timeout: ${common.ok.http.client.read-timeout}
+          feignClient:
+            url: http://127.0.0.1:8080/rest
+        default-config:
+      okhttp:
+        enabled: true
+
+common:
+  ok:
+    http:
+      client:
+        connect-timeout: 3000
+        read-timeout: 5000
+        write-timeout: 5000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    com:
+      github:
+        ksewen:
+          yorozuya:
+            starter:
+              aspect: debug
+  #    okhttp3: debug
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+#debug: true

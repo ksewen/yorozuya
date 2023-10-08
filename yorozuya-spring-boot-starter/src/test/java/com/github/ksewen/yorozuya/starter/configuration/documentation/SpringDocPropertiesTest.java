@@ -2,6 +2,7 @@ package com.github.ksewen.yorozuya.starter.configuration.documentation;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +13,7 @@ import org.springframework.util.StringUtils;
  * @date 31.08.2023 22:32
  */
 @SpringBootTest(
-    classes = SpringDocAutoConfiguration.class,
+    classes = {SpringDocAutoConfiguration.class, EnvironmentAutoConfiguration.class},
     properties = {
       "springdoc.version=2.0.0",
       "springdoc.description=api description",
