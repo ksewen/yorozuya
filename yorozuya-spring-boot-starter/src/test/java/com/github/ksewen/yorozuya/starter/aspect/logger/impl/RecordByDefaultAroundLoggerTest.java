@@ -8,20 +8,20 @@ import static org.mockito.Mockito.*;
 
 import com.github.ksewen.yorozuya.common.constant.SystemConstants;
 import com.github.ksewen.yorozuya.common.enums.impl.DefaultResultCodeEnums;
+import com.github.ksewen.yorozuya.common.environment.impl.BasicEnvironment;
 import com.github.ksewen.yorozuya.common.exception.InvalidParamException;
 import com.github.ksewen.yorozuya.starter.annotation.logger.LoggerNotTrace;
 import com.github.ksewen.yorozuya.starter.annotation.logger.LoggerTrace;
 import com.github.ksewen.yorozuya.starter.configuration.aspect.AroundLoggerAutoConfiguration;
-import com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration;
-import com.github.ksewen.yorozuya.starter.configuration.jackson.JacksonJsonHelpersAutoConfiguration;
+import com.github.ksewen.yorozuya.starter.helper.json.impl.JacksonJsonHelpers;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.aop.AopAutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.stereotype.Service;
 import org.springframework.test.util.AopTestUtils;
@@ -34,18 +34,20 @@ import org.springframework.test.util.AopTestUtils;
     classes = {
       AopAutoConfiguration.class,
       AroundLoggerAutoConfiguration.class,
-      EnvironmentAutoConfiguration.class,
-      JacksonAutoConfiguration.class,
-      JacksonJsonHelpersAutoConfiguration.class,
       RecordByDefaultAroundLoggerTest.MockService.class
     },
-    properties = {
-      "spring.application.name=test-aop",
-      "logging.level.com.github.ksewen.yorozuya.starter.aspect.logger.impl=DEBUG"
-    })
+    properties = {"logging.level.com.github.ksewen.yorozuya.starter.aspect.logger.impl=DEBUG"})
 class RecordByDefaultAroundLoggerTest {
 
   @SpyBean private RecordByDefaultAroundLogger aroundAspectLogger;
+
+  @SuppressWarnings("unused")
+  @MockBean
+  private BasicEnvironment environment;
+
+  @SuppressWarnings("unused")
+  @MockBean
+  private JacksonJsonHelpers jsonHelpers;
 
   @Autowired private MockService mockService;
 
