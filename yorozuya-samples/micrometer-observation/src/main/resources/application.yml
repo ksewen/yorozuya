@@ -21,12 +21,22 @@ common:
         connect-timeout: 3000
         read-timeout: 5000
         write-timeout: 5000
+  context:
+    service:
+      default-inject-key-set:
+        - test1
+        - test2
+      limit-set:
+        - test1
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 logging:
   level:
