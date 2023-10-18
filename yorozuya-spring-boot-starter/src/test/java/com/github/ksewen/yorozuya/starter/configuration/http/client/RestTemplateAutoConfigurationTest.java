@@ -3,6 +3,7 @@ package com.github.ksewen.yorozuya.starter.configuration.http.client;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,6 +14,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 
 /**
  * @author ksewen
@@ -36,6 +38,26 @@ class RestTemplateAutoConfigurationTest {
         .run(
             (context) -> {
               assertThat(context).hasBean("restTemplate");
+            });
+  }
+
+  @Test
+  void restTemplateWithInterceptors() {
+    new ApplicationContextRunner()
+        .withConfiguration(
+            AutoConfigurations.of(
+                HttpClientAutoConfiguration.class,
+                OkHttp3ClientAutoConfiguration.class,
+                RestTemplateAutoConfiguration.class,
+                RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
+                    .class,
+                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
+                    .class,
+                MockRestTemplateBuilderAutoConfiguration.class))
+        .run(
+            (context) -> {
+              assertThat(context).hasBean("restTemplate");
+              assertThat(context).getBeans(ClientHttpRequestInterceptor.class).hasSize(2);
             });
   }
 
@@ -140,12 +162,29 @@ class RestTemplateAutoConfigurationTest {
   }
 
   @Configuration
+  @Slf4j
   static class MockRestTemplateBuilderAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(RestTemplateBuilder.class)
     public RestTemplateBuilder restTemplateBuilder() {
       return new RestTemplateBuilder();
+    }
+
+    @Bean
+    public ClientHttpRequestInterceptor clientHttpRequestInterceptor1() {
+      return (request, body, execution) -> {
+        log.info("do something...");
+        return execution.execute(request, body);
+      };
+    }
+
+    @Bean
+    public ClientHttpRequestInterceptor clientHttpRequestInterceptor2() {
+      return (request, body, execution) -> {
+        log.info("do something else...");
+        return execution.execute(request, body);
+      };
     }
   }
 }

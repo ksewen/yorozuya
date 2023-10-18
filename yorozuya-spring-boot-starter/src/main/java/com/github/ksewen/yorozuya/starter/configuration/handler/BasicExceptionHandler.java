@@ -32,9 +32,9 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = {BindException.class})
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public Result handleBindException(BindException exception) {
+  public Result<?> handleBindException(BindException exception) {
     BindingResult bindingResult = exception.getBindingResult();
-    if (bindingResult == null || bindingResult.getFieldError() == null) {
+    if (bindingResult.getFieldError() == null) {
       return Result.paramInvalid();
     }
     return Result.paramInvalid(bindingResult.getFieldError().getDefaultMessage());
@@ -43,14 +43,14 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = {ConstraintViolationException.class})
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public Result handleConstraintViolationException(ConstraintViolationException exception) {
+  public Result<?> handleConstraintViolationException(ConstraintViolationException exception) {
     return Result.paramInvalid(exception.getMessage());
   }
 
   @ExceptionHandler(value = ConnectException.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleConnectException(ConnectException exception) {
+  public Result<?> handleConnectException(ConnectException exception) {
     return Result.builder()
         .code(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode())
         .message(
@@ -63,7 +63,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = SocketTimeoutException.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleSocketTimeoutException(SocketTimeoutException exception) {
+  public Result<?> handleSocketTimeoutException(SocketTimeoutException exception) {
     return Result.builder()
         .code(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode())
         .message(
@@ -76,7 +76,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = ResourceAccessException.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleResourceAccessException(ResourceAccessException exception) {
+  public Result<?> handleResourceAccessException(ResourceAccessException exception) {
     return Result.builder()
         .code(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode())
         .message(
@@ -89,7 +89,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = FeignException.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleFeignException(FeignException exception) {
+  public Result<?> handleFeignException(FeignException exception) {
     return Result.builder()
         .code(DefaultResultCodeEnums.REMOTE_CALL_FAILURE.getCode())
         .message(
@@ -102,7 +102,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = {CallNotPermittedException.class})
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleCallNotPermittedException(CallNotPermittedException exception) {
+  public Result<?> handleCallNotPermittedException(CallNotPermittedException exception) {
     return Result.builder()
         .code(DefaultResultCodeEnums.CIRCUIT_BREAKER_NO_FALLBACK_METHOD.getCode())
         .message(exception.getMessage())
@@ -112,7 +112,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = {RequestNotPermitted.class})
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleRequestNotPermitted(RequestNotPermitted exception) {
+  public Result<?> handleRequestNotPermitted(RequestNotPermitted exception) {
     return Result.builder()
         .code(DefaultResultCodeEnums.RATE_LIMITED_NO_FALLBACK_METHOD.getCode())
         .message(exception.getMessage())
@@ -122,7 +122,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = InvalidParamException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public Result handleInvalidParamException(InvalidParamException exception) {
+  public Result<?> handleInvalidParamException(InvalidParamException exception) {
     return Result.builder()
         .code(exception.getCode().getCode())
         .message(exception.getMessage())
@@ -132,7 +132,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = CommonException.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleCommonException(CommonException exception) {
+  public Result<?> handleCommonException(CommonException exception) {
     return Result.builder()
         .code(exception.getCode().getCode())
         .message(exception.getMessage())
@@ -142,7 +142,7 @@ public class BasicExceptionHandler {
   @ExceptionHandler(value = Exception.class)
   @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
-  public Result handleException(Exception exception) {
+  public Result<?> handleException(Exception exception) {
     log.error("BasicExceptionHandler catch a global exception", exception);
     return Result.systemError();
   }

@@ -71,15 +71,15 @@ public interface RedisHelpers {
   /**
    * Set {@code value} for {@code key}.
    *
-   * @param key
-   * @param value
+   * @param key must not be {@literal null}.
+   * @param value must not be {@literal null}.
    */
   void set(String key, Object value);
 
   /**
-   * @param key must not be null.
-   * @param value must not be null.
-   * @param timeout must not be null.
+   * @param key must not be {@literal null}.
+   * @param value must not be {@literal null}.
+   * @param timeout must not be {@literal null}.
    */
   void set(String key, Object value, Duration timeout);
 
@@ -269,7 +269,7 @@ public interface RedisHelpers {
   void hashSet(String key, String hashKey, Object value);
 
   /**
-   * Set multiple hash fields to multiple values using data provided in m.
+   * Set multiple hash fields to multiple values using data provided in map.
    *
    * @param key must not be null.
    * @param map must not be null.

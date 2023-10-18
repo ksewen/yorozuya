@@ -429,6 +429,54 @@ The implementation of RedisHelpers, based on StringRedisTemplate and JacksonJson
 Spring Boot context. You can easily replace it with your own implementation, if you need.
 See [RedisHelpersAutoConfiguration](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/redis/RedisHelpersAutoConfiguration.java)
 
+## Context
+
+In microservices practice, there is often a need to transmit contextual information across services, for business
+logic, for middlewares or for some frameworks. The starter provides
+a [Context](../yorozuya-common/src/main/java/com/github/ksewen/yorozuya/common/context/Context.java) implementation
+based on ThreadLocal
+as [ServiceContext](../yorozuya-common/src/main/java/com/github/ksewen/yorozuya/common/context/impl/ServiceContext.java)
+by default. As a service provider, you can automatically inject relevant key-value pairs that are passed in through HTTP
+headers into the current context, and you can easily propagate this information to subsequent nodes via Feign or
+RestTemplate.
+
+To control such behavior, please use the following configuration:
+
+```yaml
+common:
+  context:
+    service:
+      # request -> context
+      # Define a prefix for keys manually injected into the context in the code. 
+      # Under the default configuration, this set of key-value pairs will be propagated to subsequent nodes via Feign or RestTemplate.
+      # If you haven't configured the property, the default value will be "service_context_".
+      header-prefix: test_
+      # Configure the keys that do not start with "headerPrefix" to be inserted into the current context.
+      default-inject-key-set:
+        - test
+
+      # context -> request
+      # By setting this property to false, keys that start with "headerPrefix" will not be propagated to subsequent nodes via Feign or RestTemplate.
+      # The behavior will be determined by the setting of "whiteList" or "blackList."
+      transfer-with-prefix: false
+      # Configure to operate in either a white list or black list manner.
+      # If the value is set to "false," it means that the keys in the "limitSet" will be considered invalid.
+      # The default value is "true," which means that the keys in the "limitSet" will be considered valid.
+      enable-white-list: false
+      # In white-list mode, the configured values will be propagated to subsequent nodes via Feign or RestTemplate.
+      # In black-list mode, the configured values will not be propagated to subsequent nodes via Feign or RestTemplate.
+      limit-set:
+        - content-length
+      # This property specifies the behavior when the given key already exists in the HttpHeader of the current request, with the default value being "IGNORE".
+      # IGNORE: Do nothing and use the existing value if it already exists.
+      # COVER: Replace the existing value with the new value.
+      # INSERT: Insert the new value alongside the existing one.
+      repetition-strategy: COVER
+```
+
+See
+the [sample](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
+
 ## Observation and monitor
 
 ### Micrometer Observation

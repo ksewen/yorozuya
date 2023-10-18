@@ -16,6 +16,9 @@ com.github.ksewen.yorozuya.starter.configuration.observation.ObservedAspectConfi
 # aop
 com.github.ksewen.yorozuya.starter.configuration.aspect.AroundLoggerAutoConfiguration
 
+# context
+com.github.ksewen.yorozuya.starter.configuration.context.ServiceContextAutoConfiguration
+
 # redis
 com.github.ksewen.yorozuya.starter.configuration.redis.GzipStringRedisTemplateAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.redis.RedisHelpersAutoConfiguration
