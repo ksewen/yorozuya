@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.github.ksewen.yorozuya.common.environment.Environment;
 import com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(
     classes = {EnvironmentAutoConfiguration.class},
     properties = {"spring.profiles.active=test", "spring.application.name=yorozuya"})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EnvironmentAutoConfigurationTest {
 
   @Autowired private Environment environment;

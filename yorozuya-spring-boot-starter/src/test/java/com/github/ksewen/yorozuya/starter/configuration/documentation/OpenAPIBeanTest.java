@@ -6,6 +6,7 @@ import com.github.ksewen.yorozuya.common.constant.SystemConstants;
 import com.github.ksewen.yorozuya.starter.configuration.environment.EnvironmentAutoConfiguration;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(
     classes = {SpringDocAutoConfiguration.class, EnvironmentAutoConfiguration.class},
     properties = {"springdoc.version=3.0.0", "springdoc.license.url=https://www.test.com"})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OpenAPIBeanTest {
 
   @Autowired private OpenAPI openAPI;
