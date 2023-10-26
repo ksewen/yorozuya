@@ -1,8 +1,9 @@
 package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
+import com.github.ksewen.yorozuya.starter.configuration.context.interceptor.ContextClientHttpRequestInterceptor;
+import java.util.Arrays;
 import okhttp3.OkHttpClient;
 import org.apache.hc.client5.http.classic.HttpClient;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.*;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -46,21 +46,25 @@ public class RestTemplateAutoConfiguration {
     return restTemplateBuilder.build();
   }
 
+  @Bean
+  @ConditionalOnBean(ContextClientHttpRequestInterceptor.class)
+  public RestTemplateCustomizer ContextClientHttpRequestInterceptorCustomizer(
+      @Autowired ContextClientHttpRequestInterceptor interceptor) {
+    return restTemplate -> restTemplate.setInterceptors(Arrays.asList(interceptor));
+  }
+
   @Configuration
   @ConditionalOnClass(OkHttpClient.class)
   @AutoConfigureAfter(OkHttp3ClientAutoConfiguration.class)
   public static class OkHttp3ClientRestTemplateCustomizerAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(RestTemplateCustomizer.class)
+    @ConditionalOnMissingBean(name = "okHttp3ClientRestTemplateCustomizer")
     @ConditionalOnBean(OkHttpClient.class)
     public RestTemplateCustomizer okHttp3ClientRestTemplateCustomizer(
-        @Autowired OkHttpClient okHttpClient,
-        @Autowired ObjectProvider<ClientHttpRequestInterceptor> interceptors) {
-      return restTemplate -> {
-        restTemplate.setRequestFactory(new OkHttp3ClientHttpRequestFactory(okHttpClient));
-        restTemplate.setInterceptors(interceptors.orderedStream().toList());
-      };
+        @Autowired OkHttpClient okHttpClient) {
+      return restTemplate ->
+          restTemplate.setRequestFactory(new OkHttp3ClientHttpRequestFactory(okHttpClient));
     }
   }
 
@@ -70,15 +74,12 @@ public class RestTemplateAutoConfiguration {
   public static class HttpClientRestTemplateCustomizerAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(value = {RestTemplateCustomizer.class, OkHttpClient.class})
+    @ConditionalOnMissingBean(value = OkHttpClient.class, name = "httpClientRestTemplateCustomizer")
     @ConditionalOnBean(HttpClient.class)
     public RestTemplateCustomizer httpClientRestTemplateCustomizer(
-        @Autowired HttpClient httpClient,
-        @Autowired ObjectProvider<ClientHttpRequestInterceptor> interceptors) {
-      return restTemplate -> {
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
-        restTemplate.setInterceptors(interceptors.orderedStream().toList());
-      };
+        @Autowired HttpClient httpClient) {
+      return restTemplate ->
+          restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
     }
   }
 
