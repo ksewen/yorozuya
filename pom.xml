@@ -14,7 +14,7 @@
     <name>yorozuya</name>
     <description>Enterprise-level Spring Cloud integration project.</description>
     <properties>
-        <revision>0.2.0</revision>
+        <revision>0.3.0</revision>
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <springdoc.version>2.2.0</springdoc.version>
@@ -121,6 +121,7 @@
                 <module>yorozuya-common</module>
                 <module>yorozuya-facade</module>
                 <module>yorozuya-spring-boot-starter</module>
+                <module>yorozuya-dashboard</module>
                 <module>yorozuya-samples</module>
             </modules>
         </profile>
@@ -138,6 +139,7 @@
                 <module>yorozuya-common</module>
                 <module>yorozuya-facade</module>
                 <module>yorozuya-spring-boot-starter</module>
+                <module>yorozuya-dashboard</module>
                 <module>yorozuya-test</module>
             </modules>
         </profile>

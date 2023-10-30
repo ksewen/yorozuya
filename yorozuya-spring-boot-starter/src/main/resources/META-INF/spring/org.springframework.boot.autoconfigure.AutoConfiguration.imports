@@ -29,6 +29,7 @@ com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoCo
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestClientHelpersAutoConfiguration
 
 # feign
 com.github.ksewen.yorozuya.starter.configuration.http.feign.OkHttp3FeignAutoConfiguration
