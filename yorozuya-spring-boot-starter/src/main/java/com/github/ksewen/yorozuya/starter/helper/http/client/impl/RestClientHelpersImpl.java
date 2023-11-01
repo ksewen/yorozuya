@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
  * @author ksewen
  * @date 27.10.2023 20:49
  */
-// TODO: Test
 public class RestClientHelpersImpl implements RestClientHelpers {
 
   @Override
