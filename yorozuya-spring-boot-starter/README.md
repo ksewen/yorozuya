@@ -506,5 +506,5 @@ common:
 
 It can also use
 annotations [LoggerTrace](./src/main/java/com/github/ksewen/yorozuya/starter/annotation/logger/LoggerTrace.java)
-and [LoggerTrace](./src/main/java/com/github/ksewen/yorozuya/starter/annotation/logger/LoggerNotTrace.java) to set up
+and [LoggerNotTrace](./src/main/java/com/github/ksewen/yorozuya/starter/annotation/logger/LoggerNotTrace.java) to set up
 specific behavior for the AOP Logger.

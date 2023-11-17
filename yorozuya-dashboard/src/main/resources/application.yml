@@ -9,3 +9,5 @@ eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
+
+debug: true
