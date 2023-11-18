@@ -27,7 +27,7 @@ public class Result<T> {
   @Schema(description = "response data")
   private T data;
 
-  public static Result success() {
+  public static Result<?> success() {
     return Result.builder()
         .code(DefaultResultCodeEnums.SUCCESS.getCode())
         .message(DefaultResultCodeEnums.SUCCESS.getMessage())
@@ -35,7 +35,7 @@ public class Result<T> {
         .build();
   }
 
-  public static Result success(String message) {
+  public static Result<?> success(String message) {
     return Result.builder()
         .code(DefaultResultCodeEnums.SUCCESS.getCode())
         .message(message)
@@ -61,42 +61,42 @@ public class Result<T> {
         .build();
   }
 
-  public static Result operationFailed() {
+  public static Result<?> operationFailed() {
     return Result.builder()
         .code(DefaultResultCodeEnums.OPERATION_FAILED.getCode())
         .message(DefaultResultCodeEnums.OPERATION_FAILED.getMessage())
         .build();
   }
 
-  public static Result operationFailed(String message) {
+  public static Result<?> operationFailed(String message) {
     return Result.builder()
         .code(DefaultResultCodeEnums.OPERATION_FAILED.getCode())
         .message(message)
         .build();
   }
 
-  public static Result systemError() {
+  public static Result<?> systemError() {
     return Result.builder()
         .code(DefaultResultCodeEnums.SYSTEM_ERROR.getCode())
         .message(DefaultResultCodeEnums.SYSTEM_ERROR.getMessage())
         .build();
   }
 
-  public static Result systemError(String message) {
+  public static Result<?> systemError(String message) {
     return Result.builder()
         .code(DefaultResultCodeEnums.SYSTEM_ERROR.getCode())
         .message(message)
         .build();
   }
 
-  public static Result paramInvalid() {
+  public static Result<?> paramInvalid() {
     return Result.builder()
         .code(DefaultResultCodeEnums.PARAM_INVALID.getCode())
         .message(DefaultResultCodeEnums.PARAM_INVALID.getMessage())
         .build();
   }
 
-  public static Result paramInvalid(String message) {
+  public static Result<?> paramInvalid(String message) {
     return Result.builder()
         .code(DefaultResultCodeEnums.PARAM_INVALID.getCode())
         .message(message)
