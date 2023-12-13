@@ -1,0 +1,6 @@
+com.github.ksewen.yorozuya.auth.server.configuration.AuthServerMarkerAutoConfiguration
+com.github.ksewen.yorozuya.auth.server.configuration.TokenAuthenticationAutoConfiguration
+com.github.ksewen.yorozuya.auth.server.configuration.AuthControllerAutoConfiguration
+com.github.ksewen.yorozuya.auth.server.configuration.AuthServerAutoConfiguration
+com.github.ksewen.yorozuya.auth.server.configuration.SecurityAutoConfiguration
+com.github.ksewen.yorozuya.auth.server.configuration.ResourceServerAutoConfiguration

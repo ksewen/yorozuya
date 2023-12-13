@@ -43,7 +43,7 @@ public class PageResult<T> {
   @Schema(description = "current page response result")
   private Collection<T> data;
 
-  public static PageResult<?> success() {
+  public static PageResult success() {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.SUCCESS.getCode())
         .message(DefaultResultCodeEnums.SUCCESS.getMessage())
@@ -51,7 +51,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> success(String message) {
+  public static PageResult success(String message) {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.SUCCESS.getCode())
         .message(message)
@@ -59,7 +59,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> success(int page, int pageSize, long total) {
+  public static PageResult success(int page, int pageSize, long total) {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.SUCCESS.getCode())
         .message(DefaultResultCodeEnums.SUCCESS.getMessage())
@@ -95,7 +95,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> success(String message, int page, int pageSize, long total) {
+  public static PageResult success(String message, int page, int pageSize, long total) {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.SUCCESS.getCode())
         .message(message)
@@ -106,7 +106,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> operationFailed() {
+  public static PageResult operationFailed() {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.OPERATION_FAILED.getCode())
         .message(DefaultResultCodeEnums.OPERATION_FAILED.getMessage())
@@ -116,7 +116,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> operationFailed(String message) {
+  public static PageResult operationFailed(String message) {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.OPERATION_FAILED.getCode())
         .message(message)
@@ -126,7 +126,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> systemError() {
+  public static PageResult systemError() {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.SYSTEM_ERROR.getCode())
         .message(DefaultResultCodeEnums.SYSTEM_ERROR.getMessage())
@@ -136,7 +136,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> systemError(String message) {
+  public static PageResult systemError(String message) {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.SYSTEM_ERROR.getCode())
         .message(message)
@@ -146,7 +146,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> paramInvalid() {
+  public static PageResult paramInvalid() {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.PARAM_INVALID.getCode())
         .message(DefaultResultCodeEnums.PARAM_INVALID.getMessage())
@@ -156,7 +156,7 @@ public class PageResult<T> {
         .build();
   }
 
-  public static PageResult<?> paramInvalid(String message) {
+  public static PageResult paramInvalid(String message) {
     return PageResult.builder()
         .code(DefaultResultCodeEnums.PARAM_INVALID.getCode())
         .message(message)

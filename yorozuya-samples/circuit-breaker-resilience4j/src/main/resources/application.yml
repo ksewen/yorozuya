@@ -1,6 +1,6 @@
 spring:
   application:
-    name: eureka-client
+    name: circuit-breaker-resilience4j
   cloud:
     openfeign:
       client:

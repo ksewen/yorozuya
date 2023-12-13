@@ -122,7 +122,7 @@ class ServiceContextAutoConfigurationTest {
             });
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   @AutoConfigureBefore(ServiceContextAutoConfiguration.class)
   static class MockContextAutoConfiguration {
 

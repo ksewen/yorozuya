@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ksewen
  * @date 05.10.2023 18:19
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnBean({Environment.class, JsonHelpers.class})
 @AutoConfigureAfter({EnvironmentAutoConfiguration.class, JacksonJsonHelpersAutoConfiguration.class})
 public class AroundLoggerAutoConfiguration {

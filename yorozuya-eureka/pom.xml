@@ -8,10 +8,10 @@
         <version>${revision}</version>
     </parent>
     <artifactId>yorozuya-eureka</artifactId>
-    <version>${revision}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>yorozuya-eureka</name>
     <description>The register center of yorozuya</description>
-
+	
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -24,6 +24,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
