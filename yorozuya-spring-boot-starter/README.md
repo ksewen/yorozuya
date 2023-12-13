@@ -1,5 +1,7 @@
 # YOROZUYA-SPRING-BOOT-STARTER
 
+[简体中文](./README_CN.md)
+
 This starter offers automated configurations for seamless integration of a microservice into the
 group.
 
@@ -16,12 +18,13 @@ BasicEnvironment](../yorozuya-common/src/main/java/com/github/ksewen/yorozuya/co
 usage:
 
 ```java 
+
 @Component
 @RequiredArgsConstructor
 public class Sample {
-    
+
     private final Environment environment;
-    
+
     // get hostname
     String hostName = this.environment.getHostName();
 
@@ -244,7 +247,11 @@ With Loadbalancer:
 
 </span>
 
+<span id="okhttp_3">
+
 #### OkHttp 3
+
+</span>
 
 OkHttpClient 3 is enabled by default, to deactivate this, you can make use of following properties:
 
@@ -266,7 +273,7 @@ common.http.client.hc5.enabled=true
 ```
 
 **Attention:** HttpClient 5 will definitely not register when OkHttpClient 3 is used, please exclude the
-okhttp dependency from pom.xml or [use the property](####apache-httpClient-5) to disable it.
+okhttp dependency from pom.xml or [use the property](#okhttp_3) to disable it.
 
 ```xml
 
@@ -475,7 +482,7 @@ common:
 ```
 
 See
-the [sample](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
+the [sample project](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
 
 ## Observation and monitor
 
