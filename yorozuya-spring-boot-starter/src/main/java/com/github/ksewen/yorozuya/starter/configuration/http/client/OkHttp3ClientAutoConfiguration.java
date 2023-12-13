@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ksewen
  * @date 29.08.2023 11:03
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(OkHttpClient.class)
 @EnableConfigurationProperties(OkHttp3ClientProperties.class)
 @ConditionalOnProperty(

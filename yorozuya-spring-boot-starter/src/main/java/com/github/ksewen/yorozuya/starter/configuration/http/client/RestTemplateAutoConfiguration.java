@@ -1,5 +1,7 @@
 package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
+import com.github.ksewen.yorozuya.starter.configuration.http.client.interceptor.CustomClientHttpRequestInterceptor;
+import lombok.Generated;
 import okhttp3.OkHttpClient;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.springframework.beans.factory.ObjectProvider;
@@ -24,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
  * @author ksewen
  * @date 30.08.2023 21:36
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class RestTemplateAutoConfiguration {
 
   @Bean
@@ -46,7 +48,7 @@ public class RestTemplateAutoConfiguration {
     return restTemplateBuilder.build();
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(OkHttpClient.class)
   @AutoConfigureAfter(OkHttp3ClientAutoConfiguration.class)
   public static class OkHttp3ClientRestTemplateCustomizerAutoConfiguration {
@@ -56,15 +58,16 @@ public class RestTemplateAutoConfiguration {
     @ConditionalOnBean(OkHttpClient.class)
     public RestTemplateCustomizer okHttp3ClientRestTemplateCustomizer(
         @Autowired OkHttpClient okHttpClient,
-        @Autowired ObjectProvider<ClientHttpRequestInterceptor> interceptors) {
+        @Autowired ObjectProvider<CustomClientHttpRequestInterceptor> interceptors) {
       return restTemplate -> {
         restTemplate.setRequestFactory(new OkHttp3ClientHttpRequestFactory(okHttpClient));
-        restTemplate.setInterceptors(interceptors.orderedStream().toList());
+        restTemplate.setInterceptors(
+            interceptors.orderedStream().map(x -> (ClientHttpRequestInterceptor) x).toList());
       };
     }
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(HttpClient.class)
   @AutoConfigureAfter(HttpClientAutoConfiguration.class)
   public static class HttpClientRestTemplateCustomizerAutoConfiguration {
@@ -74,15 +77,16 @@ public class RestTemplateAutoConfiguration {
     @ConditionalOnBean(HttpClient.class)
     public RestTemplateCustomizer httpClientRestTemplateCustomizer(
         @Autowired HttpClient httpClient,
-        @Autowired ObjectProvider<ClientHttpRequestInterceptor> interceptors) {
+        @Autowired ObjectProvider<CustomClientHttpRequestInterceptor> interceptors) {
       return restTemplate -> {
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
-        restTemplate.setInterceptors(interceptors.orderedStream().toList());
+        restTemplate.setInterceptors(
+            interceptors.orderedStream().map(x -> (ClientHttpRequestInterceptor) x).toList());
       };
     }
   }
 
-  // FIXME: exclude in jacoco report
+  @Generated
   static final class LoadBalancerRestTemplateEnabled extends AllNestedConditions {
 
     public LoadBalancerRestTemplateEnabled() {
@@ -90,19 +94,21 @@ public class RestTemplateAutoConfiguration {
     }
 
     @ConditionalOnClass(value = {LoadBalancerClient.class, LoadBalancerClientFactory.class})
+    @Generated
     static class LoadBalancer {}
 
     @ConditionalOnProperty(
         value = "spring.cloud.loadbalancer.enabled",
         havingValue = "true",
         matchIfMissing = true)
+    @Generated
     static class LoadBalancerEnable {}
 
     @ConditionalOnProperty(
         value = "common.rest.template.loadbalancer.enabled",
         havingValue = "true",
         matchIfMissing = true)
+    @Generated
     static class Enable {}
-    ;
   }
 }

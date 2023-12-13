@@ -39,7 +39,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ksewen
  * @date 28.08.2023 16:16
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(HttpClient.class)
 @ConditionalOnMissingBean(OkHttp3ClientAutoConfiguration.class)
 @EnableConfigurationProperties(HttpClientProperties.class)

@@ -92,7 +92,7 @@ class AroundLoggerAutoConfigurationTest {
             });
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   @AutoConfigureBefore(AroundLoggerAutoConfiguration.class)
   static class MockAroundAspectAutoConfiguration {
 

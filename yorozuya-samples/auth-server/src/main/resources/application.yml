@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: auth-server
+  datasource:
+    url: jdbc:mysql://localhost:3306/yorozuya-auth?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      auto-commit: true
+      minimum-idle: 5
+      idle-timeout: 60000
+      connection-timeout: 10000
+      max-lifetime: 100000
+      maximum-pool-size: 10
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  sql:
+    init:
+      mode: always
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connect-timeout: ${common.ok.http.client.connect-timeout}
+            read-timeout: ${common.ok.http.client.read-timeout}
+          #            logger-level: FULL
+          restClient:
+            url: http://127.0.0.1:8080/
+          invalidRestClient:
+            url: http://127.0.0.1:38080/
+      okhttp:
+        enabled: true
+  messages:
+    encoding: UTF-8
+    basename: validation-messages
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+common:
+  ok:
+    http:
+      client:
+        connect-timeout: 3000
+        read-timeout: 5000
+        write-timeout: 5000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - info
+          - health
+          - mappings
+  endpoint:
+    health:
+      show-details: always
+
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: DEBUG
+#debug: true
+security:
+  token:
+    access-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gLkjIomXr91YSp352WTjamhP1Q6DQN9rWYlZp3zoFljtkBYFgGa4Ur3VNPbGqn0kEL3EGNraoufIx+YGE2nv82f0V8OP+1r76mmqnxXDUDVmPOrktGr0XsS8K2maQinNUKR6m92ChowdTaNQ8OuXYQb1z27n/pjGmKAIf+Nkelph46O1uTQs2okO582bVLF9rmZ1LVmE+H4pEhsYnpWVGkPrtc+cCuTTBr9nZapimRdeuwktgb8jDVYsTPgOI2tG2m3iGStkqpydSrh02W18e9uLgBMSy7G7CbwnrmSOg2ahoOA7GdOsz14fQhpiJ9XhoBprNeXoW7TCll5XCOqhQIDAQAB
+    access-private-key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDmAuSMiiZev3VhKnfnZZONqaE/VDoNA32tZiVmnfOgWWO2QFgWAZrhSvdU09saqfSQQvcQY2tqi58jH5gYTae/zZ/RXw4/7WvvqaaqfFcNQNWY86uS0avRexLwraZpCKc1QpHqb3YKGjB1No1Dw65dhBvXPbuf+mMaYoAh/42R6WmHjo7W5NCzaiQ7nzZtUsX2uZnUtWYT4fikSGxielZUaQ+u1z5wK5NMGv2dlqmKZF167CS2BvyMNVixM+A4ja0babeIZK2SqnJ1KuHTZbXx724uAExLLsbsJvCeuZI6DZqGg4DsZ06zPXh9CGmIn1eGgGms15ehbtMKWXlcI6qFAgMBAAECggEAMxmxbQfEPoiKq2uj9+S5Q1/MUyWDQCDmav+mj4XH+nfhjzv8VedFYYgmKtJmeyYHD4XRHfL4ilM6p7L9N2kJO7OTLhDQOaOltzkZrgax0F/3FGQOWi/63C9bpdzue6dQfqSrhkn9D4GCAoh8GfH/awdOqCMu6/vUyKfZj7QW37NvpyDnxVjdy4hI0Fg3/YRMRX/yim8Np5ZN16QE5Lm5+xSLcA1GE2eu/B1/vrY7fuHX5m3CTonYz78QtBZ/V/Q/kTQF+MVoet4QEoK0R1dDiZaKp4+CN8dl7HEKeAun8Bw3rVdV/JytJXlzmA4I7QSKVgRa3HJtKJ3RQcID41YwAQKBgQD/kP9nSHrnm2YLQUElVheNmCg7Y0CINRg21HxQ1SwupOOeUUvrK+muFQtKCyTdxVYn8ysb8AbXz+jPeMNirKlTHIaMDHEfAuba8Vq6BdkDAaS9IKJzuig4r3FFP3wxWo6771Iw0UbzBh3dYF/ahsUIN2pvCn8Q0HiDxag+1BbnoQKBgQDmZsuoSlLJgj9hIAvGcMGEtz/tK6lUwFYKJZEXdbLjzaX2ESdZcZbPxKBfPjmiU3MVUIQdp/eTIAdS3tp8us8e0qg/g6DTwtlXpT3AGd2HCbbsuaLg4MBELs11wwANHVAIns468AmuWJyiHlFVJH/gkKf3zo9/BshH9iWYZdVIZQKBgQD/FzTHW+JJoaP2YfjrkoZJ7/Fgbc4w5oY33FoFuPGz0SPdl5nmr9s8xoaRLpRqxBkeISsLZMb/zOe9hvXHXT5Z1eQ6kASthpD1QuljOokE5jQQDy33w314Ly4ph5eoD5Le5Z8tWQavdpCCsjqa/eBXNjEHivuPxfY02Sr5I2uFYQKBgDkTYAIpn0aSAHdkA+a9ygLBjpGHTmRTXT0YP1ArdQxfxmwlpbTPoceIcx4FASwINisijgf2syr8NTQ/Rqq9cE+3abyKNA4hZ8wBgEGVZr5sFqef+QxyQM7jNTyl+N5G06u/A2GwUwWgp/S1Q/qulwsfaqzFu+CA4p6JCJkvKN3NAoGBANHVnI48r2kcj8Ubzr5+sexTS4N9uS4087w3pDJBELi7KbGNC6EoAZ48HWSQV2D83ltEj2FptfpZhh49x1/I85f74Nma0tcI+KhQA622B2Hehp3lfFhRnMu/zgPHVwHhAAwDBB5yBKqVEgsO2p5+SETlMLE0U7Xb9KP7cJXBiyCW
+    refresh-public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5gLkjIomXr91YSp352WTjamhP1Q6DQN9rWYlZp3zoFljtkBYFgGa4Ur3VNPbGqn0kEL3EGNraoufIx+YGE2nv82f0V8OP+1r76mmqnxXDUDVmPOrktGr0XsS8K2maQinNUKR6m92ChowdTaNQ8OuXYQb1z27n/pjGmKAIf+Nkelph46O1uTQs2okO582bVLF9rmZ1LVmE+H4pEhsYnpWVGkPrtc+cCuTTBr9nZapimRdeuwktgb8jDVYsTPgOI2tG2m3iGStkqpydSrh02W18e9uLgBMSy7G7CbwnrmSOg2ahoOA7GdOsz14fQhpiJ9XhoBprNeXoW7TCll5XCOqhQIDAQAB
+    refresh-private-key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDmAuSMiiZev3VhKnfnZZONqaE/VDoNA32tZiVmnfOgWWO2QFgWAZrhSvdU09saqfSQQvcQY2tqi58jH5gYTae/zZ/RXw4/7WvvqaaqfFcNQNWY86uS0avRexLwraZpCKc1QpHqb3YKGjB1No1Dw65dhBvXPbuf+mMaYoAh/42R6WmHjo7W5NCzaiQ7nzZtUsX2uZnUtWYT4fikSGxielZUaQ+u1z5wK5NMGv2dlqmKZF167CS2BvyMNVixM+A4ja0babeIZK2SqnJ1KuHTZbXx724uAExLLsbsJvCeuZI6DZqGg4DsZ06zPXh9CGmIn1eGgGms15ehbtMKWXlcI6qFAgMBAAECggEAMxmxbQfEPoiKq2uj9+S5Q1/MUyWDQCDmav+mj4XH+nfhjzv8VedFYYgmKtJmeyYHD4XRHfL4ilM6p7L9N2kJO7OTLhDQOaOltzkZrgax0F/3FGQOWi/63C9bpdzue6dQfqSrhkn9D4GCAoh8GfH/awdOqCMu6/vUyKfZj7QW37NvpyDnxVjdy4hI0Fg3/YRMRX/yim8Np5ZN16QE5Lm5+xSLcA1GE2eu/B1/vrY7fuHX5m3CTonYz78QtBZ/V/Q/kTQF+MVoet4QEoK0R1dDiZaKp4+CN8dl7HEKeAun8Bw3rVdV/JytJXlzmA4I7QSKVgRa3HJtKJ3RQcID41YwAQKBgQD/kP9nSHrnm2YLQUElVheNmCg7Y0CINRg21HxQ1SwupOOeUUvrK+muFQtKCyTdxVYn8ysb8AbXz+jPeMNirKlTHIaMDHEfAuba8Vq6BdkDAaS9IKJzuig4r3FFP3wxWo6771Iw0UbzBh3dYF/ahsUIN2pvCn8Q0HiDxag+1BbnoQKBgQDmZsuoSlLJgj9hIAvGcMGEtz/tK6lUwFYKJZEXdbLjzaX2ESdZcZbPxKBfPjmiU3MVUIQdp/eTIAdS3tp8us8e0qg/g6DTwtlXpT3AGd2HCbbsuaLg4MBELs11wwANHVAIns468AmuWJyiHlFVJH/gkKf3zo9/BshH9iWYZdVIZQKBgQD/FzTHW+JJoaP2YfjrkoZJ7/Fgbc4w5oY33FoFuPGz0SPdl5nmr9s8xoaRLpRqxBkeISsLZMb/zOe9hvXHXT5Z1eQ6kASthpD1QuljOokE5jQQDy33w314Ly4ph5eoD5Le5Z8tWQavdpCCsjqa/eBXNjEHivuPxfY02Sr5I2uFYQKBgDkTYAIpn0aSAHdkA+a9ygLBjpGHTmRTXT0YP1ArdQxfxmwlpbTPoceIcx4FASwINisijgf2syr8NTQ/Rqq9cE+3abyKNA4hZ8wBgEGVZr5sFqef+QxyQM7jNTyl+N5G06u/A2GwUwWgp/S1Q/qulwsfaqzFu+CA4p6JCJkvKN3NAoGBANHVnI48r2kcj8Ubzr5+sexTS4N9uS4087w3pDJBELi7KbGNC6EoAZ48HWSQV2D83ltEj2FptfpZhh49x1/I85f74Nma0tcI+KhQA622B2Hehp3lfFhRnMu/zgPHVwHhAAwDBB5yBKqVEgsO2p5+SETlMLE0U7Xb9KP7cJXBiyCW
+  protect-management-endpoints: false
+  permit-urls:
+    ALL: /auth/**
+    get: /test/non-authentication

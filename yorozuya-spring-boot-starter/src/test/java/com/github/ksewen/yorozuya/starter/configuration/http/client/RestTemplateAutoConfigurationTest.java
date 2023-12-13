@@ -161,7 +161,7 @@ class RestTemplateAutoConfigurationTest {
             });
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   @Slf4j
   static class MockRestTemplateBuilderAutoConfiguration {
 

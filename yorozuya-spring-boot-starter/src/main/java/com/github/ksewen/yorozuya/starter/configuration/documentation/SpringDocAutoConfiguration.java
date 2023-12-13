@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
  * @author ksewen
  * @date 31.08.2023 22:11
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(OpenAPI.class)
 @EnableConfigurationProperties({SpringDocProperties.class})
 @RequiredArgsConstructor

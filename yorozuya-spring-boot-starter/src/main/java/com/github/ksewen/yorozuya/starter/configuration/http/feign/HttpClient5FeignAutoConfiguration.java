@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ksewen
  * @date 05.09.2023 16:44
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(value = {Client.class, ApacheHttp5Client.class, HttpClient.class})
 @ConditionalOnProperty("spring.cloud.openfeign.httpclient.hc5.enabled")
 @Conditional(OnNoLoadBalancerOrDisable.class)

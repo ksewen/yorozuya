@@ -50,7 +50,7 @@ class JacksonJsonHelpersAutoConfigurationTest {
             });
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   static class MockJsonHelpersAutoConfiguration {
 
     @Bean

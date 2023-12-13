@@ -26,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
  * @author ksewen
  * @date 13.10.2023 22:23
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ServiceContextProperties.class)
 @RequiredArgsConstructor
 public class ServiceContextAutoConfiguration {
