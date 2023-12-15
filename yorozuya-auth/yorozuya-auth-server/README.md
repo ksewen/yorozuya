@@ -1,3 +1,3 @@
 # YOROZUYA-AUTH-SERVER
 
-[简体中文](./README_CN.md)
+[Deutsch](./README_DE.md) | [简体中文](./README_CN.md)

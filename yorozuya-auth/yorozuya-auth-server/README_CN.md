@@ -1,3 +1,3 @@
 # YOROZUYA-AUTH-SERVER
 
-[English](./README.md)
+[English](./README.md) | [Deutsch](./README_DE.md)

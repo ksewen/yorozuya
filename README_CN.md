@@ -7,7 +7,7 @@
 [![slack](https://img.shields.io/badge/slack-yorozuya-brightgreen.svg?logo=slack)](https://join.slack.com/t/yorozuya-z8y6384/shared_invite/zt-22y8fv2hd-0veY3zZjpgjeEFFqwWkTiw)
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?logo=intellij-idea&logoColor=white)
 
-[English](./README.md)
+[English](./README.md) | [Deutsch](./README_DE.md)
 
 致力于打造基于 Spring Cloud 的、开箱即用的企业级微服务框架。
 
@@ -56,7 +56,7 @@
 
 查看 [yorozuya-spring-boot-starter](./yorozuya-spring-boot-starter/README_CN.md)
 
-## Trademarks and licenses
+## 商标和许可证
 
 源代码遵守开源许可证 [MIT license](https://opensource.org/license/mit/)
 
