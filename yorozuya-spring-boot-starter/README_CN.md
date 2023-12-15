@@ -1,6 +1,6 @@
 # YOROZUYA-SPRING-BOOT-STARTER
 
-[English](./README.md)
+[English](./README.md) | [Deutsch](./README_DE.md)
 
 该 starter 提供了自动配置，将微服务应用无缝加入集群。
 
@@ -198,7 +198,7 @@ common.rest.template.default.enabled=false
 common.rest.template.loadbalancer.enabled=false
 ```
 
-默认的底层客户端是 OkHttpClient 3，可以通过编辑 pom.xml 文件排除依赖的方式，将底层客户端替换为 Apach HttpClient 5。
+默认的底层客户端是 OkHttpClient 3，可以通过编辑 pom.xml 文件排除依赖的方式，将底层客户端替换为 Apache HttpClient 5。
 
 ```xml
 

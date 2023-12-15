@@ -1,6 +1,6 @@
 # YOROZUYA-COMMON
 
-[English](./README.md)
+[English](./README.md) | [Deutsch](./README_DE.md)
 
 该组件提供并管理了基本的依赖。使用它可以更容易地开发一个不使用 Spring Boot 的轻量级 Java 应用。
 

@@ -1,6 +1,6 @@
 # YOROZUYA-COMMON
 
-[简体中文](./README_CN.md)
+[Deutsch](./README_DE.md) | [简体中文](./README_CN.md)
 
 This package provides and manages some fundamental dependencies. It enables easier and more lightweight development of
 Java applications that do not use Spring Boot.
