@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ksewen
  * @date 26.09.2023 22:53
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(ObjectMapper.class)
 public class JacksonJsonHelpersAutoConfiguration {
 

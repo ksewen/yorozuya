@@ -16,7 +16,7 @@ import org.springframework.data.redis.core.RedisOperations;
  * @author ksewen
  * @date 23.09.2023 10:38
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(RedisOperations.class)
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class GzipStringRedisTemplateAutoConfiguration {

@@ -1,5 +1,7 @@
 # YOROZUYA-SPRING-BOOT-STARTER
 
+[Deutsch](./README_DE.md) | [简体中文](./README_CN.md)
+
 This starter offers automated configurations for seamless integration of a microservice into the
 group.
 
@@ -16,12 +18,13 @@ BasicEnvironment](../yorozuya-common/src/main/java/com/github/ksewen/yorozuya/co
 usage:
 
 ```java 
+
 @Component
 @RequiredArgsConstructor
 public class Sample {
-    
+
     private final Environment environment;
-    
+
     // get hostname
     String hostName = this.environment.getHostName();
 
@@ -203,7 +206,7 @@ common.rest.template.loadbalancer.enabled=false
 ```
 
 OkHttpClient 3 is enabled for RestTemplate by default, you can edit the dependency in pom.xml to replace with
-Apach HttpClient 5.
+Apache HttpClient 5.
 
 ```xml
 
@@ -225,7 +228,7 @@ Apach HttpClient 5.
 </dependencies>
 ```
 
-The default clients are configured to set parameters, please see [Lower level Clients](#lower_level_clients).
+The default clients can be configured with the properties, please see [Lower level Clients](#lower_level_clients).
 To replace with your own client, inject your custom bean please.
 
 For detailed information, please see the projects.  
@@ -244,7 +247,11 @@ With Loadbalancer:
 
 </span>
 
+<span id="okhttp_3">
+
 #### OkHttp 3
+
+</span>
 
 OkHttpClient 3 is enabled by default, to deactivate this, you can make use of following properties:
 
@@ -266,7 +273,7 @@ common.http.client.hc5.enabled=true
 ```
 
 **Attention:** HttpClient 5 will definitely not register when OkHttpClient 3 is used, please exclude the
-okhttp dependency from pom.xml or [use the property](####apache-httpClient-5) to disable it.
+okhttp dependency from pom.xml or [use the property](#okhttp_3) to disable it.
 
 ```xml
 
@@ -290,7 +297,7 @@ to learn more about the properties.
 ### Load Balancer
 
 Regarding the usage of Load Balancer in HTTP calls, please refer to the relevant content
-in [Higher level Clients](#higher_level_clients)
+in [Higher level Clients](#higher_level_clients).
 
 ### The relationships of timeout configuration between higher-level client and lower-level client
 
@@ -363,7 +370,7 @@ and
 Just use the following properties:
 
 To understand all properties, please
-see [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java)
+see [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java).
 
 ```yaml
 common:
@@ -474,8 +481,8 @@ common:
       repetition-strategy: COVER
 ```
 
-See
-the [sample](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
+See 
+the [sample project](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
 
 ## Observation and monitor
 

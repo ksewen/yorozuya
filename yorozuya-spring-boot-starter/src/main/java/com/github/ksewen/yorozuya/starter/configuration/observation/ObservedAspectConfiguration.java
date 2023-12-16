@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ksewen
  * @date 04.10.2023 12:06
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class ObservedAspectConfiguration {
 
   @Bean

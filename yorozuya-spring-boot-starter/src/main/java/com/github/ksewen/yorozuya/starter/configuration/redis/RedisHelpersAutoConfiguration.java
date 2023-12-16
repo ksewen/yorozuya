@@ -21,7 +21,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @author ksewen
  * @date 24.09.2023 22:23
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(RedisOperations.class)
 @EnableConfigurationProperties(RedisHelperProperties.class)
 @AutoConfigureAfter(RedisAutoConfiguration.class)

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ksewen
  * @date 05.09.2023 16:44
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(value = {Client.class, OkHttpClient.class, okhttp3.OkHttpClient.class})
 @ConditionalOnProperty("spring.cloud.openfeign.okhttp.enabled")
 @Conditional(OnNoLoadBalancerOrDisable.class)
