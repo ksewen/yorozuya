@@ -47,16 +47,6 @@ public class TokenAuthenticationPropertiesTest {
   }
 
   @Test
-  void getReadHeader() {
-    assertThat(this.properties.getReadHeader()).isEqualTo("Authentication");
-  }
-
-  @Test
-  void getTokenPrefix() {
-    assertThat(this.properties.getTokenPrefix()).isEqualTo("TestBearer ");
-  }
-
-  @Test
   void getIssuer() {
     assertThat(this.properties.getIssuer()).isEqualTo("tester");
   }
@@ -84,10 +74,5 @@ public class TokenAuthenticationPropertiesTest {
   @Test
   void isWithAuthorities() {
     assertThat(this.properties.isWithAuthorities()).isFalse();
-  }
-
-  @Test
-  void isDebug() {
-    assertThat(this.properties.isDebug()).isTrue();
   }
 }

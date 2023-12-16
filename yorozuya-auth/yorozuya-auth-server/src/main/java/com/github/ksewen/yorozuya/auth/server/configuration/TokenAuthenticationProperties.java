@@ -16,11 +16,7 @@ public class TokenAuthenticationProperties {
 
   private Duration refreshTokenExpiration = Duration.ofDays(7);
 
-  private String readHeader = "Authentication";
-
-  private String tokenPrefix = "Bearer ";
-
-  private String issuer = "me";
+  private String issuer = "https://github.com/ksewen/yorozuya";
 
   private String accessPublicKey;
 
@@ -31,6 +27,4 @@ public class TokenAuthenticationProperties {
   private String refreshPrivateKey;
 
   private boolean withAuthorities = Boolean.FALSE;
-
-  private boolean debug = Boolean.FALSE;
 }

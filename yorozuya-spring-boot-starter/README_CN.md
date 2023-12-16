@@ -59,10 +59,10 @@ public class Sample {
 ```yaml
 spring:
   datasource:
-    url: # JDBC URL of the database
+    url: # 数据库的连接字符串
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: # username of the database.
-    password: # password of the database
+    username: # 数据库的用户名
+    password: # 数据库的密码
 ```
 
 查看 [JPA 文档](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/) 以了解更多。
@@ -78,10 +78,10 @@ spring:
 spring:
   data:
     redis:
-      host: # host of redis
-      port: # port of redis
-      password: # password of redis
-      database: # index of database
+      host: # redis的主机地址
+      port: # redis的端口
+      password: # redis的密码
+      database: # 默认数据库的index
 ```
 
 如果想要使用连接池，首先在 pom.xml 中添加 “org.apache.commons:commons-pool2” 依赖：
@@ -129,7 +129,7 @@ spring:
 
 查看接口定义 [RedisHelpers](./src/main/java/com/github/ksewen/yorozuya/starter/helper/redis/RedisHelpers.java) 以了解更多。
 
-## Rest Clients
+## Rest 客户端
 
 人们通常使用 OpenFeign 来调用集群内部的其他服务。当然，也有特殊情况需要调用集群外的接口。使用这个项目，可以轻松解决这个问题。由于两个常用的组件已经被很好得集成，可以很轻松的通过
 HTTP 访问其他资源。
@@ -286,7 +286,7 @@ common.http.client.hc5.enabled=true
 查看 [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java)
 以了解更多。
 
-### Load Balancer
+### 负载均衡
 
 关于负载均衡器在HTTP调用中的使用，请参考相关内容 [Higher level Clients](#higher_level_clients)
 
@@ -382,7 +382,7 @@ SocketConfig#setSoTimeout(Timeout) 来确保复用连接时也同样有效。
 该 issue 将在 5.2.2 和 5.3-alpha2 的更新中被修复。
 查看 [Issue in Apache's Jira](https://issues.apache.org/jira/browse/HTTPCLIENT-2299?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel)
 
-## Circuit Breaker
+## 断路器
 
 在微服务架构中，服务到服务的调用无处不在。同时，服务不可靠随时可能发生。使用断路器可以让微服务在关联服务发生故障时继续运行，从而防止级联故障并为故障服务提供恢复时间。
 
@@ -416,7 +416,7 @@ RedisHelpers 的默认实现基于 StringRedisTemplate 和 JacksonJsonHelpers，
 
 查看 [RedisHelpersAutoConfiguration](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/redis/RedisHelpersAutoConfiguration.java)
 
-## Context
+## 上下文
 
 在微服务实践中，经常需要跨服务传输上下文信息，用于业务逻辑、中间件或某些框架。本项目默认提供了一个基于 ThreadLocal
 的 [Context](../yorozuya-common/src/main/java/com/github/ksewen/yorozuya/common/context/Context.java)
@@ -460,7 +460,7 @@ common:
 
 查看 [示例项目](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
 
-## Observation and monitor
+## 观测和监控
 
 ### Micrometer Observation
 
@@ -468,7 +468,7 @@ Micrometer-observation 默认已经集成。 并且该功能未来将会集成�
 
 查看 [官方文档](https://micrometer.io/docs/observation) 以了解更多。
 
-### AOP Logging
+### AOP 日志记录
 
 用于记录请求和响应信息（Debug）以及错误日志（Error）的切面日志记录器默认开启。
 
