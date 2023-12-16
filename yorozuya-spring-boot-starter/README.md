@@ -481,7 +481,7 @@ common:
       repetition-strategy: COVER
 ```
 
-See
+See 
 the [sample project](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
 
 ## Observation and monitor

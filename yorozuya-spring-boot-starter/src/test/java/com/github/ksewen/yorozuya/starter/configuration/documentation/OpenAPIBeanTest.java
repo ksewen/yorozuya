@@ -31,7 +31,6 @@ public class OpenAPIBeanTest {
 
   @Test
   void test() {
-
     assertThat(openAPI)
         .matches(o -> o.getInfo() != null, "info object is null")
         .matches(
