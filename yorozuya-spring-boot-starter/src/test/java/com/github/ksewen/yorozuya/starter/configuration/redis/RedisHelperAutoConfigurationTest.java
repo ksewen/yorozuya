@@ -72,7 +72,7 @@ class RedisHelperAutoConfigurationTest {
             });
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(ObjectMapper.class)
   static class MockJsonHelpersAutoConfiguration {
 
@@ -82,7 +82,7 @@ class RedisHelperAutoConfigurationTest {
     }
   }
 
-  @Configuration
+  @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(StringRedisTemplate.class)
   static class MockRedisHelpersAutoConfiguration {
     @Bean

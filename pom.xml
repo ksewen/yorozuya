@@ -14,12 +14,13 @@
     <name>yorozuya</name>
     <description>Enterprise-level Spring Cloud integration project.</description>
     <properties>
-        <revision>0.2.0</revision>
+        <revision>0.3.0</revision>
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
         <springdoc.version>2.2.0</springdoc.version>
         <yorozuya.version>${revision}</yorozuya.version>
         <guava.version>32.1.2-jre</guava.version>
+        <jjwt.version>0.12.3</jjwt.version>
         <ok.http.3.version>4.11.0</ok.http.3.version>
         <http.client.version>5.2.1</http.client.version>
         <swagger.annotations.jakarta.version>2.2.15</swagger.annotations.jakarta.version>
@@ -76,12 +77,24 @@
                 <artifactId>yorozuya-facade</artifactId>
                 <version>${yorozuya.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.ksewen</groupId>
+                <artifactId>yorozuya-auth-server</artifactId>
+                <version>${yorozuya.version}</version>
+            </dependency>
 
             <!-- Guava -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- jjwt -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
             </dependency>
 
             <!-- Springdoc -->
@@ -119,6 +132,7 @@
             <modules>
                 <module>yorozuya-eureka</module>
                 <module>yorozuya-common</module>
+                <module>yorozuya-auth</module>
                 <module>yorozuya-facade</module>
                 <module>yorozuya-spring-boot-starter</module>
                 <module>yorozuya-samples</module>
@@ -136,6 +150,7 @@
             <id>test</id>
             <modules>
                 <module>yorozuya-common</module>
+                <module>yorozuya-auth</module>
                 <module>yorozuya-facade</module>
                 <module>yorozuya-spring-boot-starter</module>
                 <module>yorozuya-test</module>

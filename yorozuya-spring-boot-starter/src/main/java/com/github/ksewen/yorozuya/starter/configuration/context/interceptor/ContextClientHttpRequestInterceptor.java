@@ -2,12 +2,12 @@ package com.github.ksewen.yorozuya.starter.configuration.context.interceptor;
 
 import com.github.ksewen.yorozuya.common.context.Context;
 import com.github.ksewen.yorozuya.starter.configuration.context.ServiceContextProperties;
+import com.github.ksewen.yorozuya.starter.configuration.http.client.interceptor.CustomClientHttpRequestInterceptor;
 import java.io.IOException;
 import java.util.Map;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.CollectionUtils;
 
@@ -16,7 +16,7 @@ import org.springframework.util.CollectionUtils;
  * @date 17.10.2023 12:02
  */
 public class ContextClientHttpRequestInterceptor extends ContextKeyValidChecker
-    implements ClientHttpRequestInterceptor {
+    implements CustomClientHttpRequestInterceptor {
 
   private final Context context;
 
