@@ -1,6 +1,8 @@
+server:
+  port: 38080
 spring:
   application:
-    name: eureka-client
+    name: rest-client
   cloud:
     openfeign:
       client:
@@ -8,31 +10,16 @@ spring:
           default:
             connectTimeout: ${common.http.client.hc5.connect-timeout}
             read-timeout: ${common.http.client.hc5.socket-timeout}
-          #            logger-level: FULL
+          restClient:
+            url: http://127.0.0.1:38080/rest
       httpclient:
         hc5:
           enabled: true
-    loadbalancer:
-      enabled: true
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8001/eureka
 
 common:
   http:
     client:
       hc5:
+        enabled: true
         connect-timeout: 3000
         socket-timeout: 5000
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - health
-          - info
-
-#debug: true

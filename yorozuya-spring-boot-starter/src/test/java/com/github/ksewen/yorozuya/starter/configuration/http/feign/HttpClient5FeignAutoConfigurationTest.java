@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration;
 import feign.hc5.ApacheHttp5Client;
-import feign.okhttp.OkHttpClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.FilteredClassLoader;
@@ -35,8 +34,6 @@ class HttpClient5FeignAutoConfigurationTest {
               assertThat(context)
                   .getBean("feignClient")
                   .isSameAs(context.getBean(ApacheHttp5Client.class));
-
-              assertThat(context).doesNotHaveBean(OkHttpClient.class);
             });
   }
 
@@ -56,8 +53,6 @@ class HttpClient5FeignAutoConfigurationTest {
               assertThat(context)
                   .getBean("feignClient")
                   .isSameAs(context.getBean(ApacheHttp5Client.class));
-
-              assertThat(context).doesNotHaveBean(OkHttpClient.class);
             });
   }
 

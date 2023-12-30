@@ -28,8 +28,6 @@ class HttpClientRestTemplateCustomizerAutoConfigurationTest {
               assertThat(context)
                   .getBean("httpClientRestTemplateCustomizer")
                   .isSameAs(context.getBean(RestTemplateCustomizer.class));
-
-              assertThat(context).doesNotHaveBean("okHttp3ClientRestTemplateCustomizer");
             });
   }
 }

@@ -2,7 +2,6 @@ package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
 import com.github.ksewen.yorozuya.starter.configuration.http.client.interceptor.CustomClientHttpRequestInterceptor;
 import lombok.Generated;
-import okhttp3.OkHttpClient;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -49,31 +47,12 @@ public class RestTemplateAutoConfiguration {
   }
 
   @Configuration(proxyBeanMethods = false)
-  @ConditionalOnClass(OkHttpClient.class)
-  @AutoConfigureAfter(OkHttp3ClientAutoConfiguration.class)
-  public static class OkHttp3ClientRestTemplateCustomizerAutoConfiguration {
-
-    @Bean
-    @ConditionalOnMissingBean(RestTemplateCustomizer.class)
-    @ConditionalOnBean(OkHttpClient.class)
-    public RestTemplateCustomizer okHttp3ClientRestTemplateCustomizer(
-        @Autowired OkHttpClient okHttpClient,
-        @Autowired ObjectProvider<CustomClientHttpRequestInterceptor> interceptors) {
-      return restTemplate -> {
-        restTemplate.setRequestFactory(new OkHttp3ClientHttpRequestFactory(okHttpClient));
-        restTemplate.setInterceptors(
-            interceptors.orderedStream().map(x -> (ClientHttpRequestInterceptor) x).toList());
-      };
-    }
-  }
-
-  @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(HttpClient.class)
   @AutoConfigureAfter(HttpClientAutoConfiguration.class)
   public static class HttpClientRestTemplateCustomizerAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean(value = {RestTemplateCustomizer.class, OkHttpClient.class})
+    @ConditionalOnMissingBean(value = RestTemplateCustomizer.class)
     @ConditionalOnBean(HttpClient.class)
     public RestTemplateCustomizer httpClientRestTemplateCustomizer(
         @Autowired HttpClient httpClient,
