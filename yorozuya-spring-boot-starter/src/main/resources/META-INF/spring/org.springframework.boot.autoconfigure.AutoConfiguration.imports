@@ -25,11 +25,10 @@ com.github.ksewen.yorozuya.starter.configuration.redis.RedisHelpersAutoConfigura
 
 # rest client
 com.github.ksewen.yorozuya.starter.configuration.http.client.HttpClientAutoConfiguration
-com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration
-com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.client.RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestClientAutoConfiguration
+com.github.ksewen.yorozuya.starter.configuration.http.client.RestClientAutoConfiguration.RestClientBuilderAutoConfiguration
 
 # feign
-com.github.ksewen.yorozuya.starter.configuration.http.feign.OkHttp3FeignAutoConfiguration
 com.github.ksewen.yorozuya.starter.configuration.http.feign.HttpClient5FeignAutoConfiguration

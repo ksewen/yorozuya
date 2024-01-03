@@ -18,8 +18,7 @@
         <module>eureka-client</module>
         <module>spring-data-jpa</module>
         <module>spring-data-redis</module>
-        <module>rest-client-okhttp</module>
-        <module>rest-client-httpclient</module>
+        <module>rest-client</module>
         <module>circuit-breaker-resilience4j</module>
         <module>micrometer-observation</module>
         <module>auth-server</module>

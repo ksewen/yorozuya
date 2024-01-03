@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -25,6 +26,9 @@ public class TestController {
   @Qualifier("loadBalancerRestTemplate")
   private final RestTemplate restTemplate;
 
+  @Qualifier("loadBalancerRestClient")
+  private final RestClient restClient;
+
   @Value("${instance.id:1}")
   private String instance;
 
@@ -39,6 +43,14 @@ public class TestController {
                 null,
                 new ParameterizedTypeReference<Result<InstanceResponse>>() {})
             .getBody();
+    return Result.success(result.getData());
+  }
+
+  @GetMapping("/rest-client")
+  public Result<InstanceResponse> restClient() {
+    String url = "http://eureka-client/rest/server";
+    Result<InstanceResponse> result =
+        this.restClient.get().uri(url).retrieve().body(new ParameterizedTypeReference<>() {});
     return Result.success(result.getData());
   }
 

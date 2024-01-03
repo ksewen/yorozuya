@@ -6,21 +6,25 @@ spring:
       client:
         config:
           default:
-            connectTimeout: ${common.ok.http.client.connect-timeout}
-            read-timeout: ${common.ok.http.client.read-timeout}
+            connectTimeout: ${common.http.client.hc5.connect-timeout}
+            read-timeout: ${common.http.client.hc5.socket-timeout}
           feignClient:
             url: http://127.0.0.1:8080/rest
         default-config:
-      okhttp:
-        enabled: true
+      httpclient:
+        hc5:
+          enabled: true
 
 common:
-  ok:
-    http:
-      client:
+  http:
+    client:
+      hc5:
         connect-timeout: 3000
-        read-timeout: 5000
-        write-timeout: 5000
+        socket-timeout: 5000
+  rest:
+    client:
+      default:
+        enabled: true
   context:
     service:
       default-inject-key-set:
@@ -46,7 +50,6 @@ logging:
           yorozuya:
             starter:
               aspect: debug
-  #    okhttp3: debug
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 #debug: true
