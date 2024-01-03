@@ -2,7 +2,7 @@ server:
   port: 38080
 spring:
   application:
-    name: micrometer-observation
+    name: rest-client
   cloud:
     openfeign:
       client:
@@ -10,7 +10,7 @@ spring:
           default:
             connectTimeout: ${common.http.client.hc5.connect-timeout}
             read-timeout: ${common.http.client.hc5.socket-timeout}
-          feignClient:
+          restClient:
             url: http://127.0.0.1:38080/rest
       httpclient:
         hc5:
@@ -20,12 +20,6 @@ common:
   http:
     client:
       hc5:
+        enabled: true
         connect-timeout: 3000
         socket-timeout: 5000
-  context:
-    service:
-      default-inject-key-set:
-        - test1
-        - test2
-      limit-set:
-        - test1

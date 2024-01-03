@@ -22,7 +22,6 @@ import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -31,20 +30,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * If you need to specifically use @see <a
- * href="https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5">httpclient5</a>,
- * you should explicitly import the required dependencies and exclude the {@link
- * com.github.ksewen.yorozuya.starter.configuration.http.client.OkHttp3ClientAutoConfiguration}.
- *
  * @author ksewen
  * @date 28.08.2023 16:16
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(HttpClient.class)
-@ConditionalOnMissingBean(OkHttp3ClientAutoConfiguration.class)
 @EnableConfigurationProperties(HttpClientProperties.class)
-@ConditionalOnProperty(value = "common.http.client.hc5.enabled")
-@AutoConfigureAfter(OkHttp3ClientAutoConfiguration.class)
+@ConditionalOnProperty(
+    value = "common.http.client.hc5.enabled",
+    havingValue = "true",
+    matchIfMissing = true)
 @RequiredArgsConstructor
 public class HttpClientAutoConfiguration {
 

@@ -6,15 +6,16 @@ spring:
       client:
         config:
           default:
-            connect-timeout: ${common.ok.http.client.connect-timeout}
-            read-timeout: ${common.ok.http.client.read-timeout}
+            connect-timeout: ${common.http.client.hc5.connect-timeout}
+            read-timeout: ${common.http.client.hc5.socket-timeout}
           #            logger-level: FULL
           restClient:
             url: http://127.0.0.1:8080/
           invalidRestClient:
             url: http://127.0.0.1:38080/
-      okhttp:
-        enabled: true
+      httpclient:
+        hc5:
+          enabled: true
 
 eureka:
   client:
@@ -22,12 +23,11 @@ eureka:
     fetch-registry: false
 
 common:
-  ok:
-    http:
-      client:
+  http:
+    client:
+      hc5:
         connect-timeout: 3000
-        read-timeout: 5000
-        write-timeout: 5000
+        socket-timeout: 5000
 
 resilience4j:
   circuitbreaker:
@@ -77,7 +77,4 @@ management:
     ratelimiters:
       enabled: true
 
-#logging:
-#  level:
-#    okhttp3: debug
-debug: true
+#debug: true

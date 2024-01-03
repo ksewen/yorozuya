@@ -18,6 +18,12 @@ haben.
 > sie in ihr freiberufliches Unternehmen auf und die drei werden als „Yorozuya“ bekannt. (万事屋, „Wir machen alles“
 > oder wörtlich „The Anything Store“).
 
+## Architektur
+
+Eine typische Microservice-Gruppe basiert auf Yorozuya.
+
+![Architektur](https://raw.githubusercontent.com/ksewen/Bilder/main/202401031853145.png)
+
 ## Module
 
 ### Gateway
@@ -31,6 +37,10 @@ Planen...
 Implementieren...
 
 #### Konfigurationszentrum
+
+Planen...
+
+#### Offene API-Plattform
 
 Planen...
 
