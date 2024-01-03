@@ -166,10 +166,7 @@ public class Application {
 To customize the lower level client, you can make use of the following properties:
 
 ```shell
-# Enable the okhttp3 client for feign
-spring.cloud.openfeign.okhttp.enabled=true
-
-# Enable the okhttp3 client for feign
+# Enable the apache httpclient 5 for feign
 # If spring.cloud.openfeign.okhttp.enabled=true was used, this property is not effective.
 spring.cloud.openfeign.httpclient.hc5.enabled=true
 ```
@@ -184,8 +181,7 @@ spring.cloud.loadbalancer.enabled=false
 For detailed information, please see the projects.  
 Without Loadbalancer:
 
-- [rest-client-okhttp](../yorozuya-samples/rest-client-okhttp)
-- [rest-client-httpclient](../yorozuya-samples/rest-client-httpclient)
+- [rest-client](../yorozuya-samples/rest-client)
 
 With Loadbalancer:
 
@@ -205,28 +201,7 @@ common.rest.template.default.enabled=false
 common.rest.template.loadbalancer.enabled=false
 ```
 
-OkHttpClient 3 is enabled for RestTemplate by default, you can edit the dependency in pom.xml to replace with
-Apache HttpClient 5.
-
-```xml
-
-<dependencies>
-    <dependency>
-        <groupId>com.github.ksewen</groupId>
-        <artifactId>yorozuya-spring-boot-starter</artifactId>
-        <exclusions>
-            <exclusion>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.httpcomponents.client5</groupId>
-        <artifactId>httpclient5</artifactId>
-    </dependency>
-</dependencies>
-```
+Apache HttpClient 5 is enabled for RestTemplate by default.
 
 The default clients can be configured with the properties, please see [Lower level Clients](#lower_level_clients).
 To replace with your own client, inject your custom bean please.
@@ -234,12 +209,46 @@ To replace with your own client, inject your custom bean please.
 For detailed information, please see the projects.  
 Without Loadbalancer:
 
-- [rest-client-okhttp](../yorozuya-samples/rest-client-okhttp)
-- [rest-client-httpclient](../yorozuya-samples/rest-client-httpclient)
+- [rest-client](../yorozuya-samples/rest-client)
 
 With Loadbalancer:
 
 - [eureka-client](../yorozuya-samples/eureka-client)
+
+#### RestClient
+
+Spring Framework 6.1 M2 introduces the RestClient, a new synchronous HTTP client. The RestClient offers a modern, fluent
+API. It offers an abstraction over HTTP libraries that allows for convenient conversion from Java object to HTTP
+request, and creation of objects from the HTTP response.
+
+The new Client is disabled by default, to activate this, you can make use of following properties:
+
+```shell
+# RestClientAutoConfiguration offers two beans, one with load balancer and other without.
+
+# Enable the default restClient
+common.rest.client.default.enabled=true
+
+# Enable the default restClient with Loadbalancer
+common.rest.client.loadbalancer.enabled=true
+```
+
+Apache HttpClient 5 is enabled for RestClient by default.
+
+The default clients can be configured with the properties, please see [Lower level Clients](#lower_level_clients).
+To replace with your own client, inject your custom bean please.
+
+For detailed information, please see the projects.  
+Without Loadbalancer:
+
+- [rest-client](../yorozuya-samples/rest-client)
+
+With Loadbalancer:
+
+- [eureka-client](../yorozuya-samples/eureka-client)
+
+See the [Documentation of RestClient](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html)
+to learn more about this new Client.
 
 <span id="lower_level_clients">
 
@@ -247,48 +256,13 @@ With Loadbalancer:
 
 </span>
 
-<span id="okhttp_3">
-
-#### OkHttp 3
-
-</span>
-
-OkHttpClient 3 is enabled by default, to deactivate this, you can make use of following properties:
-
-```shell
-# the default value is true
-common.ok.http.client.enabled=false
-```
-
-See [OkHttp3ClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/OkHttp3ClientProperties.java)
-to learn more about the properties.
-
 #### Apache HttpClient 5
 
-To activate this, you can make use of following properties:
+To deactivate this, you can make use of following properties:
 
 ```shell
 # the default value is true
-common.http.client.hc5.enabled=true
-```
-
-**Attention:** HttpClient 5 will definitely not register when OkHttpClient 3 is used, please exclude the
-okhttp dependency from pom.xml or [use the property](#okhttp_3) to disable it.
-
-```xml
-
-<dependencies>
-    <dependency>
-        <groupId>com.github.ksewen</groupId>
-        <artifactId>yorozuya-spring-boot-starter</artifactId>
-        <exclusions>
-            <exclusion>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-</dependencies>
+common.http.client.hc5.enabled=false
 ```
 
 See [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java)
@@ -305,7 +279,7 @@ Firstly, Spring Cloud Load Balancer does not provide configuration for timeouts,
 from [ribbon](https://github.com/Netflix/ribbon), which used to be a popular choice. so there is an even simpler
 relationship between them in this project.
 
-#### Openfeign with OkHttp 3 / Apache HttpClient 5
+#### Openfeign with Apache HttpClient 5
 
 Because Openfeign overrides configurations from the low-level client, it's preferable to use properties for Openfeign
 to specifying connection timeout properties.
@@ -314,12 +288,12 @@ The better way is to use variables in the properties file, for example:
 
 ```yaml
 common:
-  ok:
-    http:
-      client:
+  http:
+    client:
+      hc5:
+        enabled: true
         connect-timeout: 3000
-        read-timeout: 5000
-        write-timeout: 5000
+        socket-timeout: 5000
 
 spring:
   cloud:
@@ -327,37 +301,11 @@ spring:
       client:
         config:
           default:
-            connectTimeout: ${common.ok.http.client.connect-timeout}
-            read-timeout: ${common.ok.http.client.read-timeout}
+            connectTimeout: ${common.http.client.hc5.connect-timeout}
+            read-timeout: ${common.http.client.hc5.socket-timeout}
 ```
 
-See [OkHttpClient](https://github.com/OpenFeign/feign/blob/master/okhttp/src/main/java/feign/okhttp/OkHttpClient.java)
-and [ApacheHttp5Client](https://github.com/OpenFeign/feign/blob/master/hc5/src/main/java/feign/hc5/ApacheHttp5Client.java)
-
-#### RestTemplate with Okhttp 3
-
-You can configure such settings through the
-[OkHttp3ClientHttpRequestFactory#setConnectTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
-,
-[OkHttp3ClientHttpRequestFactory#setReadTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
-and
-[OkHttp3ClientHttpRequestFactory#setWriteTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
-of RestTemplate. But from the code, it can be seen that a new client instance is created.
-
-So it's the better way to directly use the configurations of OkHttpClient:
-
-```yaml
-common:
-  ok:
-    http:
-      client:
-        connect-timeout: 3000
-        read-timeout: 5000
-        write-timeout: 5000
-```
-
-To understand all properties, please
-see [OkHttp3ClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/OkHttp3ClientProperties.java)
+See [ApacheHttp5Client](https://github.com/OpenFeign/feign/blob/master/hc5/src/main/java/feign/hc5/ApacheHttp5Client.java)
 
 #### RestTemplate with Apache HttpClient 5
 
@@ -381,20 +329,6 @@ common:
         connect-timeout: 3000
         socket-timeout: 5000
 ```
-
-**PS** In this project, you can specify the SocketTimeout configuration when declaring the
-[PoolingHttpClientConnectionManager](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManager.java)
-.
-The [PoolingHttpClientConnectionManager](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManager.java)
-allows you to set the SocketTimeout
-separately
-by [SocketConfig](https://github.com/apache/httpcomponents-core/blob/master/httpcore5/src/main/java/org/apache/hc/core5/http/io/SocketConfig.java)
-and [ConnectionConfig](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/config/ConnectionConfig.java)
-. However, if you only configure ConnectionConfig#setSocketTimeout(Timeout), it won't take effect. Please achieve this
-by configuring SocketConfig#setSoTimeout(Timeout).
-
-This issue is fixed in version 5.2.2 and 5.3-alpha2.
-See [Issue in Apache's Jira](https://issues.apache.org/jira/browse/HTTPCLIENT-2299?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel)
 
 ## Circuit Breaker
 
@@ -481,7 +415,7 @@ common:
       repetition-strategy: COVER
 ```
 
-See 
+See
 the [sample project](../yorozuya-samples/micrometer-observation/src/main/java/com/github/ksewen/yorozuya/sample/micrometer/observation/controller/ContextController.java)
 
 ## Observation and monitor

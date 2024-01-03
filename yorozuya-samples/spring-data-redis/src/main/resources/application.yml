@@ -2,4 +2,4 @@ spring:
   application:
     name: spring-data-redis
 
-debug: true
+#debug: true

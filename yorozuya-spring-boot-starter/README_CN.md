@@ -160,10 +160,7 @@ public class Application {
 需要自定义底层客户端，可以参考以下配置：
 
 ```shell
-# Enable the okhttp3 client for feign
-spring.cloud.openfeign.okhttp.enabled=true
-
-# Enable the okhttp3 client for feign
+# Enable the apache httpclient 5 for feign
 # If spring.cloud.openfeign.okhttp.enabled=true was used, this property is not effective.
 spring.cloud.openfeign.httpclient.hc5.enabled=true
 ```
@@ -177,8 +174,7 @@ spring.cloud.loadbalancer.enabled=false
 详情请参考示例项目。
 不使用 Loadbalancer:
 
-- [rest-client-okhttp](../yorozuya-samples/rest-client-okhttp)
-- [rest-client-httpclient](../yorozuya-samples/rest-client-httpclient)
+- [rest-client](../yorozuya-samples/rest-client)
 
 使用 Loadbalancer:
 
@@ -198,27 +194,7 @@ common.rest.template.default.enabled=false
 common.rest.template.loadbalancer.enabled=false
 ```
 
-默认的底层客户端是 OkHttpClient 3，可以通过编辑 pom.xml 文件排除依赖的方式，将底层客户端替换为 Apache HttpClient 5。
-
-```xml
-
-<dependencies>
-    <dependency>
-        <groupId>com.github.ksewen</groupId>
-        <artifactId>yorozuya-spring-boot-starter</artifactId>
-        <exclusions>
-            <exclusion>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.httpcomponents.client5</groupId>
-        <artifactId>httpclient5</artifactId>
-    </dependency>
-</dependencies>
-```
+默认的底层客户端是 Apache HttpClient 5。
 
 可以通过配置参数，来控制底层客户端的行为，查看 [Lower level Clients](#lower_level_clients)。
 如果要替换为自定义的客户端，请注入自定义的 Bean。
@@ -226,12 +202,44 @@ common.rest.template.loadbalancer.enabled=false
 详情请参考示例项目。
 不使用 Loadbalancer:
 
-- [rest-client-okhttp](../yorozuya-samples/rest-client-okhttp)
-- [rest-client-httpclient](../yorozuya-samples/rest-client-httpclient)
+- [rest-client](../yorozuya-samples/rest-client)
 
 使用 Loadbalancer:
 
 - [eureka-client](../yorozuya-samples/eureka-client)
+
+#### RestClient
+
+Spring Framework 6.1 M2 提供了新的同步 HTTP 客户端 RestClient。RestClient 提供了现代的、流式的 API。它提供了基于 HTTP
+库的抽象，允许方便地将 Java 对象转换为 HTTP 请求，以及从 HTTP 响应创建对象。
+
+新功能默认未被启用，要启用这个功能，可以参考以下配置：
+
+```shell
+# RestClientAutoConfiguration offers two beans, one with load balancer and other without.
+
+# Enable the default restClient
+common.rest.client.default.enabled=true
+
+# Enable the default restClient with Loadbalancer
+common.rest.client.loadbalancer.enabled=true
+```
+
+默认的底层客户端是 Apache HttpClient 5。
+
+可以通过配置参数，来控制底层客户端的行为，查看 [Lower level Clients](#lower_level_clients)。
+如果要替换为自定义的客户端，请注入自定义的 Bean。
+
+详情请参考示例项目。
+不使用 Loadbalancer:
+
+- [rest-client](../yorozuya-samples/rest-client)
+
+使用 Loadbalancer:
+
+- [eureka-client](../yorozuya-samples/eureka-client)
+
+参考 [RestClient 的官方文档](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html) 以了解更多。
 
 <span id="lower_level_clients">
 
@@ -239,48 +247,13 @@ common.rest.template.loadbalancer.enabled=false
 
 </span>
 
-<span id="okhttp_3">
-
-#### OkHttp 3
-
-</span>
-
-OkHttpClient 3 默认启用，要停用这个功能，可以参考以下配置：
-
-```shell
-# the default value is true
-common.ok.http.client.enabled=false
-```
-
-查看 [OkHttp3ClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/OkHttp3ClientProperties.java)
-以了解更多。
-
 #### Apache HttpClient 5
 
-要启用这个功能，可以参考以下配置：
+要禁用这个功能，可以参考以下配置：
 
 ```shell
 # the default value is true
-common.http.client.hc5.enabled=true
-```
-
-**注意:** 启用 OkHttpClient 3 时 HttpClient 5 不会被注册，请在 pom.xml 中排除依赖或使用配置 [use the property](#okhttp_3)
-以停用 OkHttpClient 3。
-
-```xml
-
-<dependencies>
-    <dependency>
-        <groupId>com.github.ksewen</groupId>
-        <artifactId>yorozuya-spring-boot-starter</artifactId>
-        <exclusions>
-            <exclusion>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-</dependencies>
+common.http.client.hc5.enabled=false
 ```
 
 查看 [HttpClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/HttpClientProperties.java)
@@ -295,7 +268,7 @@ common.http.client.hc5.enabled=true
 首先，Spring Cloud Load Balancer 不提供超时配置，这使其与过去流行的 [ribbon](https://github.com/Netflix/ribbon) 不同。
 所以在这个项目中的配置就更加简单了。
 
-#### Openfeign 集成 OkHttp 3 或 Apache HttpClient 5
+#### Openfeign 集成 Apache HttpClient 5
 
 由于 Openfeign 会覆盖来自低级客户端的配置，因此最好使用 Openfeign 的属性来指定连接超时属性。
 
@@ -303,12 +276,12 @@ common.http.client.hc5.enabled=true
 
 ```yaml
 common:
-  ok:
-    http:
-      client:
+  http:
+    client:
+      hc5:
+        enabled: true
         connect-timeout: 3000
-        read-timeout: 5000
-        write-timeout: 5000
+        socket-timeout: 5000
 
 spring:
   cloud:
@@ -316,37 +289,11 @@ spring:
       client:
         config:
           default:
-            connectTimeout: ${common.ok.http.client.connect-timeout}
-            read-timeout: ${common.ok.http.client.read-timeout}
+            connectTimeout: ${common.http.client.hc5.connect-timeout}
+            read-timeout: ${common.http.client.hc5.socket-timeout}
 ```
 
-查看 [OkHttpClient](https://github.com/OpenFeign/feign/blob/master/okhttp/src/main/java/feign/okhttp/OkHttpClient.java)
-和 [ApacheHttp5Client](https://github.com/OpenFeign/feign/blob/master/hc5/src/main/java/feign/hc5/ApacheHttp5Client.java)
-
-#### RestTemplate 集成 Okhttp 3
-
-可以通过设置 RestTemplate 的属性
-[OkHttp3ClientHttpRequestFactory#setConnectTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
-,
-[OkHttp3ClientHttpRequestFactory#setReadTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
-和
-[OkHttp3ClientHttpRequestFactory#setWriteTimeout(int)](https://github.com/spring-projects/spring-framework/blob/6.0.x/spring-web/src/main/java/org/springframework/http/client/OkHttp3ClientHttpRequestFactory.java)
-来配置。但是从代码中看出，一个新的 client 实例被创建了。
-
-所以直接使用 OkHttpClient 的配置是更好的方法：
-
-```yaml
-common:
-  ok:
-    http:
-      client:
-        connect-timeout: 3000
-        read-timeout: 5000
-        write-timeout: 5000
-```
-
-查看 [OkHttp3ClientProperties](./src/main/java/com/github/ksewen/yorozuya/starter/configuration/http/client/OkHttp3ClientProperties.java)
-以了解所有配置项。
+查看 [ApacheHttp5Client](https://github.com/OpenFeign/feign/blob/master/hc5/src/main/java/feign/hc5/ApacheHttp5Client.java)
 
 #### RestTemplate 集成 Apache HttpClient 5
 
@@ -368,19 +315,6 @@ common:
         connect-timeout: 3000
         socket-timeout: 5000
 ```
-
-**PS**
-在本项目中，可以在声明 [PoolingHttpClientConnectionManager](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManager.java)
-的同时指定 SocketTimeout 。
-[PoolingHttpClientConnectionManager](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/impl/io/PoolingHttpClientConnectionManager.java)
-允许您分别通过 [SocketConfig](https://github.com/apache/httpcomponents-core/blob/master/httpcore5/src/main/java/org/apache/hc/core5/http/io/SocketConfig.java)
-和 [ConnectionConfig](https://github.com/apache/httpcomponents-client/blob/master/httpclient5/src/main/java/org/apache/hc/client5/http/config/ConnectionConfig.java)
-配置 SocketTimeout。
-但是，只配置 ConnectionConfig#setSocketTimeout(Timeout) 只会在连接建立的第一次请求生效。请通过配置
-SocketConfig#setSoTimeout(Timeout) 来确保复用连接时也同样有效。
-
-该 issue 将在 5.2.2 和 5.3-alpha2 的更新中被修复。
-查看 [Issue in Apache's Jira](https://issues.apache.org/jira/browse/HTTPCLIENT-2299?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel)
 
 ## 断路器
 

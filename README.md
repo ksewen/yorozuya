@@ -17,6 +17,12 @@ and requests from others.
 > their freelancing business and the three become known as "Yorozuya" (万事屋, "We do everything" or literally "The
 > Anything Store").
 
+## Architecture
+
+A typical microservice group is based on Yorozuya.
+
+![Architecture](https://raw.githubusercontent.com/ksewen/Bilder/main/202401031853145.png)
+
 ## Modules
 
 ### Gateway
@@ -30,6 +36,10 @@ Planning...
 Work in progress...
 
 #### Configuration Service
+
+Planning...
+
+#### Open API Platform
 
 Planning...
 

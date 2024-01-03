@@ -2,6 +2,7 @@ package com.github.ksewen.yorozuya.starter.configuration.http.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -28,11 +29,8 @@ class RestTemplateAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                OkHttp3ClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
-                    .class,
-                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
                     .class,
                 MockRestTemplateBuilderAutoConfiguration.class))
         .run(
@@ -47,11 +45,8 @@ class RestTemplateAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                OkHttp3ClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
-                    .class,
-                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
                     .class,
                 MockRestTemplateBuilderAutoConfiguration.class))
         .run(
@@ -67,11 +62,8 @@ class RestTemplateAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                OkHttp3ClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
-                    .class,
-                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
                     .class,
                 MockRestTemplateBuilderAutoConfiguration.class))
         .withPropertyValues("common.rest.template.default.enabled=false")
@@ -87,11 +79,8 @@ class RestTemplateAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                OkHttp3ClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
-                    .class,
-                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
                     .class,
                 MockRestTemplateBuilderAutoConfiguration.class))
         .run(
@@ -106,11 +95,8 @@ class RestTemplateAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                OkHttp3ClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
-                    .class,
-                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
                     .class,
                 MockRestTemplateBuilderAutoConfiguration.class))
         .withClassLoader(
@@ -127,11 +113,8 @@ class RestTemplateAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                OkHttp3ClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
-                    .class,
-                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
                     .class,
                 MockRestTemplateBuilderAutoConfiguration.class))
         .withPropertyValues("spring.cloud.loadbalancer.enabled=false")
@@ -147,11 +130,8 @@ class RestTemplateAutoConfigurationTest {
         .withConfiguration(
             AutoConfigurations.of(
                 HttpClientAutoConfiguration.class,
-                OkHttp3ClientAutoConfiguration.class,
                 RestTemplateAutoConfiguration.class,
                 RestTemplateAutoConfiguration.HttpClientRestTemplateCustomizerAutoConfiguration
-                    .class,
-                RestTemplateAutoConfiguration.OkHttp3ClientRestTemplateCustomizerAutoConfiguration
                     .class,
                 MockRestTemplateBuilderAutoConfiguration.class))
         .withPropertyValues("common.rest.template.loadbalancer.enabled=false")
@@ -173,18 +153,12 @@ class RestTemplateAutoConfigurationTest {
 
     @Bean
     public ClientHttpRequestInterceptor clientHttpRequestInterceptor1() {
-      return (request, body, execution) -> {
-        log.info("do something...");
-        return execution.execute(request, body);
-      };
+      return mock(ClientHttpRequestInterceptor.class);
     }
 
     @Bean
     public ClientHttpRequestInterceptor clientHttpRequestInterceptor2() {
-      return (request, body, execution) -> {
-        log.info("do something else...");
-        return execution.execute(request, body);
-      };
+      return mock(ClientHttpRequestInterceptor.class);
     }
   }
 }
