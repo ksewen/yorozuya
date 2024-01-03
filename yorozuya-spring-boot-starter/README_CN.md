@@ -208,6 +208,39 @@ common.rest.template.loadbalancer.enabled=false
 
 - [eureka-client](../yorozuya-samples/eureka-client)
 
+#### RestClient
+
+Spring Framework 6.1 M2 提供了新的同步 HTTP 客户端 RestClient。RestClient 提供了现代的、流式的 API。它提供了基于 HTTP
+库的抽象，允许方便地将 Java 对象转换为 HTTP 请求，以及从 HTTP 响应创建对象。
+
+新功能默认未被启用，要启用这个功能，可以参考以下配置：
+
+```shell
+# RestClientAutoConfiguration offers two beans, one with load balancer and other without.
+
+# Enable the default restClient
+common.rest.client.default.enabled=true
+
+# Enable the default restClient with Loadbalancer
+common.rest.client.loadbalancer.enabled=true
+```
+
+默认的底层客户端是 Apache HttpClient 5。
+
+可以通过配置参数，来控制底层客户端的行为，查看 [Lower level Clients](#lower_level_clients)。
+如果要替换为自定义的客户端，请注入自定义的 Bean。
+
+详情请参考示例项目。
+不使用 Loadbalancer:
+
+- [rest-client](../yorozuya-samples/rest-client)
+
+使用 Loadbalancer:
+
+- [eureka-client](../yorozuya-samples/eureka-client)
+
+参考 [RestClient 的官方文档](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html) 以了解更多。
+
 <span id="lower_level_clients">
 
 ### Lower level Clients

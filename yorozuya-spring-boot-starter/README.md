@@ -215,6 +215,41 @@ With Loadbalancer:
 
 - [eureka-client](../yorozuya-samples/eureka-client)
 
+#### RestClient
+
+Spring Framework 6.1 M2 introduces the RestClient, a new synchronous HTTP client. The RestClient offers a modern, fluent
+API. It offers an abstraction over HTTP libraries that allows for convenient conversion from Java object to HTTP
+request, and creation of objects from the HTTP response.
+
+The new Client is disabled by default, to activate this, you can make use of following properties:
+
+```shell
+# RestClientAutoConfiguration offers two beans, one with load balancer and other without.
+
+# Enable the default restClient
+common.rest.client.default.enabled=true
+
+# Enable the default restClient with Loadbalancer
+common.rest.client.loadbalancer.enabled=true
+```
+
+Apache HttpClient 5 is enabled for RestClient by default.
+
+The default clients can be configured with the properties, please see [Lower level Clients](#lower_level_clients).
+To replace with your own client, inject your custom bean please.
+
+For detailed information, please see the projects.  
+Without Loadbalancer:
+
+- [rest-client](../yorozuya-samples/rest-client)
+
+With Loadbalancer:
+
+- [eureka-client](../yorozuya-samples/eureka-client)
+
+See the [Documentation of RestClient](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html)
+to learn more about this new Client.
+
 <span id="lower_level_clients">
 
 ### Lower level Clients
