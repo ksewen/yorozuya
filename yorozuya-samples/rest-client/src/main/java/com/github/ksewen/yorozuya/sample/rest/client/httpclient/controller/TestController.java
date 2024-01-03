@@ -4,7 +4,9 @@ import com.github.ksewen.yorozuya.common.facade.response.Result;
 import com.github.ksewen.yorozuya.sample.rest.client.httpclient.remote.ServerFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -19,6 +21,8 @@ public class TestController {
 
   private final RestTemplate restTemplate;
 
+  private final RestClient restClient;
+
   private final ServerFacade serverFacade;
 
   @Value("${server.url:http://127.0.0.1:8080/rest/server}")
@@ -31,6 +35,22 @@ public class TestController {
       builder.queryParam("second", second);
     }
     Result<Boolean> result = this.restTemplate.getForObject(builder.toUriString(), Result.class);
+    return Result.success(result.getData());
+  }
+
+  @GetMapping("/rest-client")
+  public Result<Boolean> restClient(
+      @RequestParam(name = "second", required = false) Integer second) {
+    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.url);
+    if (second != null) {
+      builder.queryParam("second", second);
+    }
+    Result<Boolean> result =
+        this.restClient
+            .get()
+            .uri(builder.toUriString())
+            .retrieve()
+            .body(new ParameterizedTypeReference<>() {});
     return Result.success(result.getData());
   }
 

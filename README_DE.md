@@ -18,7 +18,7 @@ haben.
 > sie in ihr freiberufliches Unternehmen auf und die drei werden als „Yorozuya“ bekannt. (万事屋, „Wir machen alles“
 > oder wörtlich „The Anything Store“).
 
-## Architekt
+## Architektur
 
 Eine typische Microservice-Gruppe basiert auf Yorozuya.
 

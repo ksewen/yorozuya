@@ -17,7 +17,7 @@ and requests from others.
 > their freelancing business and the three become known as "Yorozuya" (万事屋, "We do everything" or literally "The
 > Anything Store").
 
-## Architect
+## Architecture
 
 A typical microservice group is based on Yorozuya.
 

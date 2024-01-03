@@ -73,6 +73,7 @@ public class RestTemplateAutoConfiguration {
     }
 
     @ConditionalOnClass(value = {LoadBalancerClient.class, LoadBalancerClientFactory.class})
+    @SuppressWarnings("unused")
     @Generated
     static class LoadBalancer {}
 
@@ -80,6 +81,7 @@ public class RestTemplateAutoConfiguration {
         value = "spring.cloud.loadbalancer.enabled",
         havingValue = "true",
         matchIfMissing = true)
+    @SuppressWarnings("unused")
     @Generated
     static class LoadBalancerEnable {}
 
@@ -87,6 +89,7 @@ public class RestTemplateAutoConfiguration {
         value = "common.rest.template.loadbalancer.enabled",
         havingValue = "true",
         matchIfMissing = true)
+    @SuppressWarnings("unused")
     @Generated
     static class Enable {}
   }

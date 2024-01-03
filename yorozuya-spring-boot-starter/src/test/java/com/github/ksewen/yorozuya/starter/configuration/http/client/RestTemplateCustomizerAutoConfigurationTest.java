@@ -11,7 +11,7 @@ import org.springframework.boot.web.client.RestTemplateCustomizer;
  * @author ksewen
  * @date 31.08.2023 17:43
  */
-class HttpClientRestTemplateCustomizerAutoConfigurationTest {
+class RestTemplateCustomizerAutoConfigurationTest {
 
   @Test
   void context() {

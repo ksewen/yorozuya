@@ -21,6 +21,10 @@ common:
       hc5:
         connect-timeout: 3000
         socket-timeout: 5000
+  rest:
+    client:
+      default:
+        enabled: true
   context:
     service:
       default-inject-key-set:
