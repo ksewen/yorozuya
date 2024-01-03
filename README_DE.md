@@ -22,7 +22,7 @@ haben.
 
 Eine typische Microservice-Gruppe basiert auf Yorozuya.
 
-![Architect](https://raw.githubusercontent.com/ksewen/Bilder/main/202401021738935.png)
+![Architektur](https://raw.githubusercontent.com/ksewen/Bilder/main/202401031853145.png)
 
 ## Module
 

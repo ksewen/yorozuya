@@ -18,7 +18,7 @@
 
 典型的基于 Yorozuya 的微服务集群。
 
-![Architect](https://raw.githubusercontent.com/ksewen/Bilder/main/202401021738935.png)
+![架构图](https://raw.githubusercontent.com/ksewen/Bilder/main/202401031853145.png)
 
 ## 模块
 

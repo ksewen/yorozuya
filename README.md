@@ -21,7 +21,7 @@ and requests from others.
 
 A typical microservice group is based on Yorozuya.
 
-![Architect](https://raw.githubusercontent.com/ksewen/Bilder/main/202401021738935.png)
+![Architecture](https://raw.githubusercontent.com/ksewen/Bilder/main/202401031853145.png)
 
 ## Modules
 
