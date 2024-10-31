@@ -9,9 +9,9 @@
 
 [English](./README.md) | [简体中文](./README_CN.md)
 
-Beschäftigung mit einem einsatzbereiten Microservice-Framework auf Basis von Spring Cloud für Unternehmen.
+Ein einsatzbereites Microservice-Framework, das auf Spring Cloud basiert, für Unternehmen, Lernenden usw.
 
-**YOROZUYA** ist eine Organisation in der japanischen Anime „Gintama“ und bedient alle, die ihnen um alles gebeten
+**YOROZUYA** ist eine Organisation in der japanischen Anime „Gintama“ und bedient allen, die ihnen um alles gebeten
 haben.
 
 > Als das Paar ein außerirdisches Teenager-Mädchen mit Superkräften, Kagura, aus einer Yakuza-Gruppe rettet, nehmen sie
@@ -20,7 +20,7 @@ haben.
 
 ## Architektur
 
-Eine typische Microservice-Gruppe basiert auf Yorozuya.
+Eine typische Microservice-Gruppe, die auf Yorozuya basiert.
 
 ![Architektur](https://raw.githubusercontent.com/ksewen/Bilder/main/202401031853145.png)
 
