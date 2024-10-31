@@ -9,7 +9,7 @@
 
 [Deutsch](./README_DE.md) | [简体中文](./README_CN.md)
 
-Dedicated to developing a ready-to-use enterprise-level microservice framework based on Spring Cloud.
+A ready-to-use microservice framework built on Spring Cloud for enterprises, learners, etc.
 
 **YOROZUYA** is an organization in the Japanese manga "Gintama" and its derivative works, which takes on various tasks
 and requests from others.
